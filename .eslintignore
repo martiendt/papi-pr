@@ -1,0 +1,12 @@
+# node modules
+node_modules
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+bun.lockb
+
+# build directory
+build
+
+# test coverage directory
+coverage
