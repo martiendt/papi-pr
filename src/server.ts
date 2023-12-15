@@ -6,6 +6,6 @@ import serverConfig from './config/server.ts'
  */
 export const createServer = (app: Express) => {
   app.listen(serverConfig.port, serverConfig.host, () => {
-    console.log(`Listening ${serverConfig.host}:${serverConfig.port}...`)
+    console.log(`Listening on http://${serverConfig.host}:${serverConfig.port}`)
   })
 }
