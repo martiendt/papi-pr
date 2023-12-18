@@ -1,11 +1,15 @@
 import { Express } from 'express'
-import serverConfig from './config/server.ts'
+
+export interface IServerConfig {
+  port: number
+  host: string
+}
 
 /**
  * Create server and listen for connections.
  */
-export const createServer = (app: Express) => {
+export const createServer = (app: Express, serverConfig: IServerConfig) => {
   app.listen(serverConfig.port, serverConfig.host, () => {
-    console.log(`Listening on http://${serverConfig.host}:${serverConfig.port}`)
+    console.log(`Listening on http://${serverConfig.host || 'localhost'}:${serverConfig.port}`)
   })
 }

@@ -3,7 +3,6 @@ import serverConfig from './server'
 
 describe('server config', () => {
   test('host should be typeof string', () => {
-    console.log(process.env.PORT)
     expect(typeof serverConfig.host).toBe('string')
   })
 

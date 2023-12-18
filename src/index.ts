@@ -1,6 +1,7 @@
-import { createApp } from './app.ts'
-import { createServer } from './server.ts'
+import { createApp } from './app'
+import { createServer } from './server'
+import serverConfig from './config/server'
 
 const app = createApp()
 
-createServer(app)
+createServer(app, serverConfig)

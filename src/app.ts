@@ -1,7 +1,49 @@
 import express from 'express'
+import compression from 'compression'
+import cookieParser from 'cookie-parser'
+import cors from 'cors'
+import helmet from 'helmet'
+import router from './router'
+import { dbConnection } from './database/database'
 
 export const createApp = () => {
   const app = express()
+
+  /**
+   * Create database connection. It will keep the connection open by default,
+   * and use the same connection for all queries. If you need to close the connection,
+   * call dbConnection.close() (which is asynchronous and returns a Promise).
+   */
+  dbConnection.open()
+
+  /**
+   * Get Client IP
+   *
+   * 1. Edit nginx header like this "proxy_set_header X-Forwarded-For $remote_addr;"
+   * 2. Enable trust proxy on express app "app.set('trust proxy', true)"
+   * 3. Use "req.ip" to get Client IP
+   *
+   * Enable if you're behind a reverse proxy (Heroku, Bluemix, AWS ELB, Nginx, etc)
+   * see https://expressjs.com/en/guide/behind-proxies.html
+   */
+  app.set('trust proxy', true)
+  // Gzip compressing can greatly decrease the size of the response body
+  app.use(compression())
+  // Parse json request body
+  app.use(express.json())
+  // Parse urlencoded request body
+  app.use(express.urlencoded({ extended: false }))
+  // Set security HTTP headers
+  app.use(helmet())
+  // Parse cookie
+  app.use(cookieParser('secret'))
+  // Cors
+  app.use(
+    cors({
+      // origin: 'http://localhost:5173',
+      // credentials: true,
+    }),
+  )
 
   /**
    * Static Assets
@@ -14,13 +56,8 @@ export const createApp = () => {
    * API Routes
    *
    * Here is where you can register API routes for your application.
-   *
-   * @example
-   *
    */
-  app.get('/', (req, res) => {
-    res.json({ msg: 'Hello World!!!' })
-  })
+  app.use('/', router())
 
   return app
 }
