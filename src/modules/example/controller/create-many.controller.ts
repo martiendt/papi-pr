@@ -6,9 +6,15 @@ import { CreateManyExampleUseCase } from '../use-cases/create-many.use-case'
 export const createManyExampleController: IController = async (httpRequest: IHttpRequest) => {
   const repository = new CreateManyRepository(dbConnection)
 
-  await new CreateManyExampleUseCase(repository).handle(httpRequest.body)
+  const response = await new CreateManyExampleUseCase(repository).handle(httpRequest.body)
 
   return {
-    status: 204,
+    status: 201,
+    json: {
+      data: {
+        insertedIds: response.insertedIds,
+        insertedCount: response.insertedCount,
+      },
+    },
   }
 }
