@@ -6,7 +6,9 @@ import { CreateManyExampleUseCase } from '../use-cases/create-many.use-case'
 export const createManyExampleController: IController = async (httpRequest: IHttpRequest) => {
   const repository = new CreateManyRepository(dbConnection)
 
-  const response = await new CreateManyExampleUseCase(repository).handle(httpRequest.body)
+  const response = await new CreateManyExampleUseCase(repository).handle({
+    documents: httpRequest.body,
+  })
 
   return {
     status: 201,

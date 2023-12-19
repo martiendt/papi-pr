@@ -1,7 +1,8 @@
 @baseUrl = http://localhost:3000
 
 ###
-# @name retrieveAllExample
-GET {{baseUrl}}/v1/examples HTTP/1.1
+# @name deleteExample
+# @prompt id
+DELETE {{baseUrl}}/v1/examples/{{id}} HTTP/1.1
 Accept: application/json
 Content-Type: application/json

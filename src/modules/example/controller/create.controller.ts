@@ -6,7 +6,9 @@ import { CreateExampleUseCase } from '../use-cases/create.use-case'
 export const createExampleController: IController = async (httpRequest: IHttpRequest) => {
   const repository = new CreateRepository(dbConnection)
 
-  const response = await new CreateExampleUseCase(repository).handle(httpRequest.body)
+  const response = await new CreateExampleUseCase(repository).handle({
+    document: httpRequest.body,
+  })
 
   return {
     status: 201,

@@ -60,7 +60,7 @@ export function filter(filter: never) {
  * @example
  * fields("name, address") // => { name: 1, address: 1 }
  */
-export function fields(fields = '', excludeFields: Array<string> = []): IFieldsObject {
+export function fields(fields = '', excludeFields: string[] = []): IFieldsObject {
   const obj: IFieldsObject = convertArrayToObject(convertStringToArray(fields))
 
   return filterExludeFields(obj, excludeFields)
@@ -72,7 +72,7 @@ export function fields(fields = '', excludeFields: Array<string> = []): IFieldsO
  * @example
  * convertStringToArray("name, address") // => ["name", "address"]
  */
-export function convertStringToArray(fields: string): Array<string> {
+export function convertStringToArray(fields: string): string[] {
   return fields
     .split(' ')
     .join()
@@ -86,7 +86,7 @@ export function convertStringToArray(fields: string): Array<string> {
  * @example
  * convertArrayToObject(["name", "address"]) // => { name: 1, address: 1 }
  */
-export function convertArrayToObject(array: Array<string>): IFieldsObject {
+export function convertArrayToObject(array: string[]): IFieldsObject {
   const obj: IFieldsObject = {}
   for (let i = 0; i < array.length; i++) {
     obj[`${array[i].trim()}`] = 1
@@ -100,7 +100,7 @@ export function convertArrayToObject(array: Array<string>): IFieldsObject {
  * @example
  * ex: { password: 0 }
  */
-export function filterExludeFields(obj: IFieldsObject, excludeFields: Array<string>): IFieldsObject {
+export function filterExludeFields(obj: IFieldsObject, excludeFields: string[]): IFieldsObject {
   for (let i = 0; i < excludeFields.length; i++) {
     obj[`${excludeFields[i]}`] = 0
   }

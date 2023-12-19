@@ -6,7 +6,9 @@ import { DeleteManyExampleUseCase } from '../use-cases/delete-many.use-case'
 export const deleteManyExampleController: IController = async (httpRequest: IHttpRequest) => {
   const repository = new DeleteManyRepository(dbConnection)
 
-  const response = await new DeleteManyExampleUseCase(repository).handle(httpRequest.body)
+  const response = await new DeleteManyExampleUseCase(repository).handle({
+    ids: httpRequest.body.ids,
+  })
 
   return {
     status: 200,

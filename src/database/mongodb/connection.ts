@@ -1,4 +1,4 @@
-import { MongoClient } from 'mongodb'
+import { MongoClient, ObjectId } from 'mongodb'
 import { fields, limit, page, skip, sort } from './mongodb-querystring'
 import { replaceObjectIdToString, replaceStringToObjectId } from './mongodb-helper'
 import type {
@@ -8,17 +8,23 @@ import type {
   CreateIndexesOptions,
   Db,
   DbOptions,
+  DeleteOptions,
   FindOptions,
   IndexSpecification,
+  UpdateOptions,
 } from 'mongodb'
 import {
   ICreateManyOutput,
   ICreateOutput,
   IDatabase,
+  IDeleteManyOutput,
+  IDeleteOutput,
   IDocument,
   IQuery,
   IRetrieveAllOutput,
   IRetrieveOutput,
+  IUpdateManyOutput,
+  IUpdateOutput,
 } from '../../interfaces/database.interface'
 
 export class MongoDBConnection implements IDatabase {
@@ -57,7 +63,7 @@ export class MongoDBConnection implements IDatabase {
     return this
   }
 
-  public async listCollections(): Promise<Array<{ name: string }>> {
+  public async listCollections(): Promise<{ name: string }[]> {
     if (!this._database) {
       throw new Error('Database not found')
     }
@@ -116,7 +122,7 @@ export class MongoDBConnection implements IDatabase {
     const response = await this._collection.insertMany(documents)
 
     // convert array of object to array of string
-    const insertedIds: Array<string> = []
+    const insertedIds: string[] = []
     Object.values(response.insertedIds).forEach((val) => {
       insertedIds.push(val.toString())
     })
@@ -150,7 +156,7 @@ export class MongoDBConnection implements IDatabase {
     const totalDocument = await this._collection.countDocuments(query.filter ?? {}, retrieveOptions)
 
     return {
-      data: replaceObjectIdToString(result) as Array<unknown> as Array<IRetrieveOutput>,
+      data: replaceObjectIdToString(result) as unknown[] as IRetrieveOutput[],
       pagination: {
         page: page(query.page),
         pageCount: Math.ceil(totalDocument / limit(query.pageSize)),
@@ -159,20 +165,105 @@ export class MongoDBConnection implements IDatabase {
       },
     }
   }
-  public async retrieve(_id: string): Promise<unknown> {
-    throw new Error('Method not implemented.')
+  public async retrieve(_id: string, options?: any): Promise<IRetrieveOutput> {
+    if (!this._collection) {
+      throw new Error('Collection not found')
+    }
+
+    const retrieveOptions = options as FindOptions
+    const result = await this._collection.findOne(
+      {
+        _id: new ObjectId(_id),
+      },
+      retrieveOptions,
+    )
+
+    return replaceObjectIdToString(result)
   }
-  public async update(document: IDocument): Promise<unknown> {
-    throw new Error('Method not implemented.')
+  public async update(_id: string, document: IDocument, options?: any): Promise<IUpdateOutput> {
+    if (!this._collection) {
+      throw new Error('Collection not found')
+    }
+
+    const updateOptions = options as UpdateOptions
+
+    const result = await this._collection.updateOne(
+      { _id: new ObjectId(_id) },
+      { $set: replaceStringToObjectId(document) },
+      updateOptions,
+    )
+
+    return {
+      modifiedCount: result.modifiedCount,
+      matchedCount: result.matchedCount,
+    }
   }
-  public async updateMany(documents: IDocument[]): Promise<unknown> {
-    throw new Error('Method not implemented.')
+  public async updateMany(filter: IDocument[], document: IDocument[], options?: any): Promise<IUpdateManyOutput> {
+    if (!this._collection) {
+      throw new Error('Collection not found')
+    }
+
+    const updateManyOptions = options as UpdateOptions
+
+    const result = await this._collection.updateMany(
+      filter,
+      { $set: replaceStringToObjectId(document) },
+      updateManyOptions,
+    )
+
+    return {
+      matchedCount: result.matchedCount,
+      modifiedCount: result.modifiedCount,
+    }
   }
-  public async delete(_id: string): Promise<unknown> {
-    throw new Error('Method not implemented.')
+  public async delete(_id: string, options?: any): Promise<IDeleteOutput> {
+    if (!this._collection) {
+      throw new Error('Collection not found')
+    }
+
+    const deleteOptions = options as DeleteOptions
+
+    const result = await this._collection.deleteOne(
+      {
+        _id: new ObjectId(_id),
+      },
+      deleteOptions,
+    )
+
+    return { deletedCount: result.deletedCount }
   }
-  public async deleteMany(_ids: string[]): Promise<unknown> {
-    throw new Error('Method not implemented.')
+  public async deleteMany(_ids: string[], options?: any): Promise<IDeleteManyOutput> {
+    if (!this._collection) {
+      throw new Error('Collection not found')
+    }
+
+    const deleteOptions = options as DeleteOptions
+
+    const result = await this._collection.deleteMany(
+      {
+        _id: {
+          $in: replaceStringToObjectId(_ids),
+        },
+      },
+      deleteOptions,
+    )
+
+    return {
+      deletedCount: result.deletedCount,
+    }
+  }
+  public async deleteAll(options?: any): Promise<IDeleteManyOutput> {
+    if (!this._collection) {
+      throw new Error('Collection not found')
+    }
+
+    const deleteOptions = options as DeleteOptions
+
+    const result = await this._collection.deleteMany({}, deleteOptions)
+
+    return {
+      deletedCount: result.deletedCount,
+    }
   }
   public async aggregate(): Promise<unknown> {
     throw new Error('Method not implemented.')

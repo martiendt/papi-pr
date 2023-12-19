@@ -22,7 +22,7 @@ export interface ICreateOutput {
 
 export interface ICreateManyOutput {
   insertedCount: number
-  insertedIds: Array<string>
+  insertedIds: string[]
 }
 
 export interface IRetrieveOutput {
@@ -31,7 +31,7 @@ export interface IRetrieveOutput {
 }
 
 export interface IRetrieveAllOutput {
-  data: Array<IRetrieveOutput>
+  data: IRetrieveOutput[]
   pagination: {
     page: number
     pageCount: number
@@ -59,7 +59,7 @@ export interface IDeleteManyOutput {
 }
 
 export interface IAggregateOutput {
-  data: Array<IRetrieveOutput>
+  data: IRetrieveOutput[]
   pagination: {
     page: number
     pageCount: number
@@ -81,5 +81,6 @@ export interface IDatabase {
   updateMany(filter: IDocument, document: IDocument): Promise<IUpdateManyOutput>
   delete(_id: string): Promise<IDeleteOutput>
   deleteMany(_ids: string[]): Promise<IDeleteManyOutput>
+  deleteAll(): Promise<IDeleteManyOutput>
   aggregate(pipeline: IPipeline, query: IQuery): Promise<IAggregateOutput>
 }

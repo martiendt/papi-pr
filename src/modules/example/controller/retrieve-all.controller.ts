@@ -6,7 +6,9 @@ import { RetrieveAllExampleUseCase } from '../use-cases/retrieve-all.use-case'
 export const retrieveAllExampleController: IController = async (httpRequest: IHttpRequest) => {
   const repository = new RetrieveAllRepository(dbConnection)
 
-  const response = await new RetrieveAllExampleUseCase(repository).handle(httpRequest.body)
+  const response = await new RetrieveAllExampleUseCase(repository).handle({
+    query: httpRequest.query,
+  })
 
   return {
     status: 200,
