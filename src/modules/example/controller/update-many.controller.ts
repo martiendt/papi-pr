@@ -5,6 +5,7 @@ import { UpdateManyExampleUseCase } from '../use-cases/update-many.use-case'
 
 export const updateManyExampleController: IController = async (httpRequest: IHttpRequest) => {
   const repository = new UpdateManyRepository(dbConnection)
+  console.log(httpRequest.body)
 
   const response = await new UpdateManyExampleUseCase(repository).handle({
     filter: httpRequest.body.filter,

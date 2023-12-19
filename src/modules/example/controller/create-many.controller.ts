@@ -13,10 +13,8 @@ export const createManyExampleController: IController = async (httpRequest: IHtt
   return {
     status: 201,
     json: {
-      data: {
-        insertedIds: response.insertedIds,
-        insertedCount: response.insertedCount,
-      },
+      insertedIds: response.insertedIds,
+      insertedCount: response.insertedCount,
     },
   }
 }

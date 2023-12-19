@@ -12,8 +12,6 @@ export const retrieveExampleController: IController = async (httpRequest: IHttpR
 
   return {
     status: 200,
-    json: {
-      data: response,
-    },
+    json: response,
   }
 }
