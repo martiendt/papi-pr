@@ -1,4 +1,4 @@
-import { beforeAll, beforeEach, describe, expect, it } from 'bun:test'
+import { afterAll, beforeAll, beforeEach, describe, expect, it } from 'bun:test'
 import request from 'supertest'
 import { faker } from '@faker-js/faker'
 import { isValid } from 'date-fns'
@@ -7,8 +7,11 @@ import { DatabaseTestUtil } from '@/test/utils'
 
 describe('create an example', () => {
   const db = new DatabaseTestUtil()
-  beforeAll(() => {
-    db.open()
+  beforeAll(async () => {
+    await db.open()
+  })
+  afterAll(async () => {
+    await db.close()
   })
   beforeEach(async () => {
     await db.reset()
