@@ -71,8 +71,18 @@ export interface IAggregateOutput {
 export interface IDatabase {
   open(): Promise<void>
   close(): Promise<void>
-  database(name: string): IDatabase
-  collection(name: string): IDatabase
+  database(name: string, options?: unknown): this
+  collection(name: string, options?: unknown): this
+  listCollections(): Promise<{ name: string }[]>
+  startSession(): unknown
+  endSession(): Promise<void>
+  startTransaction(): void
+  commitTransaction(): Promise<void>
+  abortTransaction(): Promise<void>
+  createIndex(name: string, spec: unknown, options?: unknown): Promise<void>
+  createCollection(name: string, options?: unknown): Promise<void>
+  dropCollection(name: string, options?: unknown): Promise<void>
+  updateSchema(name: string, schema: unknown): Promise<void>
   create(document: IDocument): Promise<ICreateOutput>
   createMany(documents: IDocument[]): Promise<ICreateManyOutput>
   retrieveAll(query: IQuery): Promise<IRetrieveAllOutput>

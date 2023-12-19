@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { MongoClient, ObjectId } from 'mongodb'
 import { fields, limit, page, skip, sort } from './mongodb-querystring'
 import { replaceObjectIdToString, replaceStringToObjectId } from './mongodb-helper'
@@ -12,6 +13,7 @@ import type {
   DeleteOptions,
   FindOptions,
   IndexSpecification,
+  MongoClientOptions,
   UpdateOptions,
 } from 'mongodb'
 import {
@@ -40,7 +42,9 @@ export class MongoDBConnection implements IDatabase {
     connectionString: string,
     public databaseName: string,
   ) {
-    this.client = new MongoClient(connectionString)
+    const options: MongoClientOptions = {}
+
+    this.client = new MongoClient(connectionString, options)
     this.database(databaseName)
   }
 
@@ -82,29 +86,54 @@ export class MongoDBConnection implements IDatabase {
     await this._database.createIndex(name, spec, options)
   }
 
+  public async updateSchema(name: string, schema: unknown): Promise<void> {
+    if (!this._database) {
+      throw new Error('Database not found')
+    }
+
+    await this._database.command({
+      collMod: name,
+      validator: {
+        $jsonSchema: schema,
+      },
+    })
+  }
+
+  public async createCollection(name: string, options: any): Promise<void> {
+    if (!this._database) {
+      throw new Error('Database not found')
+    }
+
+    await this._database.createCollection(name, options)
+  }
+
+  public async dropCollection(name: string, options: any): Promise<void> {
+    if (!this._database) {
+      throw new Error('Database not found')
+    }
+
+    await this._database.dropCollection(name, options)
+  }
+
   public startSession() {
     this.session = this.client.startSession()
     return this.session
   }
 
-  public async endSession(): Promise<this> {
+  public async endSession() {
     await this.session?.endSession()
-    return this
   }
 
   public startTransaction() {
     this.session?.startTransaction()
-    return this
   }
 
   public async commitTransaction() {
     await this.session?.commitTransaction()
-    return this
   }
 
   public async abortTransaction() {
     await this.session?.abortTransaction()
-    return this
   }
 
   public async create(document: IDocument): Promise<ICreateOutput> {
@@ -258,9 +287,7 @@ export class MongoDBConnection implements IDatabase {
       deleteOptions,
     )
 
-    return {
-      deletedCount: result.deletedCount,
-    }
+    return { deletedCount: result.deletedCount }
   }
 
   public async deleteAll(options?: any): Promise<IDeleteManyOutput> {
@@ -272,9 +299,7 @@ export class MongoDBConnection implements IDatabase {
 
     const result = await this._collection.deleteMany({}, deleteOptions)
 
-    return {
-      deletedCount: result.deletedCount,
-    }
+    return { deletedCount: result.deletedCount }
   }
 
   public async aggregate(pipeline: IPipeline[], query: IQuery, options?: any): Promise<IAggregateOutput> {
