@@ -2,6 +2,6 @@ export interface IExampleEntity {
   _id?: string
   name?: string
   phone?: string
-  createdAt?: Date
-  updatedAt?: Date
+  created_date?: Date
+  updated_date?: Date
 }

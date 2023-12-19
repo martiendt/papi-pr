@@ -6,7 +6,7 @@ import helmet from 'helmet'
 import router from './router'
 import { dbConnection } from './database/database'
 
-export const createApp = () => {
+export const createApp = async () => {
   const app = express()
 
   /**
@@ -14,7 +14,7 @@ export const createApp = () => {
    * and use the same connection for all queries. If you need to close the connection,
    * call dbConnection.close() (which is asynchronous and returns a Promise).
    */
-  dbConnection.open()
+  await dbConnection.open()
 
   /**
    * Get Client IP

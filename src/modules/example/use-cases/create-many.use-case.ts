@@ -21,7 +21,7 @@ export class CreateManyExampleUseCase implements IUseCase<IInput, ICreateManyOut
         name: document.name,
         phone: document.phone,
       })
-      exampleEntity.generateCreatedAt()
+      exampleEntity.generateCreatedDate()
       entities.push(objClean(exampleEntity.data))
     }
 

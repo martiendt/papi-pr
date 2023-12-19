@@ -5,11 +5,11 @@ export const collection = 'examples'
 export class ExampleEntity {
   constructor(public data: IExampleEntity) {}
 
-  public generateCreatedAt() {
-    this.data.createdAt = new Date()
+  public generateCreatedDate() {
+    this.data.created_date = new Date()
   }
 
-  public generateUpdatedAt() {
-    this.data.updatedAt = new Date()
+  public generateUpdatedDate() {
+    this.data.updated_date = new Date()
   }
 }

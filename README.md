@@ -94,49 +94,18 @@ bun cli db:init --db-name="starterTestDB"
 Testing all test case
 
 ```bash
-npm run test
+bun test
 ```
 
 Testing specific file or folder
 
 ```bash
 # Test specific file
-npm run test -- src/modules/example/controller/create.spec
+bun test -- src/modules/example/controller/create.spec
 
 # Test specific folder
-npm run test -- src/modules/example/controller
+bun test -- src/modules/example/controller
 
 # Test example module
-npm run test -- src/modules/example
-```
-
-(Optional) Running test from docker
-
-1. Check running container
-
-```bash
-docker ps
-```
-
-```bash
-CONTAINER ID   IMAGE              COMMAND                  CREATED             STATUS                PORTS                                 NAMES
-902293b368b3   papi-starter-api   "docker-entrypoint.s…"   About an hour ago   Up 11 minutes         0.0.0.0:3000->3000/tcp
-```
-
-2. Access docker container using CONTAINER ID above
-
-```bash
-docker exec -it 902293b368b3 bash
-```
-
-3. Run test inside docker container
-
-```bash
-node@902293b368b3:~/app$ npm run test
-```
-
-### Deployment
-
-```bash
-docker build -t pointhub/papi-starter .
+bun test -- src/modules/example
 ```
