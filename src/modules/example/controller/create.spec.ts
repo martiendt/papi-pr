@@ -1,13 +1,17 @@
-import { beforeEach, describe, expect, it } from 'bun:test'
+import { beforeAll, beforeEach, describe, expect, it } from 'bun:test'
 import request from 'supertest'
 import { faker } from '@faker-js/faker'
 import { isValid } from 'date-fns'
 import { createApp } from '@/app'
-import { resetDatabase, retrieve } from '@/test/utils'
+import { DatabaseTestUtil } from '@/test/utils'
 
 describe('create an example', () => {
+  const db = new DatabaseTestUtil()
+  beforeAll(() => {
+    db.open()
+  })
   beforeEach(async () => {
-    await resetDatabase()
+    await db.reset()
   })
   it('should be able to create an example', async () => {
     const app = await createApp()
@@ -26,7 +30,7 @@ describe('create an example', () => {
     expect(response.body.insertedId).toBeDefined()
 
     // expect recorded data
-    const exampleRecord = await retrieve('examples', response.body.insertedId)
+    const exampleRecord = await db.retrieve('examples', response.body.insertedId)
 
     expect(exampleRecord._id).toStrictEqual(response.body.insertedId)
     expect(exampleRecord.name).toStrictEqual(data.name)
