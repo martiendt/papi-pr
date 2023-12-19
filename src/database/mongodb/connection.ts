@@ -2,6 +2,7 @@ import { MongoClient, ObjectId } from 'mongodb'
 import { fields, limit, page, skip, sort } from './mongodb-querystring'
 import { replaceObjectIdToString, replaceStringToObjectId } from './mongodb-helper'
 import type {
+  AggregateOptions,
   ClientSession,
   Collection,
   CollectionOptions,
@@ -14,12 +15,14 @@ import type {
   UpdateOptions,
 } from 'mongodb'
 import {
+  IAggregateOutput,
   ICreateManyOutput,
   ICreateOutput,
   IDatabase,
   IDeleteManyOutput,
   IDeleteOutput,
   IDocument,
+  IPipeline,
   IQuery,
   IRetrieveAllOutput,
   IRetrieveOutput,
@@ -106,7 +109,7 @@ export class MongoDBConnection implements IDatabase {
 
   public async create(document: IDocument): Promise<ICreateOutput> {
     if (!this._collection) {
-      throw new Error()
+      throw new Error('Collection not found')
     }
 
     const response = await this._collection.insertOne(document)
@@ -115,9 +118,10 @@ export class MongoDBConnection implements IDatabase {
       insertedId: response.insertedId.toString(),
     }
   }
+
   public async createMany(documents: IDocument[]): Promise<ICreateManyOutput> {
     if (!this._collection) {
-      throw new Error()
+      throw new Error('Collection not found')
     }
     const response = await this._collection.insertMany(documents)
 
@@ -132,9 +136,10 @@ export class MongoDBConnection implements IDatabase {
       insertedCount: response.insertedCount,
     }
   }
+
   public async retrieveAll(query: IQuery, options?: any): Promise<IRetrieveAllOutput> {
     if (!this._collection) {
-      throw new Error()
+      throw new Error('Collection not found')
     }
 
     const retrieveOptions = options as FindOptions
@@ -165,6 +170,7 @@ export class MongoDBConnection implements IDatabase {
       },
     }
   }
+
   public async retrieve(_id: string, options?: any): Promise<IRetrieveOutput> {
     if (!this._collection) {
       throw new Error('Collection not found')
@@ -180,6 +186,7 @@ export class MongoDBConnection implements IDatabase {
 
     return replaceObjectIdToString(result)
   }
+
   public async update(_id: string, document: IDocument, options?: any): Promise<IUpdateOutput> {
     if (!this._collection) {
       throw new Error('Collection not found')
@@ -198,6 +205,7 @@ export class MongoDBConnection implements IDatabase {
       matchedCount: result.matchedCount,
     }
   }
+
   public async updateMany(filter: IDocument[], document: IDocument[], options?: any): Promise<IUpdateManyOutput> {
     if (!this._collection) {
       throw new Error('Collection not found')
@@ -216,6 +224,7 @@ export class MongoDBConnection implements IDatabase {
       modifiedCount: result.modifiedCount,
     }
   }
+
   public async delete(_id: string, options?: any): Promise<IDeleteOutput> {
     if (!this._collection) {
       throw new Error('Collection not found')
@@ -232,6 +241,7 @@ export class MongoDBConnection implements IDatabase {
 
     return { deletedCount: result.deletedCount }
   }
+
   public async deleteMany(_ids: string[], options?: any): Promise<IDeleteManyOutput> {
     if (!this._collection) {
       throw new Error('Collection not found')
@@ -252,6 +262,7 @@ export class MongoDBConnection implements IDatabase {
       deletedCount: result.deletedCount,
     }
   }
+
   public async deleteAll(options?: any): Promise<IDeleteManyOutput> {
     if (!this._collection) {
       throw new Error('Collection not found')
@@ -265,7 +276,41 @@ export class MongoDBConnection implements IDatabase {
       deletedCount: result.deletedCount,
     }
   }
-  public async aggregate(): Promise<unknown> {
-    throw new Error('Method not implemented.')
+
+  public async aggregate(pipeline: IPipeline[], query: IQuery, options?: any): Promise<IAggregateOutput> {
+    if (!this._collection) {
+      throw new Error('Collection not found')
+    }
+
+    const aggregateOptions = options as AggregateOptions
+
+    const cursor = this._collection.aggregate(
+      [...pipeline, { $skip: (page(query.page) - 1) * limit(query.pageSize) }, { $limit: limit(query.pageSize) }],
+      aggregateOptions,
+    )
+
+    if (query.sort && sort(query.sort)) {
+      cursor.sort(sort(query.sort))
+    }
+
+    if (fields(query.fields, query.excludeFields)) {
+      cursor.project(fields(query.fields, query.excludeFields))
+    }
+
+    const result = await cursor.toArray()
+
+    const cursorPagination = this._collection.aggregate([...pipeline, { $count: 'totalDocument' }], aggregateOptions)
+    const resultPagination = await cursorPagination.toArray()
+
+    const totalDocument = resultPagination.length ? resultPagination[0].totalDocument : 0
+    return {
+      data: replaceObjectIdToString(result) as IRetrieveOutput[],
+      pagination: {
+        page: page(query.page),
+        pageCount: Math.ceil(totalDocument / limit(query.pageSize)),
+        pageSize: limit(query.pageSize),
+        totalDocument,
+      },
+    }
   }
 }

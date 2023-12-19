@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { BaseError, IError, IHttpStatus, find } from '@point-hub/express-error-handler'
+import { BaseError, find, type IError, type IHttpStatus } from '@point-hub/express-error-handler'
 import { MongoServerError } from 'mongodb'
 
 export default class MongoError extends BaseError {

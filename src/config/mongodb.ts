@@ -3,9 +3,12 @@ export interface IMongoDBConfig {
   name: string
 }
 
+export const url = `${process.env.DATABASE_URL}`
+export const name = `${process.env.DATABASE_NAME}`
+
 const mongoDBConfig: IMongoDBConfig = {
-  url: `${process.env.DATABASE_URL}`,
-  name: `${process.env.DATABASE_NAME}`,
+  url,
+  name,
 }
 
 export default mongoDBConfig

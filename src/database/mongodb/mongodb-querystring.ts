@@ -46,8 +46,8 @@ export function limit(pageSize: string | number = 10): number {
  * skip(2, 10) // => 10
  * skip(3, 10) // => 20
  */
-export function skip(page: number, pageSize: number): number {
-  return (page - 1) * pageSize
+export function skip(currentPage: string | number, pageSize: string | number): number {
+  return (page(currentPage) - 1) * limit(pageSize)
 }
 
 export function filter(filter: never) {

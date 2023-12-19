@@ -1,4 +1,14 @@
-import { fields, convertStringToArray, convertArrayToObject, filterExludeFields, sort } from './mongodb-querystring.js'
+import { describe, expect, it } from 'bun:test'
+import {
+  fields,
+  convertStringToArray,
+  convertArrayToObject,
+  filterExludeFields,
+  page,
+  limit,
+  skip,
+  sort,
+} from './mongodb-querystring.js'
 
 describe('field', () => {
   it('convert string to array', async () => {
@@ -30,6 +40,32 @@ describe('field', () => {
     expect(result).toStrictEqual({
       password: 0,
     })
+  })
+})
+
+describe('page', () => {
+  it('convert page string to number', async () => {
+    expect(page('1')).toStrictEqual(1)
+  })
+  it('default page should be 1', async () => {
+    expect(page()).toStrictEqual(1)
+  })
+})
+
+describe('limit', () => {
+  it('convert limit string to number', async () => {
+    expect(limit('1')).toStrictEqual(1)
+  })
+  it('default limit should be 10', async () => {
+    expect(limit()).toStrictEqual(10)
+  })
+})
+
+describe('skip', () => {
+  it('should skip number of data from page', async () => {
+    expect(skip(1, 10)).toStrictEqual(0)
+    expect(skip(2, 10)).toStrictEqual(10)
+    expect(skip(2, 50)).toStrictEqual(50)
   })
 })
 

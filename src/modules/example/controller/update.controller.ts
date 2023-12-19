@@ -4,7 +4,6 @@ import { UpdateRepository } from '../repositories/update.repository'
 import { UpdateExampleUseCase } from '../use-cases/update.use-case'
 
 export const updateExampleController: IController = async (httpRequest: IHttpRequest) => {
-  console.log(httpRequest)
   const repository = new UpdateRepository(dbConnection)
 
   const response = await new UpdateExampleUseCase(repository).handle({
