@@ -16,7 +16,7 @@ export class UpdateExampleUseCase implements IUseCase<IInput, IUpdateOutput> {
 
   async handle(input: IInput): Promise<IUpdateOutput> {
     const exampleEntity = new ExampleEntity(input.document)
-
+    exampleEntity.generateUpdatedAt()
     return await this.repository.handle(input._id, exampleEntity.data)
   }
 }

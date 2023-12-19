@@ -4,8 +4,13 @@ import * as controller from './controller/index'
 
 const router = Router()
 
+router.post('/', await makeController(controller.createExampleController))
 router.get('/', await makeController(controller.retrieveAllExampleController))
 router.get('/:id', await makeController(controller.retrieveExampleController))
-router.post('/', await makeController(controller.createExampleController))
+router.patch('/', await makeController(controller.updateExampleController))
+router.delete('/', await makeController(controller.deleteExampleController))
+router.post('/create-many', await makeController(controller.createManyExampleController))
+router.post('/update-many', await makeController(controller.updateManyExampleController))
+router.post('/delete-many', await makeController(controller.deleteManyExampleController))
 
 export default router

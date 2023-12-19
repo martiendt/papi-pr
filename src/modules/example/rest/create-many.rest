@@ -1,0 +1,22 @@
+@baseUrl = http://localhost:3000
+
+###
+# @name createExample
+# @prompt name1
+# @prompt phone1
+# @prompt name2
+# @prompt phone2
+POST {{baseUrl}}/v1/examples HTTP/1.1
+Accept: application/json
+Content-Type: application/json
+
+[
+  {
+    "name": "{{name1}}",
+    "phone": "{{phone2}}"  
+  },
+  {
+    "name": "{{name1}}",
+    "phone": "{{phone2}}"  
+  }
+]

@@ -15,6 +15,7 @@ export class CreateExampleUseCase implements IUseCase<IInput, ICreateOutput> {
 
   async handle(input: IInput): Promise<ICreateOutput> {
     const exampleEntity = new ExampleEntity(input.document)
+    exampleEntity.generateCreatedAt()
     return await this.repository.handle(exampleEntity.data)
   }
 }
