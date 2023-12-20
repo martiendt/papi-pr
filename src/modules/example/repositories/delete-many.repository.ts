@@ -1,8 +1,9 @@
 import { IDeleteManyRepository } from '@/interfaces/repository/delete-many.interface'
 import { IDeleteManyOutput, IDatabase } from '@/interfaces/database.interface'
+import { collectionName } from '../entity'
 
 export class DeleteManyRepository implements IDeleteManyRepository {
-  public collection = 'examples'
+  public collection = collectionName
 
   constructor(public database: IDatabase) {}
 

@@ -1,8 +1,9 @@
 import { IUpdateManyRepository } from '@/interfaces/repository/update-many.interface'
 import { IUpdateManyOutput, IDatabase, IDocument } from '@/interfaces/database.interface'
+import { collectionName } from '../entity'
 
 export class UpdateManyRepository implements IUpdateManyRepository {
-  public collection = 'examples'
+  public collection = collectionName
 
   constructor(public database: IDatabase) {}
 

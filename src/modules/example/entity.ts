@@ -1,6 +1,6 @@
 import { IExampleEntity } from './interface'
 
-export const collection = 'examples'
+export const collectionName = 'examples'
 
 export class ExampleEntity {
   constructor(public data: IExampleEntity) {}

@@ -1,8 +1,9 @@
 import { IRetrieveAllRepository } from '@/interfaces/repository/retrieve-all.interface'
 import { IRetrieveAllOutput, IDatabase, IQuery } from '@/interfaces/database.interface'
+import { collectionName } from '../entity'
 
 export class RetrieveAllRepository implements IRetrieveAllRepository {
-  public collection = 'examples'
+  public collection = collectionName
 
   constructor(public database: IDatabase) {}
 
