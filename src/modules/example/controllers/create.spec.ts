@@ -4,21 +4,14 @@ import { faker } from '@faker-js/faker'
 import { isValid } from 'date-fns'
 import { createApp } from '@/app'
 import { DatabaseTestUtil } from '@/test/utils'
-import { dbConnection } from '@/database/database'
 
 describe('create an example', () => {
   const db = new DatabaseTestUtil()
-  beforeAll(async () => {
-    await db.open()
-  })
-  afterAll(async () => {
-    await db.close()
-  })
   beforeEach(async () => {
     await db.reset()
   })
   it('should be able to create an example', async () => {
-    const app = await createApp({ dbConnection })
+    const app = await createApp({ dbConnection: db.dbConnection })
 
     const data = {
       name: faker.person.fullName(),
@@ -38,6 +31,6 @@ describe('create an example', () => {
 
     expect(exampleRecord._id).toStrictEqual(response.body.insertedId)
     expect(exampleRecord.name).toStrictEqual(data.name)
-    expect(isValid(new Date(exampleRecord.created_date))).toBeTruthy()
+    expect(isValid(new Date(exampleRecord.created_date as string))).toBeTruthy()
   })
 })

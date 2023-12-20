@@ -31,10 +31,6 @@ import {
   IUpdateManyOutput,
   IUpdateOutput,
 } from '@/interfaces/database.interface'
-import { MongoMemoryReplSet } from 'mongodb-memory-server'
-
-const replset = await MongoMemoryReplSet.create({ replSet: { count: 3 } })
-const uri = replset.getUri()
 
 export class MongoDBConnection implements IDatabase {
   public client: MongoClient

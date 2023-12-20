@@ -1,25 +1,18 @@
-import { afterAll, beforeAll, beforeEach, describe, expect, it } from 'bun:test'
+import { beforeEach, describe, expect, it } from 'bun:test'
 import request from 'supertest'
 import { createApp } from '@/app'
 import { DatabaseTestUtil } from '@/test/utils'
 import ExampleFactory from '../factory'
-import { dbConnection } from '@/database/database'
 
 describe('delete many examples', () => {
   const db = new DatabaseTestUtil()
-  beforeAll(async () => {
-    await db.open()
-  })
-  afterAll(async () => {
-    await db.close()
-  })
   beforeEach(async () => {
     await db.reset()
   })
   it('should be able to delete many examples', async () => {
-    const app = await createApp({ dbConnection })
+    const app = await createApp({ dbConnection: db.dbConnection })
 
-    const exampleFactory = new ExampleFactory()
+    const exampleFactory = new ExampleFactory(db.dbConnection)
     const resultFactory = await exampleFactory.createMany(3)
 
     const response = await request(app)
@@ -41,6 +34,6 @@ describe('delete many examples', () => {
     expect(exampleRecord2).toBeNull()
 
     const exampleRecords = await db.retrieveAll('examples')
-    expect(exampleRecords.length).toStrictEqual(1)
+    expect(exampleRecords.data.length).toStrictEqual(1)
   })
 })

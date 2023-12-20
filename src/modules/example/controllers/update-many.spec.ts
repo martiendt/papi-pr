@@ -1,26 +1,19 @@
-import { afterAll, beforeAll, beforeEach, describe, expect, it } from 'bun:test'
+import { beforeEach, describe, expect, it } from 'bun:test'
 import request from 'supertest'
 import { isValid } from 'date-fns'
 import { createApp } from '@/app'
 import { DatabaseTestUtil } from '@/test/utils'
 import ExampleFactory from '../factory'
-import { dbConnection } from '@/database/database'
 
 describe('update many examples', () => {
   const db = new DatabaseTestUtil()
-  beforeAll(async () => {
-    await db.open()
-  })
-  afterAll(async () => {
-    await db.close()
-  })
   beforeEach(async () => {
     await db.reset()
   })
   it('should be able to update many examples', async () => {
-    const app = await createApp({ dbConnection })
+    const app = await createApp({ dbConnection: db.dbConnection })
 
-    const exampleFactory = new ExampleFactory()
+    const exampleFactory = new ExampleFactory(db.dbConnection)
     const exampleData = [
       {
         phone: '',
@@ -59,15 +52,15 @@ describe('update many examples', () => {
     // expect recorded data
     const exampleRecord1 = await db.retrieve('examples', resultFactory.insertedIds[0])
     expect(exampleRecord1.phone).toStrictEqual('11223344')
-    expect(isValid(new Date(exampleRecord1.updated_date))).toBeTruthy()
+    expect(isValid(new Date(exampleRecord1.updated_date as string))).toBeTruthy()
 
     const exampleRecord2 = await db.retrieve('examples', resultFactory.insertedIds[1])
     expect(exampleRecord2.phone).toStrictEqual('11223344')
-    expect(isValid(new Date(exampleRecord2.updated_date))).toBeTruthy()
+    expect(isValid(new Date(exampleRecord2.updated_date as string))).toBeTruthy()
 
     // expect unmodified data
     const exampleRecord3 = await db.retrieve('examples', resultFactory.insertedIds[2])
     expect(exampleRecord3.phone).toStrictEqual('12345678')
-    expect(isValid(new Date(exampleRecord3.updated_date))).toBeFalsy()
+    expect(isValid(new Date(exampleRecord3.updated_date as string))).toBeFalsy()
   })
 })

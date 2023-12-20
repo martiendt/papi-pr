@@ -1,29 +1,22 @@
-import { afterAll, beforeAll, beforeEach, describe, expect, it } from 'bun:test'
+import { beforeEach, describe, expect, it } from 'bun:test'
 import request from 'supertest'
 import { faker } from '@faker-js/faker'
 import { isValid } from 'date-fns'
 import { createApp } from '@/app'
 import { DatabaseTestUtil } from '@/test/utils'
 import ExampleFactory from '../factory'
-import { dbConnection } from '@/database/database'
 
 describe('update an example', () => {
   const db = new DatabaseTestUtil()
-  beforeAll(async () => {
-    await db.open()
-  })
-  afterAll(async () => {
-    await db.close()
-  })
   beforeEach(async () => {
     await db.reset()
   })
   it('should be able to update an example', async () => {
-    const app = await createApp({ dbConnection })
+    const app = await createApp({ dbConnection: db.dbConnection })
 
-    const resultFactory = await new ExampleFactory().createMany(3)
+    const resultFactory = await new ExampleFactory(db.dbConnection).createMany(3)
 
-    const data = await db.retrieveAll('examples')
+    const examples = await db.retrieveAll('examples')
 
     const updateData = {
       name: faker.person.fullName(),
@@ -43,11 +36,11 @@ describe('update an example', () => {
     // expect recorded data
     const exampleRecord = await db.retrieve('examples', resultFactory.insertedIds[1])
     expect(exampleRecord.name).toStrictEqual(updateData.name)
-    expect(isValid(new Date(exampleRecord.updated_date))).toBeTruthy()
+    expect(isValid(new Date(exampleRecord.updated_date as string))).toBeTruthy()
 
     // expect another data unmodified
     const unmodifiedExampleRecord = await db.retrieve('examples', resultFactory.insertedIds[0])
-    expect(unmodifiedExampleRecord.name).toStrictEqual(data[0].name)
+    expect(unmodifiedExampleRecord.name).toStrictEqual(examples.data[0].name)
     expect(unmodifiedExampleRecord.updated_date).toBeUndefined()
   })
 })

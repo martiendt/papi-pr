@@ -152,6 +152,7 @@ export class MongoDBConnection implements IDatabase {
     if (!this._collection) {
       throw new Error('Collection not found')
     }
+
     const response = await this._collection.insertMany(documents)
 
     // convert array of object to array of string
@@ -172,8 +173,9 @@ export class MongoDBConnection implements IDatabase {
     }
 
     const retrieveOptions = options as FindOptions
+
     const cursor = this._collection
-      .find(query.filter ?? {}, retrieveOptions)
+      .find(replaceStringToObjectId(query.filter) ?? {}, retrieveOptions)
       .limit(limit(query.pageSize))
       .skip(skip(page(query.page), limit(query.pageSize)))
 

@@ -3,23 +3,16 @@ import request from 'supertest'
 import { createApp } from '@/app'
 import { DatabaseTestUtil } from '@/test/utils'
 import ExampleFactory from '../factory'
-import { dbConnection } from '@/database/database'
 
 describe('delete an example', () => {
   const db = new DatabaseTestUtil()
-  beforeAll(async () => {
-    await db.open()
-  })
-  afterAll(async () => {
-    await db.close()
-  })
   beforeEach(async () => {
     await db.reset()
   })
   it('should be able to delete an example', async () => {
-    const app = await createApp({ dbConnection })
+    const app = await createApp({ dbConnection: db.dbConnection })
 
-    const exampleFactory = new ExampleFactory()
+    const exampleFactory = new ExampleFactory(db.dbConnection)
     const resultFactory = await exampleFactory.createMany(3)
 
     const response = await request(app).delete(`/v1/examples/${resultFactory.insertedIds[1]}`)
@@ -35,6 +28,6 @@ describe('delete an example', () => {
     expect(exampleRecord).toBeNull()
 
     const exampleRecords = await db.retrieveAll('examples')
-    expect(exampleRecords.length).toStrictEqual(2)
+    expect(exampleRecords.data.length).toStrictEqual(2)
   })
 })

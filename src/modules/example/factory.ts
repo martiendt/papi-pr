@@ -1,11 +1,15 @@
 import Factory from '@point-hub/express-factory'
 import { faker } from '@faker-js/faker'
-import { CreateRepository } from './repositories/create.repository.js'
-import { dbConnection } from '@/database/database.js'
-import { IExampleEntity } from './interface.js'
-import { CreateManyRepository } from './repositories/create-many.repository.js'
+import { CreateRepository } from './repositories/create.repository'
+import { IExampleEntity } from './interface'
+import { CreateManyRepository } from './repositories/create-many.repository'
+import { IDatabase } from '@/interfaces/database.interface'
 
 export default class ExampleFactory extends Factory<IExampleEntity> {
+  constructor(public dbConnection: IDatabase) {
+    super()
+  }
+
   definition() {
     return {
       name: faker.person.fullName(),
@@ -15,12 +19,12 @@ export default class ExampleFactory extends Factory<IExampleEntity> {
   }
 
   async create() {
-    const createRepository = new CreateRepository(dbConnection)
+    const createRepository = new CreateRepository(this.dbConnection)
     return await createRepository.handle(this.makeOne())
   }
 
   async createMany(count: number) {
-    const createManyRepository = new CreateManyRepository(dbConnection)
+    const createManyRepository = new CreateManyRepository(this.dbConnection)
     return await createManyRepository.handle(this.makeMany(count))
   }
 }

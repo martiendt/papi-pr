@@ -1,24 +1,17 @@
-import { afterAll, beforeAll, beforeEach, describe, expect, it } from 'bun:test'
+import { beforeEach, describe, expect, it } from 'bun:test'
 import request from 'supertest'
 import { faker } from '@faker-js/faker'
 import { isValid } from 'date-fns'
 import { createApp } from '@/app'
 import { DatabaseTestUtil } from '@/test/utils'
-import { dbConnection } from '@/database/database'
 
 describe('create many examples', () => {
   const db = new DatabaseTestUtil()
-  beforeAll(async () => {
-    await db.open()
-  })
-  afterAll(async () => {
-    await db.close()
-  })
   beforeEach(async () => {
     await db.reset()
   })
   it('should be able to create many examples', async () => {
-    const app = await createApp({ dbConnection })
+    const app = await createApp({ dbConnection: db.dbConnection })
 
     const data = [
       {
@@ -46,16 +39,18 @@ describe('create many examples', () => {
 
     // expect recorded data
     const exampleRecords = await db.retrieveAll('examples', {
-      _id: {
-        $in: response.body.insertedIds,
+      filter: {
+        _id: {
+          $in: response.body.insertedIds,
+        },
       },
     })
 
-    for (const [index, exampleRecord] of exampleRecords.entries()) {
+    for (const [index, exampleRecord] of exampleRecords.data.entries()) {
       expect(exampleRecord._id).toStrictEqual(response.body.insertedIds[index])
       expect(exampleRecord.name).toStrictEqual(data[index].name)
       expect(exampleRecord.phone).toStrictEqual(data[index].phone)
-      expect(isValid(new Date(exampleRecord.created_date))).toBeTruthy()
+      expect(isValid(new Date(exampleRecord.created_date as string))).toBeTruthy()
     }
   })
 })

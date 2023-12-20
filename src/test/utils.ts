@@ -1,44 +1,38 @@
-import { MongoClient, ObjectId } from 'mongodb'
 import { MongoMemoryReplSet } from 'mongodb-memory-server'
-import mongoDBConfig from '@/config/mongodb'
-import { IDocument } from '@/interfaces/database.interface'
-import { replaceObjectIdToString, replaceStringToObjectId } from '@/database/mongodb/mongodb-helper'
+import { MongoDBConnection } from '@/database/mongodb/connection'
+import { IDatabase, IQuery } from '@/interfaces/database.interface'
 
 const mongod = await MongoMemoryReplSet.create({ replSet: { count: 3 } })
 const uri = mongod.getUri()
 
 export class DatabaseTestUtil {
-  constructor(public client: MongoClient = new MongoClient(mongoDBConfig.url)) {}
+  public dbConnection: IDatabase
+
+  constructor() {
+    this.dbConnection = new MongoDBConnection(uri, 'api_test')
+  }
 
   async open() {
-    this.client = new MongoClient(mongoDBConfig.url)
-    await this.client.connect()
+    await this.dbConnection.open()
   }
 
   async close() {
-    await this.client.close()
+    await this.dbConnection.close()
     await mongod.stop()
   }
 
   async reset() {
-    const db = this.client.db(mongoDBConfig.name)
-    const collections = await db.listCollections().toArray()
+    const collections = await this.dbConnection.listCollections()
     for (const collection of collections) {
-      await db.collection(collection.name).deleteMany({})
+      await this.dbConnection.collection(collection.name).deleteAll()
     }
   }
 
   async retrieve(collection: string, _id: string) {
-    const db = this.client.db(mongoDBConfig.name)
-    const response = (await db.collection(collection).findOne({
-      _id: new ObjectId(_id),
-    })) as IDocument
-    return replaceObjectIdToString(response)
+    return await this.dbConnection.collection(collection).retrieve(_id)
   }
 
-  async retrieveAll(collection: string, filter: object = {}) {
-    const db = this.client.db(mongoDBConfig.name)
-    const response = await db.collection(collection).find(replaceStringToObjectId(filter)).toArray()
-    return replaceObjectIdToString(response)
+  async retrieveAll(collection: string, query: IQuery = {}) {
+    return await this.dbConnection.collection(collection).retrieveAll(query)
   }
 }
