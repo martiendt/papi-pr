@@ -1,4 +1,4 @@
-import { afterAll, beforeAll, beforeEach, describe, expect, it } from 'bun:test'
+import { beforeEach, describe, expect, it } from 'bun:test'
 import request from 'supertest'
 import { createApp } from '@/app'
 import { DatabaseTestUtil } from '@/test/utils'
