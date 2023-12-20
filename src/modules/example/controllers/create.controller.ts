@@ -1,17 +1,14 @@
 import { objClean } from '@point-hub/express-utils'
-import { dbConnection } from '@/database/database'
-import { IController, IHttpRequest } from '@/interfaces/controller.interface'
+import { IController, IControllerInput } from '@/interfaces/controller.interface'
 import { CreateRepository } from '../repositories/create.repository'
 import { CreateExampleUseCase } from '../use-cases/create.use-case'
 
-export const createExampleController: IController = async (httpRequest: IHttpRequest) => {
-  const repository = new CreateRepository(dbConnection)
+export const createExampleController: IController = async (controllerInput: IControllerInput) => {
+  const repository = new CreateRepository(controllerInput.dbConnection)
 
   const response = await new CreateExampleUseCase(repository).handle({
-    deps: {
-      cleanObject: objClean,
-    },
-    document: httpRequest.body,
+    deps: { cleanObject: objClean },
+    document: controllerInput.httpRequest.body,
   })
 
   return {

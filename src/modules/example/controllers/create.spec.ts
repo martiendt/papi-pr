@@ -4,6 +4,7 @@ import { faker } from '@faker-js/faker'
 import { isValid } from 'date-fns'
 import { createApp } from '@/app'
 import { DatabaseTestUtil } from '@/test/utils'
+import { dbConnection } from '@/database/database'
 
 describe('create an example', () => {
   const db = new DatabaseTestUtil()
@@ -17,7 +18,7 @@ describe('create an example', () => {
     await db.reset()
   })
   it('should be able to create an example', async () => {
-    const app = await createApp()
+    const app = await createApp({ dbConnection })
 
     const data = {
       name: faker.person.fullName(),

@@ -1,17 +1,23 @@
 import { MongoClient, ObjectId } from 'mongodb'
+import { MongoMemoryReplSet } from 'mongodb-memory-server'
 import mongoDBConfig from '@/config/mongodb'
 import { IDocument } from '@/interfaces/database.interface'
 import { replaceObjectIdToString, replaceStringToObjectId } from '@/database/mongodb/mongodb-helper'
+
+const mongod = await MongoMemoryReplSet.create({ replSet: { count: 3 } })
+const uri = mongod.getUri()
 
 export class DatabaseTestUtil {
   constructor(public client: MongoClient = new MongoClient(mongoDBConfig.url)) {}
 
   async open() {
+    this.client = new MongoClient(mongoDBConfig.url)
     await this.client.connect()
   }
 
   async close() {
     await this.client.close()
+    await mongod.stop()
   }
 
   async reset() {

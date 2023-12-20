@@ -5,6 +5,7 @@ import { isValid } from 'date-fns'
 import { createApp } from '@/app'
 import { DatabaseTestUtil } from '@/test/utils'
 import ExampleFactory from '../factory'
+import { dbConnection } from '@/database/database'
 
 describe('update an example', () => {
   const db = new DatabaseTestUtil()
@@ -18,7 +19,7 @@ describe('update an example', () => {
     await db.reset()
   })
   it('should be able to update an example', async () => {
-    const app = await createApp()
+    const app = await createApp({ dbConnection })
 
     const resultFactory = await new ExampleFactory().createMany(3)
 

@@ -4,6 +4,7 @@ import { isValid } from 'date-fns'
 import { createApp } from '@/app'
 import { DatabaseTestUtil } from '@/test/utils'
 import ExampleFactory from '../factory'
+import { dbConnection } from '@/database/database'
 
 describe('retrieve all examples', () => {
   const db = new DatabaseTestUtil()
@@ -17,7 +18,7 @@ describe('retrieve all examples', () => {
     await db.reset()
   })
   it('should be able to retrieve all examples', async () => {
-    const app = await createApp()
+    const app = await createApp({ dbConnection })
 
     const exampleFactory = new ExampleFactory()
     await exampleFactory.createMany(3)
@@ -43,7 +44,7 @@ describe('retrieve all examples', () => {
     expect(response.body.pagination.totalDocument).toStrictEqual(3)
   })
   it('should be able to sort data in ascending order', async () => {
-    const app = await createApp()
+    const app = await createApp({ dbConnection })
 
     const exampleFactory = new ExampleFactory()
     const data = [
@@ -79,7 +80,7 @@ describe('retrieve all examples', () => {
     expect(response.body.pagination.totalDocument).toStrictEqual(3)
   })
   it('should be able to sort data in descending order', async () => {
-    const app = await createApp()
+    const app = await createApp({ dbConnection })
 
     const exampleFactory = new ExampleFactory()
     const data = [
@@ -115,7 +116,7 @@ describe('retrieve all examples', () => {
     expect(response.body.pagination.totalDocument).toStrictEqual(3)
   })
   it('should be able to navigate pagination', async () => {
-    const app = await createApp()
+    const app = await createApp({ dbConnection })
 
     const exampleFactory = new ExampleFactory()
     await exampleFactory.createMany(3)
@@ -140,7 +141,7 @@ describe('retrieve all examples', () => {
     expect(response.body.pagination.totalDocument).toStrictEqual(3)
   })
   it('should be able to choose fields', async () => {
-    const app = await createApp()
+    const app = await createApp({ dbConnection })
 
     const exampleFactory = new ExampleFactory()
     await exampleFactory.createMany(3)

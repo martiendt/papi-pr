@@ -1,8 +1,14 @@
 import { Request, Response, NextFunction } from 'express'
 import { IController, IHttpRequest } from './interfaces/controller.interface'
+import { IDatabase } from './interfaces/database.interface'
+
+export interface IMakeControllerInput {
+  controller: IController
+  dbConnection: IDatabase
+}
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export const makeController = async (controller: IController) => {
+export const makeController = async (makeControllerInput: IMakeControllerInput) => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   return async (req: Request, res: Response, next: NextFunction) => {
     const httpRequest: IHttpRequest = {
@@ -21,7 +27,10 @@ export const makeController = async (controller: IController) => {
     }
 
     try {
-      const response = await controller(httpRequest)
+      const response = await makeControllerInput.controller({
+        httpRequest,
+        dbConnection: makeControllerInput.dbConnection,
+      })
       res.status(response.status)
       if (response.json) {
         res.json(response.json)

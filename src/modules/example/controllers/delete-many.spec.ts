@@ -3,6 +3,7 @@ import request from 'supertest'
 import { createApp } from '@/app'
 import { DatabaseTestUtil } from '@/test/utils'
 import ExampleFactory from '../factory'
+import { dbConnection } from '@/database/database'
 
 describe('delete many examples', () => {
   const db = new DatabaseTestUtil()
@@ -16,7 +17,7 @@ describe('delete many examples', () => {
     await db.reset()
   })
   it('should be able to delete many examples', async () => {
-    const app = await createApp()
+    const app = await createApp({ dbConnection })
 
     const exampleFactory = new ExampleFactory()
     const resultFactory = await exampleFactory.createMany(3)

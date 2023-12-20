@@ -4,17 +4,14 @@ import cookieParser from 'cookie-parser'
 import cors from 'cors'
 import helmet from 'helmet'
 import router from './router'
-import { dbConnection } from './database/database'
+import { IDatabase } from './interfaces/database.interface'
 
-export const createApp = async () => {
+export interface IAppInput {
+  dbConnection: IDatabase
+}
+
+export const createApp = async (appInput: IAppInput) => {
   const app = express()
-
-  /**
-   * Create database connection. It will keep the connection open by default,
-   * and use the same connection for all queries. If you need to close the connection,
-   * call dbConnection.close() (which is asynchronous and returns a Promise).
-   */
-  await dbConnection.open()
 
   /**
    * Get Client IP
@@ -57,7 +54,7 @@ export const createApp = async () => {
    *
    * Here is where you can register API routes for your application.
    */
-  app.use('/', router())
+  app.use('/', await router(appInput))
 
   return app
 }

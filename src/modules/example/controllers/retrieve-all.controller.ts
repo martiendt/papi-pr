@@ -1,13 +1,12 @@
-import { dbConnection } from '@/database/database'
-import { IController, IHttpRequest } from '@/interfaces/controller.interface'
+import { IController, IControllerInput } from '@/interfaces/controller.interface'
 import { RetrieveAllRepository } from '../repositories/retrieve-all.repository'
 import { RetrieveAllExampleUseCase } from '../use-cases/retrieve-all.use-case'
 
-export const retrieveAllExampleController: IController = async (httpRequest: IHttpRequest) => {
-  const repository = new RetrieveAllRepository(dbConnection)
+export const retrieveAllExampleController: IController = async (controllerInput: IControllerInput) => {
+  const repository = new RetrieveAllRepository(controllerInput.dbConnection)
 
   const response = await new RetrieveAllExampleUseCase(repository).handle({
-    query: httpRequest.query,
+    query: controllerInput.httpRequest.query,
   })
 
   return {

@@ -1,18 +1,17 @@
-import { dbConnection } from '@/database/database'
-import { IController, IHttpRequest } from '@/interfaces/controller.interface'
+import { IController, IControllerInput } from '@/interfaces/controller.interface'
 import { UpdateManyRepository } from '../repositories/update-many.repository'
 import { UpdateManyExampleUseCase } from '../use-cases/update-many.use-case'
 import { objClean } from '@point-hub/express-utils'
 
-export const updateManyExampleController: IController = async (httpRequest: IHttpRequest) => {
-  const repository = new UpdateManyRepository(dbConnection)
+export const updateManyExampleController: IController = async (controllerInput: IControllerInput) => {
+  const repository = new UpdateManyRepository(controllerInput.dbConnection)
 
   const response = await new UpdateManyExampleUseCase(repository).handle({
     deps: {
       cleanObject: objClean,
     },
-    filter: httpRequest.body.filter,
-    document: httpRequest.body.data,
+    filter: controllerInput.httpRequest.body.filter,
+    document: controllerInput.httpRequest.body.data,
   })
 
   return {
