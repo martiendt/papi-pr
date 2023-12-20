@@ -27,7 +27,7 @@ describe('create many examples', () => {
       },
     ]
 
-    const response = await request(app).post('/v1/examples/create-many').send(data)
+    const response = await request(app).post('/v1/examples/create-many').send({ examples: data })
 
     // expect http response
     expect(response.statusCode).toEqual(201)

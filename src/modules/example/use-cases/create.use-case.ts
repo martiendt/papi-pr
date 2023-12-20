@@ -1,13 +1,16 @@
 import { ICreateOutput } from '@/interfaces/database.interface'
 import { ICreateRepository } from '@/interfaces/repository/create.interface'
 import { IUseCase } from '@/interfaces/use-case.interface'
+import { ISchemaValidation } from '@/validation'
 import { ExampleEntity } from '../entity'
+import { createValidation } from '../validations/create'
 
 export interface IInput {
   deps: {
     cleanObject(object: object): object
+    schemaValidation: ISchemaValidation
   }
-  document: {
+  data: {
     name?: string
     phone?: string
   }
@@ -18,10 +21,12 @@ export class CreateExampleUseCase implements IUseCase<IInput, ICreateOutput> {
 
   async handle(input: IInput): Promise<ICreateOutput> {
     const exampleEntity = new ExampleEntity({
-      name: input.document.name,
-      phone: input.document.phone,
+      name: input.data.name,
+      phone: input.data.phone,
     })
     exampleEntity.generateCreatedDate()
-    return await this.repository.handle(input.deps.cleanObject(exampleEntity.data))
+    const cleanEntity = input.deps.cleanObject(exampleEntity.data)
+    await input.deps.schemaValidation(cleanEntity, createValidation)
+    return await this.repository.handle(cleanEntity)
   }
 }

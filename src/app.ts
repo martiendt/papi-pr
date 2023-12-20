@@ -5,6 +5,7 @@ import cors from 'cors'
 import helmet from 'helmet'
 import router from './router'
 import { IDatabase } from './interfaces/database.interface'
+import { errorHandlerMiddleware, invalidPathMiddleware } from '@point-hub/express-error-handler'
 
 export interface IAppInput {
   dbConnection: IDatabase
@@ -55,6 +56,10 @@ export const createApp = async (appInput: IAppInput) => {
    * Here is where you can register API routes for your application.
    */
   app.use('/', await router(appInput))
+
+  app.use(invalidPathMiddleware)
+
+  app.use(errorHandlerMiddleware)
 
   return app
 }
