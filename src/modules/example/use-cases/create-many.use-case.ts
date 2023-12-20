@@ -1,10 +1,12 @@
-import { objClean } from '@point-hub/express-utils'
 import { ICreateManyOutput } from '@/interfaces/database.interface'
 import { ICreateManyRepository } from '@/interfaces/repository/create-many.interface'
 import { IUseCase } from '@/interfaces/use-case.interface'
 import { ExampleEntity } from '../entity'
 
 export interface IInput {
+  deps: {
+    cleanObject(object: object): object
+  }
   documents: {
     name?: string
     phone?: string
@@ -22,7 +24,7 @@ export class CreateManyExampleUseCase implements IUseCase<IInput, ICreateManyOut
         phone: document.phone,
       })
       exampleEntity.generateCreatedDate()
-      entities.push(objClean(exampleEntity.data))
+      entities.push(input.deps.cleanObject(exampleEntity.data))
     }
 
     return await this.repository.handle(entities)

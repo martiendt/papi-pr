@@ -1,10 +1,12 @@
-import { objClean } from '@point-hub/express-utils'
 import { IDocument, IUpdateManyOutput } from '@/interfaces/database.interface'
 import { IUpdateManyRepository } from '@/interfaces/repository/update-many.interface'
 import { IUseCase } from '@/interfaces/use-case.interface'
 import { ExampleEntity } from '../entity'
 
 export interface IInput {
+  deps: {
+    cleanObject(object: object): object
+  }
   filter: IDocument
   document: {
     name?: string
@@ -21,6 +23,6 @@ export class UpdateManyExampleUseCase implements IUseCase<IInput, IUpdateManyOut
       phone: input.document.phone,
     })
     exampleEntity.generateUpdatedDate()
-    return await this.repository.handle(input.filter, objClean(exampleEntity.data))
+    return await this.repository.handle(input.filter, input.deps.cleanObject(exampleEntity.data))
   }
 }
