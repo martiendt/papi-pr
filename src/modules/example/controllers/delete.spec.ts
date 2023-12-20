@@ -5,14 +5,13 @@ import { DatabaseTestUtil } from '@/test/utils'
 import ExampleFactory from '../factory'
 
 describe('delete an example', () => {
-  const db = new DatabaseTestUtil()
   beforeEach(async () => {
-    await db.reset()
+    await DatabaseTestUtil.reset()
   })
   it('should be able to delete an example', async () => {
-    const app = await createApp({ dbConnection: db.dbConnection })
+    const app = await createApp({ dbConnection: DatabaseTestUtil.dbConnection })
 
-    const exampleFactory = new ExampleFactory(db.dbConnection)
+    const exampleFactory = new ExampleFactory(DatabaseTestUtil.dbConnection)
     const resultFactory = await exampleFactory.createMany(3)
 
     const response = await request(app).delete(`/v1/examples/${resultFactory.insertedIds[1]}`)
@@ -24,10 +23,10 @@ describe('delete an example', () => {
     expect(response.body).toStrictEqual({ deletedCount: 1 })
 
     // expect recorded data
-    const exampleRecord = await db.retrieve('examples', resultFactory.insertedIds[1])
+    const exampleRecord = await DatabaseTestUtil.retrieve('examples', resultFactory.insertedIds[1])
     expect(exampleRecord).toBeNull()
 
-    const exampleRecords = await db.retrieveAll('examples')
+    const exampleRecords = await DatabaseTestUtil.retrieveAll('examples')
     expect(exampleRecords.data.length).toStrictEqual(2)
   })
 })

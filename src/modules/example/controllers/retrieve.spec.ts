@@ -6,17 +6,16 @@ import { DatabaseTestUtil } from '@/test/utils'
 import ExampleFactory from '../factory'
 
 describe('retrieve an example', () => {
-  const db = new DatabaseTestUtil()
   beforeEach(async () => {
-    await db.reset()
+    await DatabaseTestUtil.reset()
   })
   it('should be able to retrieve an example', async () => {
-    const app = await createApp({ dbConnection: db.dbConnection })
+    const app = await createApp({ dbConnection: DatabaseTestUtil.dbConnection })
 
-    const exampleFactory = new ExampleFactory(db.dbConnection)
+    const exampleFactory = new ExampleFactory(DatabaseTestUtil.dbConnection)
     const resultFactory = await exampleFactory.createMany(3)
 
-    const examples = await db.retrieveAll('examples')
+    const examples = await DatabaseTestUtil.retrieveAll('examples')
 
     const response = await request(app).get(`/v1/examples/${resultFactory.insertedIds[1]}`)
 

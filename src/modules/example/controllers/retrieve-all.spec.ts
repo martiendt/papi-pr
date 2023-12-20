@@ -6,17 +6,16 @@ import { DatabaseTestUtil } from '@/test/utils'
 import ExampleFactory from '../factory'
 
 describe('retrieve all examples', () => {
-  const db = new DatabaseTestUtil()
   beforeEach(async () => {
-    await db.reset()
+    await DatabaseTestUtil.reset()
   })
   it('should be able to retrieve all examples', async () => {
-    const app = await createApp({ dbConnection: db.dbConnection })
+    const app = await createApp({ dbConnection: DatabaseTestUtil.dbConnection })
 
-    const exampleFactory = new ExampleFactory(db.dbConnection)
+    const exampleFactory = new ExampleFactory(DatabaseTestUtil.dbConnection)
     await exampleFactory.createMany(3)
 
-    const examples = await db.retrieveAll('examples')
+    const examples = await DatabaseTestUtil.retrieveAll('examples')
 
     const response = await request(app).get(`/v1/examples`)
 
@@ -37,9 +36,9 @@ describe('retrieve all examples', () => {
     expect(response.body.pagination.totalDocument).toStrictEqual(3)
   })
   it('should be able to sort data in ascending order', async () => {
-    const app = await createApp({ dbConnection: db.dbConnection })
+    const app = await createApp({ dbConnection: DatabaseTestUtil.dbConnection })
 
-    const exampleFactory = new ExampleFactory(db.dbConnection)
+    const exampleFactory = new ExampleFactory(DatabaseTestUtil.dbConnection)
     const data = [
       {
         name: 'John Doe',
@@ -73,9 +72,9 @@ describe('retrieve all examples', () => {
     expect(response.body.pagination.totalDocument).toStrictEqual(3)
   })
   it('should be able to sort data in descending order', async () => {
-    const app = await createApp({ dbConnection: db.dbConnection })
+    const app = await createApp({ dbConnection: DatabaseTestUtil.dbConnection })
 
-    const exampleFactory = new ExampleFactory(db.dbConnection)
+    const exampleFactory = new ExampleFactory(DatabaseTestUtil.dbConnection)
     const data = [
       {
         name: 'John Doe',
@@ -109,12 +108,12 @@ describe('retrieve all examples', () => {
     expect(response.body.pagination.totalDocument).toStrictEqual(3)
   })
   it('should be able to navigate pagination', async () => {
-    const app = await createApp({ dbConnection: db.dbConnection })
+    const app = await createApp({ dbConnection: DatabaseTestUtil.dbConnection })
 
-    const exampleFactory = new ExampleFactory(db.dbConnection)
+    const exampleFactory = new ExampleFactory(DatabaseTestUtil.dbConnection)
     await exampleFactory.createMany(3)
 
-    const examples = await db.retrieveAll('examples')
+    const examples = await DatabaseTestUtil.retrieveAll('examples')
 
     const response = await request(app).get(`/v1/examples`).query({
       page: 2,
@@ -134,12 +133,12 @@ describe('retrieve all examples', () => {
     expect(response.body.pagination.totalDocument).toStrictEqual(3)
   })
   it('should be able to choose fields', async () => {
-    const app = await createApp({ dbConnection: db.dbConnection })
+    const app = await createApp({ dbConnection: DatabaseTestUtil.dbConnection })
 
-    const exampleFactory = new ExampleFactory(db.dbConnection)
+    const exampleFactory = new ExampleFactory(DatabaseTestUtil.dbConnection)
     await exampleFactory.createMany(3)
 
-    const examples = await db.retrieveAll('examples')
+    const examples = await DatabaseTestUtil.retrieveAll('examples')
 
     const response = await request(app).get(`/v1/examples`).query({
       fields: 'name',

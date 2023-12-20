@@ -1,16 +1,12 @@
-import { beforeAll, afterAll, beforeEach } from 'bun:test'
+import { beforeAll, afterAll } from 'bun:test'
 import { DatabaseTestUtil } from './utils'
-
-const db = new DatabaseTestUtil()
 
 beforeAll(async () => {
   console.log('initiate database')
-  await db.open()
+  await DatabaseTestUtil.open()
 })
-
-beforeEach(() => {})
 
 afterAll(async () => {
   console.log('close database')
-  await db.close()
+  await DatabaseTestUtil.close()
 })

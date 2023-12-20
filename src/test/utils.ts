@@ -6,33 +6,29 @@ const mongod = await MongoMemoryReplSet.create({ replSet: { count: 3 } })
 const uri = mongod.getUri()
 
 export class DatabaseTestUtil {
-  public dbConnection: IDatabase
+  public static dbConnection: IDatabase = new MongoDBConnection(uri, 'api_test')
 
-  constructor() {
-    this.dbConnection = new MongoDBConnection(uri, 'api_test')
+  static async open() {
+    await DatabaseTestUtil.dbConnection.open()
   }
 
-  async open() {
-    await this.dbConnection.open()
-  }
-
-  async close() {
-    await this.dbConnection.close()
+  static async close() {
+    await DatabaseTestUtil.dbConnection.close()
     await mongod.stop()
   }
 
-  async reset() {
-    const collections = await this.dbConnection.listCollections()
+  static async reset() {
+    const collections = await DatabaseTestUtil.dbConnection.listCollections()
     for (const collection of collections) {
-      await this.dbConnection.collection(collection.name).deleteAll()
+      await DatabaseTestUtil.dbConnection.collection(collection.name).deleteAll()
     }
   }
 
-  async retrieve(collection: string, _id: string) {
-    return await this.dbConnection.collection(collection).retrieve(_id)
+  static async retrieve(collection: string, _id: string) {
+    return await DatabaseTestUtil.dbConnection.collection(collection).retrieve(_id)
   }
 
-  async retrieveAll(collection: string, query: IQuery = {}) {
-    return await this.dbConnection.collection(collection).retrieveAll(query)
+  static async retrieveAll(collection: string, query: IQuery = {}) {
+    return await DatabaseTestUtil.dbConnection.collection(collection).retrieveAll(query)
   }
 }

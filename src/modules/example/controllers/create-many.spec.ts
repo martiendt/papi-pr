@@ -6,12 +6,11 @@ import { createApp } from '@/app'
 import { DatabaseTestUtil } from '@/test/utils'
 
 describe('create many examples', () => {
-  const db = new DatabaseTestUtil()
   beforeEach(async () => {
-    await db.reset()
+    await DatabaseTestUtil.reset()
   })
   it('should be able to create many examples', async () => {
-    const app = await createApp({ dbConnection: db.dbConnection })
+    const app = await createApp({ dbConnection: DatabaseTestUtil.dbConnection })
 
     const data = [
       {
@@ -38,7 +37,7 @@ describe('create many examples', () => {
     expect(response.body.insertedIds.length).toBe(3)
 
     // expect recorded data
-    const exampleRecords = await db.retrieveAll('examples', {
+    const exampleRecords = await DatabaseTestUtil.retrieveAll('examples', {
       filter: {
         _id: {
           $in: response.body.insertedIds,

@@ -5,14 +5,13 @@ import { DatabaseTestUtil } from '@/test/utils'
 import ExampleFactory from '../factory'
 
 describe('delete many examples', () => {
-  const db = new DatabaseTestUtil()
   beforeEach(async () => {
-    await db.reset()
+    await DatabaseTestUtil.reset()
   })
   it('should be able to delete many examples', async () => {
-    const app = await createApp({ dbConnection: db.dbConnection })
+    const app = await createApp({ dbConnection: DatabaseTestUtil.dbConnection })
 
-    const exampleFactory = new ExampleFactory(db.dbConnection)
+    const exampleFactory = new ExampleFactory(DatabaseTestUtil.dbConnection)
     const resultFactory = await exampleFactory.createMany(3)
 
     const response = await request(app)
@@ -28,12 +27,12 @@ describe('delete many examples', () => {
     expect(response.body).toStrictEqual({ deletedCount: 2 })
 
     // expect recorded data
-    const exampleRecord1 = await db.retrieve('examples', resultFactory.insertedIds[0])
+    const exampleRecord1 = await DatabaseTestUtil.retrieve('examples', resultFactory.insertedIds[0])
     expect(exampleRecord1).toBeNull()
-    const exampleRecord2 = await db.retrieve('examples', resultFactory.insertedIds[1])
+    const exampleRecord2 = await DatabaseTestUtil.retrieve('examples', resultFactory.insertedIds[1])
     expect(exampleRecord2).toBeNull()
 
-    const exampleRecords = await db.retrieveAll('examples')
+    const exampleRecords = await DatabaseTestUtil.retrieveAll('examples')
     expect(exampleRecords.data.length).toStrictEqual(1)
   })
 })

@@ -7,16 +7,15 @@ import { DatabaseTestUtil } from '@/test/utils'
 import ExampleFactory from '../factory'
 
 describe('update an example', () => {
-  const db = new DatabaseTestUtil()
   beforeEach(async () => {
-    await db.reset()
+    await DatabaseTestUtil.reset()
   })
   it('should be able to update an example', async () => {
-    const app = await createApp({ dbConnection: db.dbConnection })
+    const app = await createApp({ dbConnection: DatabaseTestUtil.dbConnection })
 
-    const resultFactory = await new ExampleFactory(db.dbConnection).createMany(3)
+    const resultFactory = await new ExampleFactory(DatabaseTestUtil.dbConnection).createMany(3)
 
-    const examples = await db.retrieveAll('examples')
+    const examples = await DatabaseTestUtil.retrieveAll('examples')
 
     const updateData = {
       name: faker.person.fullName(),
@@ -34,12 +33,12 @@ describe('update an example', () => {
     })
 
     // expect recorded data
-    const exampleRecord = await db.retrieve('examples', resultFactory.insertedIds[1])
+    const exampleRecord = await DatabaseTestUtil.retrieve('examples', resultFactory.insertedIds[1])
     expect(exampleRecord.name).toStrictEqual(updateData.name)
     expect(isValid(new Date(exampleRecord.updated_date as string))).toBeTruthy()
 
     // expect another data unmodified
-    const unmodifiedExampleRecord = await db.retrieve('examples', resultFactory.insertedIds[0])
+    const unmodifiedExampleRecord = await DatabaseTestUtil.retrieve('examples', resultFactory.insertedIds[0])
     expect(unmodifiedExampleRecord.name).toStrictEqual(examples.data[0].name)
     expect(unmodifiedExampleRecord.updated_date).toBeUndefined()
   })

@@ -6,12 +6,11 @@ import { createApp } from '@/app'
 import { DatabaseTestUtil } from '@/test/utils'
 
 describe('create an example', () => {
-  const db = new DatabaseTestUtil()
   beforeEach(async () => {
-    await db.reset()
+    await DatabaseTestUtil.reset()
   })
   it('should be able to create an example', async () => {
-    const app = await createApp({ dbConnection: db.dbConnection })
+    const app = await createApp({ dbConnection: DatabaseTestUtil.dbConnection })
 
     const data = {
       name: faker.person.fullName(),
@@ -27,7 +26,7 @@ describe('create an example', () => {
     expect(response.body.insertedId).toBeDefined()
 
     // expect recorded data
-    const exampleRecord = await db.retrieve('examples', response.body.insertedId)
+    const exampleRecord = await DatabaseTestUtil.retrieve('examples', response.body.insertedId)
 
     expect(exampleRecord._id).toStrictEqual(response.body.insertedId)
     expect(exampleRecord.name).toStrictEqual(data.name)
