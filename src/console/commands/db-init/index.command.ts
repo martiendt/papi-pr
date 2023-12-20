@@ -18,7 +18,6 @@ export default class DbInitCommand extends BaseCommand {
     const dbConnection = new DatabaseConnection(new MongoDBConnection(mongoDBConfig.url, mongoDBConfig.name))
     try {
       await dbConnection.open()
-      // add collections and schema validation
       await dbConnection.createCollections()
     } catch (error) {
       console.error(error)

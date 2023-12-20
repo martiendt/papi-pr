@@ -1,10 +1,10 @@
-// import { jest } from '@jest/globals'
-// import SeedCommand from './index.command.js'
+import { expect, it, spyOn } from 'bun:test'
+import SeedCommand from './index.command'
 
-// it('test command', async () => {
-//   const seedCommand = new SeedCommand()
-//   const spy = jest.spyOn(seedCommand, 'handle')
-//   await seedCommand.handle()
+it('test command', async () => {
+  const seedCommand = new SeedCommand()
+  const spy = spyOn(seedCommand, 'handle')
+  await seedCommand.handle()
 
-//   expect(spy).toBeCalled()
-// })
+  expect(spy).toHaveBeenCalled()
+})

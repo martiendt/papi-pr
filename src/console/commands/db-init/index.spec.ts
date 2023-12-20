@@ -1,10 +1,10 @@
-// import { jest } from '@jest/globals'
-// import DbInitCommand from './index.command.js'
+import { expect, it, spyOn } from 'bun:test'
+import InitCommand from './index.command'
 
-// it('test command', async () => {
-//   const dbInitCommand = new DbInitCommand()
-//   const spy = jest.spyOn(dbInitCommand, 'handle')
-//   await dbInitCommand.handle()
+it('test command', async () => {
+  const initCommand = new InitCommand()
+  const spy = spyOn(initCommand, 'handle')
+  await initCommand.handle()
 
-//   expect(spy).toBeCalled()
-// })
+  expect(spy).toHaveBeenCalled()
+})

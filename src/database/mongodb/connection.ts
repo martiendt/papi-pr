@@ -101,18 +101,18 @@ export class MongoDBConnection implements IDatabase {
   }
 
   public async createCollections(): Promise<void> {
-    const object = await fileSearch('/schema.ts', './src/modules', { maxDeep: 2, regExp: true })
+    const object = await fileSearch('schema.ts', './src/modules', { maxDeep: 2, regExp: true })
     for (const property in object) {
-      const path = `../../modules/${object[property].path.replace('\\', '/').replace('.ts', '.js')}`
+      const path = `../../modules/${object[property].path.replace('\\', '/')}`
       const { createCollection } = await import(path)
       await createCollection(this)
     }
   }
 
   public async dropCollections(): Promise<void> {
-    const object = await fileSearch('/schema.ts', './src/modules', { maxDeep: 2, regExp: true })
+    const object = await fileSearch('schema.ts', './src/modules', { maxDeep: 2, regExp: true })
     for (const property in object) {
-      const path = `../../modules/${object[property].path.replace('\\', '/').replace('.ts', '.js')}`
+      const path = `../../modules/${object[property].path.replace('\\', '/')}`
       const { dropCollection } = await import(path)
       await dropCollection(this)
     }

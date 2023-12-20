@@ -9,10 +9,8 @@ import { version } from './package.json'
 // Initiate CLI
 const cli = new ExpressCli('bun cli.ts', version)
 // Register Papi Commands
-const papiKernel = new PapiKernel(cli)
-await papiKernel.register()
+await new PapiKernel(cli).register()
 // Register Application Commands
-const customKernel = new AppKernel(cli)
-await customKernel.register()
+await new AppKernel(cli).register()
 // Build CLI
 cli.run(process.argv)

@@ -8,7 +8,7 @@ import {
   limit,
   skip,
   sort,
-} from './mongodb-querystring.js'
+} from './mongodb-querystring'
 
 describe('field', () => {
   it('convert string to array', async () => {
