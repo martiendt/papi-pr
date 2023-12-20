@@ -4,13 +4,12 @@ import { createApp } from '@/app'
 import { DatabaseTestUtil } from '@/test/utils'
 import ExampleFactory from '../factory'
 
-describe('delete an example', () => {
+describe('delete an example', async () => {
+  const app = await createApp({ dbConnection: DatabaseTestUtil.dbConnection })
   beforeEach(async () => {
     await DatabaseTestUtil.reset()
   })
   it('should be able to delete an example', async () => {
-    const app = await createApp({ dbConnection: DatabaseTestUtil.dbConnection })
-
     const exampleFactory = new ExampleFactory(DatabaseTestUtil.dbConnection)
     const resultFactory = await exampleFactory.createMany(3)
 

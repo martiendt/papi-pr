@@ -6,13 +6,15 @@ import { createApp } from '@/app'
 import { DatabaseTestUtil } from '@/test/utils'
 import ExampleFactory from '../factory'
 
-describe('update an example', () => {
+describe('update an example', async () => {
+  const app = await createApp({ dbConnection: DatabaseTestUtil.dbConnection })
   beforeEach(async () => {
     await DatabaseTestUtil.reset()
   })
+  it.todo('should be return error validation', async () => {
+    //
+  })
   it('should be able to update an example', async () => {
-    const app = await createApp({ dbConnection: DatabaseTestUtil.dbConnection })
-
     const resultFactory = await new ExampleFactory(DatabaseTestUtil.dbConnection).createMany(3)
 
     const examples = await DatabaseTestUtil.retrieveAll('examples')

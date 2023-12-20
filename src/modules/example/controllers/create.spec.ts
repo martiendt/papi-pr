@@ -5,13 +5,12 @@ import { isValid } from 'date-fns'
 import { createApp } from '@/app'
 import { DatabaseTestUtil } from '@/test/utils'
 
-describe('create an example', () => {
+describe('create an example', async () => {
+  const app = await createApp({ dbConnection: DatabaseTestUtil.dbConnection })
   beforeEach(async () => {
     await DatabaseTestUtil.reset()
   })
   it('should be able to create an example', async () => {
-    const app = await createApp({ dbConnection: DatabaseTestUtil.dbConnection })
-
     const data = {
       name: faker.person.fullName(),
       phone: faker.phone.number(),
