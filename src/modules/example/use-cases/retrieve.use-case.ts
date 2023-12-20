@@ -1,6 +1,6 @@
-import { IRetrieveOutput } from '../../../interfaces/database.interface'
-import { IRetrieveRepository } from '../../../interfaces/repository/retrieve.interface'
-import { IUseCase } from '../../../interfaces/use-case.interface'
+import { IRetrieveOutput } from '@/interfaces/database.interface'
+import { IRetrieveRepository } from '@/interfaces/repository/retrieve.interface'
+import { IUseCase } from '@/interfaces/use-case.interface'
 
 export interface IInput {
   _id: string

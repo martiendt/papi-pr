@@ -1,5 +1,5 @@
-import { IRetrieveRepository } from '../../../interfaces/repository/retrieve.interface'
-import { IRetrieveOutput, IDatabase } from '../../../interfaces/database.interface'
+import { IRetrieveRepository } from '@/interfaces/repository/retrieve.interface'
+import { IRetrieveOutput, IDatabase } from '@/interfaces/database.interface'
 
 export class RetrieveRepository implements IRetrieveRepository {
   public collection = 'examples'

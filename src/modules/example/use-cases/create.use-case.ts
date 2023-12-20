@@ -1,8 +1,8 @@
 import { objClean } from '@point-hub/express-utils'
-import { ICreateOutput } from '../../../interfaces/database.interface'
-import { ICreateRepository } from '../../../interfaces/repository/create.interface'
-import { IUseCase } from '../../../interfaces/use-case.interface'
-import { ExampleEntity } from '../entities/example.entity'
+import { ICreateOutput } from '@/interfaces/database.interface'
+import { ICreateRepository } from '@/interfaces/repository/create.interface'
+import { IUseCase } from '@/interfaces/use-case.interface'
+import { ExampleEntity } from '../entity'
 
 export interface IInput {
   document: {

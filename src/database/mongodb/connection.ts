@@ -30,7 +30,7 @@ import {
   IRetrieveOutput,
   IUpdateManyOutput,
   IUpdateOutput,
-} from '../../interfaces/database.interface'
+} from '@/interfaces/database.interface'
 
 export class MongoDBConnection implements IDatabase {
   public client: MongoClient

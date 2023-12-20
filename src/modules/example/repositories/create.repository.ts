@@ -1,5 +1,5 @@
-import { ICreateRepository } from '../../../interfaces/repository/create.interface'
-import { ICreateOutput, IDatabase, IDocument } from '../../../interfaces/database.interface'
+import { ICreateRepository } from '@/interfaces/repository/create.interface'
+import { ICreateOutput, IDatabase, IDocument } from '@/interfaces/database.interface'
 
 export class CreateRepository implements ICreateRepository {
   public collection = 'examples'

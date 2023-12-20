@@ -1,6 +1,6 @@
-import { IQuery, IRetrieveAllOutput } from '../../../interfaces/database.interface'
-import { IRetrieveAllRepository } from '../../../interfaces/repository/retrieve-all.interface'
-import { IUseCase } from '../../../interfaces/use-case.interface'
+import { IQuery, IRetrieveAllOutput } from '@/interfaces/database.interface'
+import { IRetrieveAllRepository } from '@/interfaces/repository/retrieve-all.interface'
+import { IUseCase } from '@/interfaces/use-case.interface'
 
 export interface IInput {
   query: IQuery

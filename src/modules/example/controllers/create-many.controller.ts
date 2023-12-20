@@ -1,5 +1,5 @@
-import { dbConnection } from '../../../database/database'
-import { IController, IHttpRequest } from '../../../interfaces/controller.interface'
+import { dbConnection } from '@/database/database'
+import { IController, IHttpRequest } from '@/interfaces/controller.interface'
 import { CreateManyRepository } from '../repositories/create-many.repository'
 import { CreateManyExampleUseCase } from '../use-cases/create-many.use-case'
 

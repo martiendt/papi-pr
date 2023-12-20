@@ -1,8 +1,8 @@
 import { objClean } from '@point-hub/express-utils'
-import { IUpdateOutput } from '../../../interfaces/database.interface'
-import { IUpdateRepository } from '../../../interfaces/repository/update.interface'
-import { IUseCase } from '../../../interfaces/use-case.interface'
-import { ExampleEntity } from '../entities/example.entity'
+import { IUpdateOutput } from '@/interfaces/database.interface'
+import { IUpdateRepository } from '@/interfaces/repository/update.interface'
+import { IUseCase } from '@/interfaces/use-case.interface'
+import { ExampleEntity } from '../entity'
 
 export interface IInput {
   _id: string

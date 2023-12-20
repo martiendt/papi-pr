@@ -1,8 +1,8 @@
 import { objClean } from '@point-hub/express-utils'
-import { IDocument, IUpdateManyOutput } from '../../../interfaces/database.interface'
-import { IUpdateManyRepository } from '../../../interfaces/repository/update-many.interface'
-import { IUseCase } from '../../../interfaces/use-case.interface'
-import { ExampleEntity } from '../entities/example.entity'
+import { IDocument, IUpdateManyOutput } from '@/interfaces/database.interface'
+import { IUpdateManyRepository } from '@/interfaces/repository/update-many.interface'
+import { IUseCase } from '@/interfaces/use-case.interface'
+import { ExampleEntity } from '../entity'
 
 export interface IInput {
   filter: IDocument

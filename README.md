@@ -1,19 +1,16 @@
 # Pointhub API Starter
 
 ## Features
-- **Compression** Using gzip compression with [Compression](https://github.com/expressjs/compression)
-- **CORS** Cross-Origin Resource-Sharing enabled using [Cors](https://github.com/expressjs/cors)
-- **Environment Variable** using [dotenv](https://www.npmjs.com/package/dotenv)
-- **Secure HTTP Headers** using [Helmet](https://github.com/helmetjs/helmet)
-
-## Development Stack
-- [Bun](https://bun.sh) JavaScript run-time environment
+- [Bun](https://bun.sh/) Javascript runtime 
 - [Express](https://expressjs.com) Node.js framework
+- [Cors](https://github.com/expressjs/cors) Cross-Origin Resource-Sharing enabled
+- [Helmet](https://github.com/helmetjs/helmet) Secure HTTP Headers
 - [Typescript](https://www.typescriptlang.org) for type checking
 - [Bun Test](https://bun.sh/guides/test) for unit testing
 - [Supertest](https://www.npmjs.com/package/supertest) for e2e testing
 - [ESLint](https://eslint.org) for code linting
 - [Prettier](https://prettier.io) for code formatting
+- [Husky](https://typicode.github.io/husky) for check your commit
 
 ## Services
 - [MongoDB](https://www.mongodb.com/docs/drivers/node/current/) Database

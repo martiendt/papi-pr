@@ -1,5 +1,5 @@
-import { dbConnection } from '../../../database/database'
-import { IController, IHttpRequest } from '../../../interfaces/controller.interface'
+import { dbConnection } from '@/database/database'
+import { IController, IHttpRequest } from '@/interfaces/controller.interface'
 import { DeleteRepository } from '../repositories/delete.repository'
 import { DeleteExampleUseCase } from '../use-cases/delete.use-case'
 

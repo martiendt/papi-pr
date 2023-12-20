@@ -1,6 +1,6 @@
-import { IDeleteOutput } from '../../../interfaces/database.interface'
-import { IDeleteRepository } from '../../../interfaces/repository/delete.interface'
-import { IUseCase } from '../../../interfaces/use-case.interface'
+import { IDeleteOutput } from '@/interfaces/database.interface'
+import { IDeleteRepository } from '@/interfaces/repository/delete.interface'
+import { IUseCase } from '@/interfaces/use-case.interface'
 
 export interface IInput {
   _id: string

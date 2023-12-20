@@ -1,6 +1,6 @@
 import { Router } from 'express'
-import { makeController } from '../../express'
-import * as controller from './controller/index'
+import { makeController } from '@/express'
+import * as controller from './controllers/index'
 
 const router = Router()
 

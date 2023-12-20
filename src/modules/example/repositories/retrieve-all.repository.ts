@@ -1,5 +1,5 @@
-import { IRetrieveAllRepository } from '../../../interfaces/repository/retrieve-all.interface'
-import { IRetrieveAllOutput, IDatabase, IQuery } from '../../../interfaces/database.interface'
+import { IRetrieveAllRepository } from '@/interfaces/repository/retrieve-all.interface'
+import { IRetrieveAllOutput, IDatabase, IQuery } from '@/interfaces/database.interface'
 
 export class RetrieveAllRepository implements IRetrieveAllRepository {
   public collection = 'examples'

@@ -1,4 +1,4 @@
-import { IExampleEntity } from '../interfaces/entity.interface'
+import { IExampleEntity } from './interface'
 
 export const collection = 'examples'
 

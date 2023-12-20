@@ -1,5 +1,5 @@
-import { IDeleteRepository } from '../../../interfaces/repository/delete.interface'
-import { IDeleteOutput, IDatabase } from '../../../interfaces/database.interface'
+import { IDeleteRepository } from '@/interfaces/repository/delete.interface'
+import { IDeleteOutput, IDatabase } from '@/interfaces/database.interface'
 
 export class DeleteRepository implements IDeleteRepository {
   public collection = 'examples'

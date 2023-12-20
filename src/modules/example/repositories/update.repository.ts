@@ -1,5 +1,5 @@
-import { IUpdateRepository } from '../../../interfaces/repository/update.interface'
-import { IUpdateOutput, IDatabase, IDocument } from '../../../interfaces/database.interface'
+import { IUpdateRepository } from '@/interfaces/repository/update.interface'
+import { IUpdateOutput, IDatabase, IDocument } from '@/interfaces/database.interface'
 
 export class UpdateRepository implements IUpdateRepository {
   public collection = 'examples'

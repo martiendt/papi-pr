@@ -1,6 +1,6 @@
 import { isValid } from 'date-fns'
 import { ObjectId } from 'mongodb'
-import { IDatabase } from '../../interfaces/database.interface'
+import { IDatabase } from '@/interfaces/database.interface'
 
 /**
  * https://www.mongodb.com/docs/drivers/node/current/fundamentals/indexes/
