@@ -15,6 +15,22 @@ export class MongoDBHelper {
     this.db = db
   }
 
+  /**
+   * Create unique column
+   *
+   * @example
+   * create unique attribute "name"
+   * createUnique(collection, {
+   *   name: -1,
+   * })
+   *
+   * @example
+   * create unique attribute for multiple column "first_name" and "last_name"
+   * createUnique(collection, {
+   *   firstName: -1,
+   *   lastName: -1,
+   * })
+   */
   public async createUnique(collection: string, properties: object) {
     await this.db.createIndex(collection, properties, {
       unique: true,
@@ -25,6 +41,9 @@ export class MongoDBHelper {
     })
   }
 
+  /**
+   * Create unique if column is exists
+   */
   public async createUniqueIfNotNull(collection: string, properties: object) {
     await this.db.createIndex(collection, properties, {
       unique: true,

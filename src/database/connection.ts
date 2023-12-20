@@ -57,6 +57,14 @@ export class DatabaseConnection implements IDatabase {
   public async dropCollection(name: string, options?: unknown) {
     await this.adapter.dropCollection(name, options)
   }
+  // Create new collection if not exists and update schema validation or indexes
+  public async createCollections() {
+    await this.adapter.createCollections()
+  }
+  // Drop collections function is for testing purpose, so every test can generate fresh database
+  public async dropCollections() {
+    await this.adapter.dropCollections()
+  }
   public async updateSchema(name: string, schema: unknown) {
     await this.adapter.updateSchema(name, schema)
   }

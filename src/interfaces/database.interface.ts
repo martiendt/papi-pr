@@ -80,6 +80,8 @@ export interface IDatabase {
   commitTransaction(): Promise<void>
   abortTransaction(): Promise<void>
   createIndex(name: string, spec: unknown, options?: unknown): Promise<void>
+  createCollections(): Promise<void>
+  dropCollections(): Promise<void>
   createCollection(name: string, options?: unknown): Promise<void>
   dropCollection(name: string, options?: unknown): Promise<void>
   updateSchema(name: string, schema: unknown): Promise<void>

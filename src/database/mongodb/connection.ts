@@ -31,6 +31,7 @@ import {
   IUpdateManyOutput,
   IUpdateOutput,
 } from '@/interfaces/database.interface'
+import { fileSearch } from '@point-hub/express-utils'
 
 export class MongoDBConnection implements IDatabase {
   public client: MongoClient
@@ -97,6 +98,24 @@ export class MongoDBConnection implements IDatabase {
         $jsonSchema: schema,
       },
     })
+  }
+
+  public async createCollections(): Promise<void> {
+    const object = await fileSearch('/schema.ts', './src/modules', { maxDeep: 2, regExp: true })
+    for (const property in object) {
+      const path = `../../modules/${object[property].path.replace('\\', '/').replace('.ts', '.js')}`
+      const { createCollection } = await import(path)
+      await createCollection(this)
+    }
+  }
+
+  public async dropCollections(): Promise<void> {
+    const object = await fileSearch('/schema.ts', './src/modules', { maxDeep: 2, regExp: true })
+    for (const property in object) {
+      const path = `../../modules/${object[property].path.replace('\\', '/').replace('.ts', '.js')}`
+      const { dropCollection } = await import(path)
+      await dropCollection(this)
+    }
   }
 
   public async createCollection(name: string, options: any): Promise<void> {

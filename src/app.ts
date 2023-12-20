@@ -37,8 +37,8 @@ export const createApp = async (appInput: IAppInput) => {
   // Cors
   app.use(
     cors({
-      // origin: 'http://localhost:5173',
-      // credentials: true,
+      origin: 'http://localhost:5173',
+      credentials: true,
     }),
   )
 
