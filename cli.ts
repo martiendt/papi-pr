@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 import { ExpressCli } from '@point-hub/express-cli'
-import { ConsoleKernel as PapiKernel } from '@point-hub/papi/lib/console'
+import { ConsoleKernel as PapiKernel } from '@point-hub/papi'
 
 import { version } from './package.json'
 import { ConsoleKernel as AppKernel } from './src/console'

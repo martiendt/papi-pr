@@ -1,8 +1,5 @@
 # node modules
 node_modules
-package-lock.json
-yarn.lock
-pnpm-lock.yaml
 
 # test coverage directory
 coverage
@@ -11,4 +8,5 @@ coverage
 .env
 .env.test
 
+# tsconfig buildinfo
 tsconfig.tsbuildinfo
