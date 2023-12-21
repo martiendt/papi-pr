@@ -192,11 +192,10 @@ export class MongoDBConnection implements IDatabase {
     if (!this._collection) {
       throw new Error('Collection not found')
     }
-
     const retrieveOptions = options as FindOptions
 
     const cursor = this._collection
-      .find(replaceStringToObjectId(query.filter) ?? {}, retrieveOptions)
+      .find(replaceStringToObjectId(query.filter ?? {}), retrieveOptions)
       .limit(limit(query.pageSize))
       .skip(skip(page(query.page), limit(query.pageSize)))
 
@@ -207,7 +206,6 @@ export class MongoDBConnection implements IDatabase {
     if (fields(query.fields, query.excludeFields)) {
       cursor.project(fields(query.fields, query.excludeFields))
     }
-
     const result = await cursor.toArray()
 
     const totalDocument = await this._collection.countDocuments(query.filter ?? {}, retrieveOptions)
