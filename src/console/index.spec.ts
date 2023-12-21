@@ -1,5 +1,6 @@
-import { expect, it } from 'bun:test'
 import { ExpressCli } from '@point-hub/express-cli'
+import { expect, it } from 'bun:test'
+
 import { ConsoleKernel } from './index.js'
 
 it('express app to be defined', async () => {

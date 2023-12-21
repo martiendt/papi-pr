@@ -1,4 +1,5 @@
-import { beforeAll, afterAll } from 'bun:test'
+import { afterAll, beforeAll } from 'bun:test'
+
 import { DatabaseTestUtil } from './utils'
 
 beforeAll(async () => {

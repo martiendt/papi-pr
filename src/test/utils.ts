@@ -1,4 +1,5 @@
 import { MongoMemoryReplSet } from 'mongodb-memory-server'
+
 import { MongoDBConnection } from '@/database/mongodb/connection'
 import { IDatabase, IQuery } from '@/interfaces/database.interface'
 

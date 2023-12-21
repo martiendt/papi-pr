@@ -1,8 +1,9 @@
 import { IUpdateOutput } from '@/interfaces/database.interface'
 import { IUpdateRepository } from '@/interfaces/repository/update.interface'
 import { IUseCase } from '@/interfaces/use-case.interface'
-import { ExampleEntity } from '../entity'
 import { ISchemaValidation } from '@/validation'
+
+import { ExampleEntity } from '../entity'
 import { updateValidation } from '../validations/update'
 
 export interface IInput {

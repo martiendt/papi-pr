@@ -1,4 +1,5 @@
-import { Request, Response, NextFunction } from 'express'
+import { NextFunction, Request, Response } from 'express'
+
 import { IController, IHttpRequest } from './interfaces/controller.interface'
 import { IDatabase } from './interfaces/database.interface'
 

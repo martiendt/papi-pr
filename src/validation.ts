@@ -1,6 +1,7 @@
-import { IDocument } from '@/interfaces/database.interface'
 import { ApiError } from '@point-hub/express-error-handler'
 import Validatorjs from 'validatorjs'
+
+import { IDocument } from '@/interfaces/database.interface'
 
 export interface ISchemaValidation {
   (document: IDocument, schema: IDocument): Promise<void>

@@ -1,7 +1,7 @@
 import { createApp } from './app'
-import { createServer } from './server'
 import serverConfig from './config/server'
 import { dbConnection } from './database/database'
+import { createServer } from './server'
 
 /**
  * Create database connection. It will keep the connection open by default,

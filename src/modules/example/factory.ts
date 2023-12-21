@@ -1,9 +1,11 @@
-import Factory from '@point-hub/express-factory'
 import { faker } from '@faker-js/faker'
-import { CreateRepository } from './repositories/create.repository'
-import { IExampleEntity } from './interface'
-import { CreateManyRepository } from './repositories/create-many.repository'
+import Factory from '@point-hub/express-factory'
+
 import { IDatabase } from '@/interfaces/database.interface'
+
+import { IExampleEntity } from './interface'
+import { CreateRepository } from './repositories/create.repository'
+import { CreateManyRepository } from './repositories/create-many.repository'
 
 export default class ExampleFactory extends Factory<IExampleEntity> {
   constructor(public dbConnection: IDatabase) {

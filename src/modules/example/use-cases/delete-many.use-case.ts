@@ -2,6 +2,7 @@ import { IDeleteManyOutput } from '@/interfaces/database.interface'
 import { IDeleteManyRepository } from '@/interfaces/repository/delete-many.interface'
 import { IUseCase } from '@/interfaces/use-case.interface'
 import { ISchemaValidation } from '@/validation'
+
 import { deleteManyValidation } from '../validations/delete-many'
 
 export interface IInput {

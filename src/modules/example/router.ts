@@ -1,6 +1,8 @@
 import { Router } from 'express'
+
 import { makeController } from '@/express'
 import { IDatabase } from '@/interfaces/database.interface'
+
 import * as controller from './controllers/index'
 
 export interface IRouterInput {

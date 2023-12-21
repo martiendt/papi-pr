@@ -1,4 +1,5 @@
 import { expect, it, spyOn } from 'bun:test'
+
 import InitCommand from './index.command'
 
 it('test command', async () => {

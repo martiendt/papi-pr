@@ -1,6 +1,6 @@
-import { URL, fileURLToPath } from 'url'
 import { ExpressCli } from '@point-hub/express-cli'
 import { fileSearch } from '@point-hub/express-utils'
+import { fileURLToPath, URL } from 'url'
 
 export class ConsoleKernel {
   public path = fileURLToPath(new URL('.', import.meta.url))

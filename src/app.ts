@@ -1,11 +1,12 @@
-import express from 'express'
+import { errorHandlerMiddleware, invalidPathMiddleware } from '@point-hub/express-error-handler'
 import compression from 'compression'
 import cookieParser from 'cookie-parser'
 import cors from 'cors'
+import express from 'express'
 import helmet from 'helmet'
-import router from './router'
+
 import { IDatabase } from './interfaces/database.interface'
-import { errorHandlerMiddleware, invalidPathMiddleware } from '@point-hub/express-error-handler'
+import router from './router'
 
 export interface IAppInput {
   dbConnection: IDatabase

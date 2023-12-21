@@ -1,8 +1,10 @@
 import { beforeEach, describe, expect, it } from 'bun:test'
-import request from 'supertest'
 import { isValid } from 'date-fns'
+import request from 'supertest'
+
 import { createApp } from '@/app'
 import { DatabaseTestUtil } from '@/test/utils'
+
 import ExampleFactory from '../factory'
 
 describe('retrieve all examples', async () => {

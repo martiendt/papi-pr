@@ -1,8 +1,9 @@
 import { ICreateManyOutput } from '@/interfaces/database.interface'
 import { ICreateManyRepository } from '@/interfaces/repository/create-many.interface'
 import { IUseCase } from '@/interfaces/use-case.interface'
-import { ExampleEntity } from '../entity'
 import { ISchemaValidation } from '@/validation'
+
+import { ExampleEntity } from '../entity'
 import { createManyValidation } from '../validations/create-many'
 
 export interface IInput {

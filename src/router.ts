@@ -1,6 +1,7 @@
 import express, { Express } from 'express'
-import exampleRouter from './modules/example/router'
+
 import { IDatabase } from './interfaces/database.interface'
+import exampleRouter from './modules/example/router'
 
 export interface IBaseRouterInput {
   dbConnection: IDatabase

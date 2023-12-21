@@ -1,7 +1,8 @@
 import { IController, IControllerInput } from '@/interfaces/controller.interface'
+import { schemaValidation } from '@/validation'
+
 import { DeleteManyRepository } from '../repositories/delete-many.repository'
 import { DeleteManyExampleUseCase } from '../use-cases/delete-many.use-case'
-import { schemaValidation } from '@/validation'
 
 export const deleteManyExampleController: IController = async (controllerInput: IControllerInput) => {
   const repository = new DeleteManyRepository(controllerInput.dbConnection)

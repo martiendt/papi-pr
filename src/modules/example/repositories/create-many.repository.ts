@@ -1,5 +1,6 @@
-import { ICreateManyRepository } from '@/interfaces/repository/create-many.interface'
 import { ICreateManyOutput, IDatabase, IDocument } from '@/interfaces/database.interface'
+import { ICreateManyRepository } from '@/interfaces/repository/create-many.interface'
+
 import { collectionName } from '../entity'
 
 export class CreateManyRepository implements ICreateManyRepository {

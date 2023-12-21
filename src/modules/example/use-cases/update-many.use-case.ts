@@ -1,8 +1,9 @@
 import { IDocument, IUpdateManyOutput } from '@/interfaces/database.interface'
 import { IUpdateManyRepository } from '@/interfaces/repository/update-many.interface'
 import { IUseCase } from '@/interfaces/use-case.interface'
-import { ExampleEntity } from '../entity'
 import { ISchemaValidation } from '@/validation'
+
+import { ExampleEntity } from '../entity'
 import { deleteManyValidation } from '../validations/delete-many'
 
 export interface IInput {

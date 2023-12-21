@@ -1,9 +1,11 @@
-import { beforeEach, describe, expect, it } from 'bun:test'
-import request from 'supertest'
 import { faker } from '@faker-js/faker'
+import { beforeEach, describe, expect, it } from 'bun:test'
 import { isValid } from 'date-fns'
+import request from 'supertest'
+
 import { createApp } from '@/app'
 import { DatabaseTestUtil } from '@/test/utils'
+
 import ExampleFactory from '../factory'
 
 describe('update an example', async () => {

@@ -2,9 +2,9 @@
 
 import { ExpressCli } from '@point-hub/express-cli'
 import { ConsoleKernel as PapiKernel } from '@point-hub/papi/lib/console'
-import { ConsoleKernel as AppKernel } from './src/console'
 
 import { version } from './package.json'
+import { ConsoleKernel as AppKernel } from './src/console'
 
 // Initiate CLI
 const cli = new ExpressCli('bun cli.ts', version)

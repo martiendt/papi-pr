@@ -1,4 +1,5 @@
 import { IController, IControllerInput } from '@/interfaces/controller.interface'
+
 import { RetrieveAllRepository } from '../repositories/retrieve-all.repository'
 import { RetrieveAllExampleUseCase } from '../use-cases/retrieve-all.use-case'
 

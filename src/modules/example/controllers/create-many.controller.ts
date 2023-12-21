@@ -1,8 +1,10 @@
+import { objClean } from '@point-hub/express-utils'
+
 import { IController, IControllerInput } from '@/interfaces/controller.interface'
+import { schemaValidation } from '@/validation'
+
 import { CreateManyRepository } from '../repositories/create-many.repository'
 import { CreateManyExampleUseCase } from '../use-cases/create-many.use-case'
-import { objClean } from '@point-hub/express-utils'
-import { schemaValidation } from '@/validation'
 
 export const createManyExampleController: IController = async (controllerInput: IControllerInput) => {
   const repository = new CreateManyRepository(controllerInput.dbConnection)
