@@ -1,5 +1,3 @@
 export const updateManyValidation = {
-  data: {
-    name: ['string'],
-  },
+  name: ['string'],
 }

@@ -18,6 +18,10 @@ export class DatabaseTestUtil {
     await mongod.stop()
   }
 
+  static async createCollections() {
+    await DatabaseTestUtil.dbConnection.createCollections()
+  }
+
   static async reset() {
     const collections = await DatabaseTestUtil.dbConnection.listCollections()
     for (const collection of collections) {
