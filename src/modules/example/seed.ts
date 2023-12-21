@@ -1,4 +1,4 @@
-export const exampleSeeds = [
+export const seeds = [
   {
     name: 'Example 1',
     createdAt: new Date(),

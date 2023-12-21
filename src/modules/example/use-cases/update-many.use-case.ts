@@ -4,7 +4,7 @@ import { IUseCase } from '@/interfaces/use-case.interface'
 import { ISchemaValidation } from '@/validation'
 
 import { ExampleEntity } from '../entity'
-import { deleteManyValidation } from '../validations/delete-many'
+import { updateManyValidation } from '../validations/update-many.validation'
 
 export interface IInput {
   deps: {
@@ -28,7 +28,7 @@ export class UpdateManyExampleUseCase implements IUseCase<IInput, IUpdateManyOut
     })
     exampleEntity.generateUpdatedDate()
     const cleanEntity = input.deps.cleanObject(exampleEntity.data)
-    await input.deps.schemaValidation(cleanEntity, deleteManyValidation)
+    await input.deps.schemaValidation(cleanEntity, updateManyValidation)
     return await this.repository.handle(input.filter, cleanEntity)
   }
 }

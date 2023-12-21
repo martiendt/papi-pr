@@ -4,7 +4,7 @@ import { IUseCase } from '@/interfaces/use-case.interface'
 import { ISchemaValidation } from '@/validation'
 
 import { ExampleEntity } from '../entity'
-import { updateValidation } from '../validations/update'
+import { updateValidation } from '../validations/update.validation'
 
 export interface IInput {
   deps: {

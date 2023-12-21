@@ -1,4 +1,4 @@
-export const updateValidation = {
+export const updateManyValidation = {
   data: {
     name: ['string'],
   },

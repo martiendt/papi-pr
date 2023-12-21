@@ -5,6 +5,7 @@ import { DatabaseConnection } from '@/database/connection'
 import { MongoDBConnection } from '@/database/mongodb/connection'
 
 export default class DbSeedCommand extends BaseCommand {
+  dbConnection = new DatabaseConnection(new MongoDBConnection(mongoDBConfig.url, mongoDBConfig.name))
   constructor() {
     super({
       name: 'db:seed',
@@ -15,18 +16,23 @@ export default class DbSeedCommand extends BaseCommand {
     })
   }
   async handle(): Promise<void> {
-    const dbConnection = new DatabaseConnection(new MongoDBConnection(mongoDBConfig.url, mongoDBConfig.name))
     try {
-      await dbConnection.open()
-      // seed examples colllection
-      const { exampleSeeds } = await import('@/modules/example/seed')
-      await dbConnection.collection('examples').deleteAll()
-      const exampleData = await dbConnection.collection('examples').createMany(exampleSeeds)
-      console.info(`[seed] seeding examples data`, exampleData)
+      await this.dbConnection.open()
+      await this.seed('examples')
     } catch (error) {
       console.error(error)
     } finally {
-      dbConnection.close()
+      this.dbConnection.close()
     }
+  }
+  private async seed(collectionName: string): Promise<void> {
+    console.info(`[seed] seeding ${collectionName} data`)
+    // get seeder from module
+    const { seeds } = await import('@/modules/example/seed')
+    console.info(seeds)
+    // delete all data inside collection
+    await this.dbConnection.collection(collectionName).deleteAll()
+    // insert new seeder data
+    await this.dbConnection.collection(collectionName).createMany(seeds)
   }
 }
