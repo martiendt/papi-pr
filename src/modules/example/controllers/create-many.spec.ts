@@ -11,7 +11,7 @@ describe('create many examples', async () => {
   beforeEach(async () => {
     await DatabaseTestUtil.reset()
   })
-  it('should be able to return error validation', async () => {
+  it('validate schema', async () => {
     const data = [
       {
         phone: faker.phone.number(),
@@ -45,7 +45,7 @@ describe('create many examples', async () => {
     const exampleRecords = await DatabaseTestUtil.retrieveAll('examples')
     expect(exampleRecords.data.length).toStrictEqual(0)
   })
-  it('should be able to create many examples', async () => {
+  it('create success', async () => {
     const data = [
       {
         name: faker.person.fullName(),

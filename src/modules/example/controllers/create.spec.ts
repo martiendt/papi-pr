@@ -6,12 +6,40 @@ import request from 'supertest'
 import { createApp } from '@/app'
 import { DatabaseTestUtil } from '@/test/utils'
 
+import ExampleFactory from '../factory'
+
 describe('create an example', async () => {
   const app = await createApp({ dbConnection: DatabaseTestUtil.dbConnection })
   beforeEach(async () => {
     await DatabaseTestUtil.reset()
   })
-  it('should be able to return error validation', async () => {
+  it('validate unique column', async () => {
+    const exampleFactory = new ExampleFactory(DatabaseTestUtil.dbConnection)
+    exampleFactory.state({
+      name: 'John Doe',
+    })
+    await exampleFactory.create()
+    const data = {
+      name: 'John Doe',
+    }
+
+    const response = await request(app).post('/v1/examples').send(data)
+
+    // expect http response
+    expect(response.statusCode).toEqual(400)
+    // expect response json
+    expect(response.body.code).toStrictEqual(400)
+    expect(response.body.status).toStrictEqual('Bad Request')
+    expect(response.body.message).toStrictEqual('The server cannot process the request.')
+    expect(response.body.errors).toStrictEqual({
+      name: ['The name is exists.'],
+    })
+
+    // expect recorded data
+    const exampleRecord = await DatabaseTestUtil.retrieve('examples', response.body.insertedId)
+    expect(exampleRecord).toBeNull()
+  })
+  it('validate schema', async () => {
     const data = {
       phone: faker.phone.number(),
     }
@@ -35,7 +63,7 @@ describe('create an example', async () => {
     const exampleRecord = await DatabaseTestUtil.retrieve('examples', response.body.insertedId)
     expect(exampleRecord).toBeNull()
   })
-  it('should be able to create an example', async () => {
+  it('create success', async () => {
     const data = {
       name: faker.person.fullName(),
       phone: faker.phone.number(),

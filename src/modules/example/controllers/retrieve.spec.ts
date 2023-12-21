@@ -12,7 +12,7 @@ describe('retrieve an example', async () => {
   beforeEach(async () => {
     await DatabaseTestUtil.reset()
   })
-  it('should be able to retrieve an example', async () => {
+  it('retrieve success', async () => {
     const exampleFactory = new ExampleFactory(DatabaseTestUtil.dbConnection)
     const resultFactory = await exampleFactory.createMany(3)
 

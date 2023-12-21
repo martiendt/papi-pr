@@ -12,7 +12,7 @@ describe('update many examples', async () => {
   beforeEach(async () => {
     await DatabaseTestUtil.reset()
   })
-  it('should be able to update many examples', async () => {
+  it('update success', async () => {
     const exampleFactory = new ExampleFactory(DatabaseTestUtil.dbConnection)
     const exampleData = [
       {

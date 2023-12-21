@@ -17,7 +17,7 @@ export function handleUniqueValidation(err: MongoServerError, error: IError) {
   // handle unique validation
   if (Object.keys(err.keyPattern).length === 1) {
     error.errors = {
-      [Object.keys(err.keyPattern)[0]]: `The ${Object.keys(err.keyPattern)[0]} is exists`,
+      [Object.keys(err.keyPattern)[0]]: [`The ${Object.keys(err.keyPattern)[0]} is exists.`],
     }
   } else {
     // get keys
@@ -36,7 +36,7 @@ export function handleUniqueValidation(err: MongoServerError, error: IError) {
 
     // generate error object
     const obj = Object.keys(err.keyPattern).reduce((obj: any, key) => {
-      obj[key] = [`The combination of ${keys.toString()} is exists`]
+      obj[key] = [`The combination of ${keys.toString()} is exists.`]
       return obj
     }, {})
     error.errors = obj

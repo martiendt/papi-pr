@@ -12,7 +12,7 @@ describe('retrieve all examples', async () => {
   beforeEach(async () => {
     await DatabaseTestUtil.reset()
   })
-  it('should be able to retrieve all examples', async () => {
+  it('retrieve success', async () => {
     const exampleFactory = new ExampleFactory(DatabaseTestUtil.dbConnection)
     await exampleFactory.createMany(3)
 
@@ -36,7 +36,7 @@ describe('retrieve all examples', async () => {
     expect(response.body.pagination.pageCount).toStrictEqual(1)
     expect(response.body.pagination.totalDocument).toStrictEqual(3)
   })
-  it('should be able to sort data in ascending order', async () => {
+  it('sort data in ascending order', async () => {
     const exampleFactory = new ExampleFactory(DatabaseTestUtil.dbConnection)
     const data = [
       {
@@ -70,7 +70,7 @@ describe('retrieve all examples', async () => {
     expect(response.body.pagination.pageCount).toStrictEqual(1)
     expect(response.body.pagination.totalDocument).toStrictEqual(3)
   })
-  it('should be able to sort data in descending order', async () => {
+  it('sort data in descending order', async () => {
     const exampleFactory = new ExampleFactory(DatabaseTestUtil.dbConnection)
     const data = [
       {
@@ -104,7 +104,7 @@ describe('retrieve all examples', async () => {
     expect(response.body.pagination.pageCount).toStrictEqual(1)
     expect(response.body.pagination.totalDocument).toStrictEqual(3)
   })
-  it('should be able to navigate pagination', async () => {
+  it('navigate pagination', async () => {
     const exampleFactory = new ExampleFactory(DatabaseTestUtil.dbConnection)
     await exampleFactory.createMany(3)
 
@@ -127,7 +127,7 @@ describe('retrieve all examples', async () => {
     expect(response.body.pagination.pageCount).toStrictEqual(2)
     expect(response.body.pagination.totalDocument).toStrictEqual(3)
   })
-  it('should be able to choose fields', async () => {
+  it('choose fields', async () => {
     const exampleFactory = new ExampleFactory(DatabaseTestUtil.dbConnection)
     await exampleFactory.createMany(3)
 

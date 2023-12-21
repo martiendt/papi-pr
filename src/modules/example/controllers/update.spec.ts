@@ -13,7 +13,7 @@ describe('update an example', async () => {
   beforeEach(async () => {
     await DatabaseTestUtil.reset()
   })
-  it('should be able to return error validation', async () => {
+  it('validate schema', async () => {
     const resultFactory = await new ExampleFactory(DatabaseTestUtil.dbConnection).create()
 
     const examples = await DatabaseTestUtil.retrieveAll('examples')
@@ -42,7 +42,7 @@ describe('update an example', async () => {
     expect(unmodifiedExampleRecord.name).toStrictEqual(examples.data[0].name)
     expect(unmodifiedExampleRecord.updated_date).toBeUndefined()
   })
-  it('should be able to update an example', async () => {
+  it('update success', async () => {
     const resultFactory = await new ExampleFactory(DatabaseTestUtil.dbConnection).createMany(3)
 
     const examples = await DatabaseTestUtil.retrieveAll('examples')
