@@ -3,13 +3,13 @@ import { afterAll, beforeAll } from 'bun:test'
 import { DatabaseTestUtil } from './utils'
 
 beforeAll(async () => {
-  console.log('initiate database connection')
+  console.info('initiate database connection')
   await DatabaseTestUtil.open()
-  console.log('generate database collection schema')
+  console.info('generate database collection schema')
   await DatabaseTestUtil.createCollections()
 })
 
 afterAll(async () => {
-  console.log('close database connection')
+  console.info('close database connection')
   await DatabaseTestUtil.close()
 })

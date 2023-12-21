@@ -9,7 +9,9 @@
 import { MongoDBHelper } from '@/database/mongodb/mongodb-helper'
 import { IDatabase } from '@/interfaces/database.interface'
 
-export const collection = 'examples'
+import { collectionName } from './entity'
+
+export const collection = collectionName
 
 export async function createCollection(db: IDatabase) {
   const helper = new MongoDBHelper(db)

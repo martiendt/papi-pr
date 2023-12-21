@@ -8,7 +8,7 @@ import { CreateManyExampleUseCase } from '../use-cases/create-many.use-case'
 
 export const createManyExampleController: IController = async (controllerInput: IControllerInput) => {
   const repository = new CreateManyRepository(controllerInput.dbConnection)
-  console.log(controllerInput.httpRequest.body)
+
   const response = await new CreateManyExampleUseCase(repository).handle({
     deps: { cleanObject: objClean, schemaValidation },
     data: controllerInput.httpRequest.body,
