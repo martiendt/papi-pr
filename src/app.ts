@@ -60,14 +60,7 @@ export const createApp = async (appInput: IAppInput) => {
 
   app.use(invalidPathMiddleware)
 
-  app.use((err, req, res, next) => {
-    console.log('asdawqjoihjqiowhqofnoqih iqe')
-    console.error('qjoihjqiowhqofnoqih iqe')
-    console.error(err.stack)
-    res.status(500).send('Something broke!')
-  })
-
-  // app.use(errorHandlerMiddleware)
+  app.use(errorHandlerMiddleware)
 
   return app
 }
