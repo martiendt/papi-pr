@@ -13,8 +13,34 @@ describe('update an example', async () => {
   beforeEach(async () => {
     await DatabaseTestUtil.reset()
   })
-  it.todo('should be return error validation', async () => {
-    //
+  it('should be able to return error validation', async () => {
+    const resultFactory = await new ExampleFactory(DatabaseTestUtil.dbConnection).create()
+
+    const examples = await DatabaseTestUtil.retrieveAll('examples')
+
+    const updateData = {
+      name: true,
+    }
+
+    const response = await request(app).patch(`/v1/examples/${resultFactory.insertedId}`).send(updateData)
+
+    // expect http response
+    expect(response.statusCode).toEqual(422)
+
+    // expect response json
+    expect(response.body.code).toStrictEqual(422)
+    expect(response.body.status).toStrictEqual('Unprocessable Entity')
+    expect(response.body.message).toStrictEqual(
+      'The request was well-formed but was unable to be followed due to semantic errors.',
+    )
+    expect(response.body.errors).toStrictEqual({
+      name: ['The name must be a string.'],
+    })
+
+    // expect data unmodified
+    const unmodifiedExampleRecord = await DatabaseTestUtil.retrieve('examples', resultFactory.insertedId)
+    expect(unmodifiedExampleRecord.name).toStrictEqual(examples.data[0].name)
+    expect(unmodifiedExampleRecord.updated_date).toBeUndefined()
   })
   it('should be able to update an example', async () => {
     const resultFactory = await new ExampleFactory(DatabaseTestUtil.dbConnection).createMany(3)

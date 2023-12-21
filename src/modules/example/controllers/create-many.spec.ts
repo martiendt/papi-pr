@@ -11,6 +11,40 @@ describe('create many examples', async () => {
   beforeEach(async () => {
     await DatabaseTestUtil.reset()
   })
+  it('should be able to return error validation', async () => {
+    const data = [
+      {
+        phone: faker.phone.number(),
+      },
+      {
+        name: faker.person.fullName(),
+        phone: faker.phone.number(),
+      },
+      {
+        phone: faker.phone.number(),
+      },
+    ]
+
+    const response = await request(app).post('/v1/examples/create-many').send({ examples: data })
+
+    // expect http response
+    expect(response.statusCode).toEqual(422)
+
+    // expect response json
+    expect(response.body.code).toStrictEqual(422)
+    expect(response.body.status).toStrictEqual('Unprocessable Entity')
+    expect(response.body.message).toStrictEqual(
+      'The request was well-formed but was unable to be followed due to semantic errors.',
+    )
+    expect(response.body.errors).toStrictEqual({
+      'examples.0.name': ['The examples.0.name field is required.'],
+      'examples.2.name': ['The examples.2.name field is required.'],
+    })
+
+    // expect recorded data
+    const exampleRecords = await DatabaseTestUtil.retrieveAll('examples')
+    expect(exampleRecords.data.length).toStrictEqual(0)
+  })
   it('should be able to create many examples', async () => {
     const data = [
       {
