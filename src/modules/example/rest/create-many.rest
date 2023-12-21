@@ -10,13 +10,15 @@ POST {{baseUrl}}/v1/examples/create-many HTTP/1.1
 Accept: application/json
 Content-Type: application/json
 
-[
-  {
-    "name": "{{name1}}",
-    "phone": "{{phone1}}"  
-  },
-  {
-    "name": "{{name2}}",
-    "phone": "{{phone2}}"  
-  }
-]
+{
+  "data": [
+    {
+      "name": "{{name1}}",
+      "phone": "{{phone1}}"  
+    },
+    {
+      "name": "{{name2}}",
+      "phone": "{{phone2}}"  
+    }
+  ]
+}

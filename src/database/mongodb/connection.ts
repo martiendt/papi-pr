@@ -14,7 +14,7 @@ import type {
   MongoClientOptions,
   UpdateOptions,
 } from 'mongodb'
-import { MongoClient, ObjectId } from 'mongodb'
+import { MongoClient, MongoServerError, ObjectId } from 'mongodb'
 
 import {
   IAggregateOutput,
@@ -32,6 +32,7 @@ import {
   IUpdateOutput,
 } from '@/interfaces/database.interface'
 
+import MongoErrorHandler from './mongodb-error-handler'
 import { replaceObjectIdToString, replaceStringToObjectId } from './mongodb-helper'
 import { fields, limit, page, skip, sort } from './mongodb-querystring'
 
@@ -170,21 +171,29 @@ export class MongoDBConnection implements IDatabase {
   }
 
   public async createMany(documents: IDocument[]): Promise<ICreateManyOutput> {
-    if (!this._collection) {
-      throw new Error('Collection not found')
-    }
+    try {
+      console.log('create-many-doc')
+      if (!this._collection) {
+        throw new Error('Collection not found')
+      }
 
-    const response = await this._collection.insertMany(documents)
+      const response = await this._collection.insertMany(documents)
 
-    // convert array of object to array of string
-    const insertedIds: string[] = []
-    Object.values(response.insertedIds).forEach((val) => {
-      insertedIds.push(val.toString())
-    })
-
-    return {
-      insertedIds: insertedIds,
-      insertedCount: response.insertedCount,
+      // convert array of object to array of string
+      const insertedIds: string[] = []
+      Object.values(response.insertedIds).forEach((val) => {
+        insertedIds.push(val.toString())
+      })
+      console.log('create-many-doc2')
+      return {
+        insertedIds: insertedIds,
+        insertedCount: response.insertedCount,
+      }
+    } catch (error) {
+      console.log('create-many-doc3')
+      console.log(error)
+    } finally {
+      console.log('finally')
     }
   }
 
@@ -259,21 +268,28 @@ export class MongoDBConnection implements IDatabase {
   }
 
   public async updateMany(filter: IDocument[], document: IDocument[], options?: any): Promise<IUpdateManyOutput> {
-    if (!this._collection) {
-      throw new Error('Collection not found')
-    }
+    try {
+      if (!this._collection) {
+        throw new Error('Collection not found')
+      }
 
-    const updateManyOptions = options as UpdateOptions
+      const updateManyOptions = options as UpdateOptions
 
-    const result = await this._collection.updateMany(
-      filter,
-      { $set: replaceStringToObjectId(document) },
-      updateManyOptions,
-    )
+      const result = await this._collection.updateMany(
+        filter,
+        { $set: replaceStringToObjectId(document) },
+        updateManyOptions,
+      )
 
-    return {
-      matchedCount: result.matchedCount,
-      modifiedCount: result.modifiedCount,
+      return {
+        matchedCount: result.matchedCount,
+        modifiedCount: result.modifiedCount,
+      }
+    } catch (error) {
+      if (error instanceof MongoServerError) {
+        throw new MongoErrorHandler(error)
+      }
+      throw error
     }
   }
 

@@ -7,6 +7,7 @@ import { UpdateManyRepository } from '../repositories/update-many.repository'
 import { UpdateManyExampleUseCase } from '../use-cases/update-many.use-case'
 
 export const updateManyExampleController: IController = async (controllerInput: IControllerInput) => {
+  console.log('update-many-controller')
   const repository = new UpdateManyRepository(controllerInput.dbConnection)
 
   const response = await new UpdateManyExampleUseCase(repository).handle({

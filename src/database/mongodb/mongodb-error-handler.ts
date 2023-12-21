@@ -2,8 +2,9 @@
 import { BaseError, find, type IError, type IHttpStatus } from '@point-hub/express-error-handler'
 import { MongoServerError } from 'mongodb'
 
-export default class MongoError extends BaseError {
+export default class MongoErrorHandler extends BaseError {
   constructor(err: MongoServerError) {
+    console.log('eroeqprjqephniqn ing')
     const error: IError = find(400) as IHttpStatus
     if (err.code === 121) {
       // handle schema validation error
@@ -43,6 +44,8 @@ export default class MongoError extends BaseError {
         error.errors = obj
       }
     }
+    console.log('y')
+    console.log(error)
     super(error)
   }
   get isOperational() {
