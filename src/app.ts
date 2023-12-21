@@ -6,6 +6,7 @@ import express from 'express'
 import helmet from 'helmet'
 
 import { IDatabase } from './interfaces/database.interface'
+import errorHandler from './middleware/error-handler.middleware'
 import router from './router'
 
 export interface IAppInput {
@@ -59,6 +60,8 @@ export const createApp = async (appInput: IAppInput) => {
   app.use('/', await router(appInput))
 
   app.use(invalidPathMiddleware)
+
+  app.use(errorHandler())
 
   app.use(errorHandlerMiddleware)
 
