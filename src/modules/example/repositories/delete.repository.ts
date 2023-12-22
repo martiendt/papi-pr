@@ -8,7 +8,7 @@ export class DeleteRepository implements IDeleteRepository {
 
   constructor(public database: IDatabase) {}
 
-  async handle(_id: string): Promise<IDeleteOutput> {
-    return await this.database.collection(this.collection).delete(_id)
+  async handle(_id: string, options?: unknown): Promise<IDeleteOutput> {
+    return await this.database.collection(this.collection).delete(_id, options)
   }
 }

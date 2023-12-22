@@ -8,7 +8,7 @@ export class RetrieveRepository implements IRetrieveRepository {
 
   constructor(public database: IDatabase) {}
 
-  async handle(_id: string): Promise<IRetrieveOutput> {
-    return await this.database.collection(this.collection).retrieve(_id)
+  async handle(_id: string, options?: unknown): Promise<IRetrieveOutput> {
+    return await this.database.collection(this.collection).retrieve(_id, options)
   }
 }

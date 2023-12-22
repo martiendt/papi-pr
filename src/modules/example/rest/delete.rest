@@ -1,8 +1,0 @@
-@baseUrl = http://localhost:3000
-
-###
-# @name deleteExample
-# @prompt id
-DELETE {{baseUrl}}/v1/examples/{{id}} HTTP/1.1
-Accept: application/json
-Content-Type: application/json

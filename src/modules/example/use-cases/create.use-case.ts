@@ -11,6 +11,7 @@ export interface IInput {
     cleanObject(object: object): object
     schemaValidation: ISchemaValidation
   }
+  session?: unknown
   data: {
     name?: string
     phone?: string
@@ -20,7 +21,7 @@ export interface IInput {
 export class CreateExampleUseCase implements IUseCase<IInput, ICreateOutput> {
   constructor(public repository: ICreateRepository) {}
 
-  async handle(input: IInput): Promise<ICreateOutput> {
+  async handle(input: IInput, options?: unknown): Promise<ICreateOutput> {
     const exampleEntity = new ExampleEntity({
       name: input.data.name,
       phone: input.data.phone,
@@ -28,6 +29,6 @@ export class CreateExampleUseCase implements IUseCase<IInput, ICreateOutput> {
     exampleEntity.generateCreatedDate()
     const cleanEntity = input.deps.cleanObject(exampleEntity.data)
     await input.deps.schemaValidation(cleanEntity, createValidation)
-    return await this.repository.handle(cleanEntity)
+    return await this.repository.handle(cleanEntity, options)
   }
 }

@@ -8,7 +8,7 @@ export class UpdateManyRepository implements IUpdateManyRepository {
 
   constructor(public database: IDatabase) {}
 
-  async handle(filter: IDocument, document: IDocument): Promise<IUpdateManyOutput> {
-    return await this.database.collection(this.collection).updateMany(filter, document)
+  async handle(filter: IDocument, document: IDocument, options?: unknown): Promise<IUpdateManyOutput> {
+    return await this.database.collection(this.collection).updateMany(filter, document, options)
   }
 }

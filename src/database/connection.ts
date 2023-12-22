@@ -15,6 +15,7 @@ import {
 } from '../interfaces/database.interface'
 
 export class DatabaseConnection implements IDatabase {
+  session: unknown
   constructor(public adapter: IDatabase) {}
   public async open(): Promise<void> {
     await this.adapter.open()
@@ -60,34 +61,34 @@ export class DatabaseConnection implements IDatabase {
   public async updateSchema(name: string, schema: unknown) {
     await this.adapter.updateSchema(name, schema)
   }
-  public async create(document: IDocument): Promise<ICreateOutput> {
-    return await this.adapter.create(document)
+  public async create(document: IDocument, options?: unknown): Promise<ICreateOutput> {
+    return await this.adapter.create(document, options)
   }
-  public async createMany(documents: IDocument[]): Promise<ICreateManyOutput> {
-    return await this.adapter.createMany(documents)
+  public async createMany(documents: IDocument[], options?: unknown): Promise<ICreateManyOutput> {
+    return await this.adapter.createMany(documents, options)
   }
-  public async retrieveAll(query: IQuery): Promise<IRetrieveAllOutput> {
-    return await this.adapter.retrieveAll(query)
+  public async retrieveAll(query: IQuery, options?: unknown): Promise<IRetrieveAllOutput> {
+    return await this.adapter.retrieveAll(query, options)
   }
-  public async retrieve(_id: string): Promise<IRetrieveOutput> {
-    return await this.adapter.retrieve(_id)
+  public async retrieve(_id: string, options?: unknown): Promise<IRetrieveOutput> {
+    return await this.adapter.retrieve(_id, options)
   }
-  public async update(_id: string, document: IDocument): Promise<IUpdateOutput> {
-    return await this.adapter.update(_id, document)
+  public async update(_id: string, document: IDocument, options?: unknown): Promise<IUpdateOutput> {
+    return await this.adapter.update(_id, document, options)
   }
-  public async updateMany(filter: IDocument, document: IDocument): Promise<IUpdateManyOutput> {
-    return await this.adapter.updateMany(filter, document)
+  public async updateMany(filter: IDocument, document: IDocument, options?: unknown): Promise<IUpdateManyOutput> {
+    return await this.adapter.updateMany(filter, document, options)
   }
-  public async delete(_id: string): Promise<IDeleteOutput> {
-    return await this.adapter.delete(_id)
+  public async delete(_id: string, options?: unknown): Promise<IDeleteOutput> {
+    return await this.adapter.delete(_id, options)
   }
-  public async deleteMany(_ids: string[]): Promise<IDeleteManyOutput> {
-    return await this.adapter.deleteMany(_ids)
+  public async deleteMany(_ids: string[], options?: unknown): Promise<IDeleteManyOutput> {
+    return await this.adapter.deleteMany(_ids, options)
   }
-  public async deleteAll(): Promise<IDeleteManyOutput> {
-    return await this.adapter.deleteAll()
+  public async deleteAll(options?: unknown): Promise<IDeleteManyOutput> {
+    return await this.adapter.deleteAll(options)
   }
-  public async aggregate(pipeline: IPipeline[], query: IQuery): Promise<IAggregateOutput> {
-    return await this.adapter.aggregate(pipeline, query)
+  public async aggregate(pipeline: IPipeline[], query: IQuery, options?: unknown): Promise<IAggregateOutput> {
+    return await this.adapter.aggregate(pipeline, query, options)
   }
 }

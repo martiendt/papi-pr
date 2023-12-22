@@ -8,7 +8,7 @@ export class CreateManyRepository implements ICreateManyRepository {
 
   constructor(public database: IDatabase) {}
 
-  async handle(documents: IDocument[]): Promise<ICreateManyOutput> {
-    return await this.database.collection(this.collection).createMany(documents)
+  async handle(documents: IDocument[], options?: unknown): Promise<ICreateManyOutput> {
+    return await this.database.collection(this.collection).createMany(documents, options)
   }
 }

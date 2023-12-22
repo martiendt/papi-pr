@@ -8,7 +8,7 @@ export class RetrieveAllRepository implements IRetrieveAllRepository {
 
   constructor(public database: IDatabase) {}
 
-  async handle(query: IQuery): Promise<IRetrieveAllOutput> {
-    return await this.database.collection(this.collection).retrieveAll(query)
+  async handle(query: IQuery, options?: unknown): Promise<IRetrieveAllOutput> {
+    return await this.database.collection(this.collection).retrieveAll(query, options)
   }
 }

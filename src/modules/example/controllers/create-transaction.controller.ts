@@ -7,19 +7,31 @@ import { CreateRepository } from '../repositories/create.repository'
 import { CreateExampleUseCase } from '../use-cases/create.use-case'
 
 export const createTransactionExampleController: IController = async (controllerInput: IControllerInput) => {
+  let session
   try {
-    const session = controllerInput.dbConnection.startSession()
-
+    session = controllerInput.dbConnection.startSession()
     session.startTransaction()
 
     const repository = new CreateRepository(controllerInput.dbConnection)
 
-    const response = await new CreateExampleUseCase(repository).handle({
-      deps: { cleanObject: objClean, schemaValidation },
-      data: controllerInput.httpRequest.body,
-    })
+    const response = await new CreateExampleUseCase(repository).handle(
+      {
+        deps: { cleanObject: objClean, schemaValidation },
+        data: controllerInput.httpRequest.body.data1,
+      },
+      { session },
+    )
 
-    await controllerInput.dbConnection.commitTransaction()
+    await new CreateExampleUseCase(repository).handle(
+      {
+        deps: { cleanObject: objClean, schemaValidation },
+        data: controllerInput.httpRequest.body.data2,
+      },
+      { session },
+    )
+
+    await session.commitTransaction()
+
     return {
       status: 201,
       json: {
@@ -27,11 +39,9 @@ export const createTransactionExampleController: IController = async (controller
       },
     }
   } catch (error) {
-    console.log('catch')
-    await controllerInput.dbConnection.abortTransaction()
+    await session?.abortTransaction()
     throw error
   } finally {
-    console.log('finally')
-    await controllerInput.dbConnection.endSession()
+    await session?.endSession()
   }
 }

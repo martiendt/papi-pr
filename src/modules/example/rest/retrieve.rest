@@ -1,8 +1,0 @@
-@baseUrl = http://localhost:3000
-
-###
-# @name retrieveExample
-# @prompt id
-GET {{baseUrl}}/v1/examples/{{id}} HTTP/1.1
-Accept: application/json
-Content-Type: application/json

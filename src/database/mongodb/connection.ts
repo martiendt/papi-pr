@@ -2,6 +2,7 @@
 import { Querystring } from '@point-hub/papi'
 import type {
   AggregateOptions,
+  BulkWriteOptions,
   ClientSession,
   Collection,
   CollectionOptions,
@@ -11,6 +12,7 @@ import type {
   DeleteOptions,
   FindOptions,
   IndexSpecification,
+  InsertOneOptions,
   MongoClientOptions,
   UpdateOptions,
 } from 'mongodb'
@@ -138,24 +140,28 @@ export class MongoDBConnection implements IDatabase {
     await this.session?.abortTransaction()
   }
 
-  public async create(document: IDocument): Promise<ICreateOutput> {
+  public async create(document: IDocument, options?: unknown): Promise<ICreateOutput> {
     if (!this._collection) {
       throw new Error('Collection not found')
     }
 
-    const response = await this._collection.insertOne(document)
+    const createOptions = options as InsertOneOptions
+
+    const response = await this._collection.insertOne(document, createOptions)
 
     return {
       insertedId: response.insertedId.toString(),
     }
   }
 
-  public async createMany(documents: IDocument[]): Promise<ICreateManyOutput> {
+  public async createMany(documents: IDocument[], options?: unknown): Promise<ICreateManyOutput> {
     if (!this._collection) {
       throw new Error('Collection not found')
     }
 
-    const response = await this._collection.insertMany(documents)
+    const createManyOptions = options as BulkWriteOptions
+
+    const response = await this._collection.insertMany(documents, createManyOptions)
 
     // convert array of object to array of string
     const insertedIds: string[] = []
@@ -173,6 +179,7 @@ export class MongoDBConnection implements IDatabase {
     if (!this._collection) {
       throw new Error('Collection not found')
     }
+
     const retrieveOptions = options as FindOptions
 
     const cursor = this._collection
@@ -208,6 +215,7 @@ export class MongoDBConnection implements IDatabase {
     }
 
     const retrieveOptions = options as FindOptions
+
     const result = await this._collection.findOne(
       {
         _id: new ObjectId(_id),

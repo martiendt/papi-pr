@@ -76,6 +76,7 @@ export interface IClientSession {
 }
 
 export interface IDatabase {
+  session: unknown
   open(): Promise<void>
   close(): Promise<void>
   database(name: string, options?: unknown): this
@@ -90,14 +91,14 @@ export interface IDatabase {
   createCollection(name: string, options?: unknown): Promise<void>
   dropCollection(name: string, options?: unknown): Promise<void>
   updateSchema(name: string, schema: unknown): Promise<void>
-  create(document: IDocument): Promise<ICreateOutput>
-  createMany(documents: IDocument[]): Promise<ICreateManyOutput>
-  retrieveAll(query: IQuery): Promise<IRetrieveAllOutput>
-  retrieve(_id: string): Promise<IRetrieveOutput>
-  update(_id: string, document: IDocument): Promise<IUpdateOutput>
-  updateMany(filter: IDocument, document: IDocument): Promise<IUpdateManyOutput>
-  delete(_id: string): Promise<IDeleteOutput>
-  deleteMany(_ids: string[]): Promise<IDeleteManyOutput>
-  deleteAll(): Promise<IDeleteManyOutput>
-  aggregate(pipeline: IPipeline, query: IQuery): Promise<IAggregateOutput>
+  create(document: IDocument, options?: unknown): Promise<ICreateOutput>
+  createMany(documents: IDocument[], options?: unknown): Promise<ICreateManyOutput>
+  retrieveAll(query: IQuery, options?: unknown): Promise<IRetrieveAllOutput>
+  retrieve(_id: string, options?: unknown): Promise<IRetrieveOutput>
+  update(_id: string, document: IDocument, options?: unknown): Promise<IUpdateOutput>
+  updateMany(filter: IDocument, document: IDocument, options?: unknown): Promise<IUpdateManyOutput>
+  delete(_id: string, options?: unknown): Promise<IDeleteOutput>
+  deleteMany(_ids: string[], options?: unknown): Promise<IDeleteManyOutput>
+  deleteAll(options?: unknown): Promise<IDeleteManyOutput>
+  aggregate(pipeline: IPipeline, query: IQuery, options?: unknown): Promise<IAggregateOutput>
 }

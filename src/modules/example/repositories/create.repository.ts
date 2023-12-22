@@ -8,7 +8,7 @@ export class CreateRepository implements ICreateRepository {
 
   constructor(public database: IDatabase) {}
 
-  async handle(document: IDocument): Promise<ICreateOutput> {
-    return await this.database.collection(this.collection).create(document)
+  async handle(document: IDocument, options?: unknown): Promise<ICreateOutput> {
+    return await this.database.collection(this.collection).create(document, options)
   }
 }

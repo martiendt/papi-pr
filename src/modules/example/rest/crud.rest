@@ -96,3 +96,24 @@ Content-Type: application/json
 {
   "ids": ["{{id1}}","{{id2}}"]
 }
+
+###
+# @name createTransactionExample
+# @prompt name1
+# @prompt phone1
+# @prompt name2
+# @prompt phone2
+POST {{baseUrl}}/v1/examples/transaction HTTP/1.1
+Accept: application/json
+Content-Type: application/json
+
+{
+  "data1": {
+    "name": "{{name1}}",
+    "phone": "{{phone1}}"  
+  },
+  "data2": {
+    "name": "{{name2}}",
+    "phone": "{{phone2}}"  
+  }
+}
