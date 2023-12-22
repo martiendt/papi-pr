@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { fileSearch } from '@point-hub/express-utils'
 import { Querystring } from '@point-hub/papi'
 import type {
   AggregateOptions,
@@ -100,24 +99,6 @@ export class MongoDBConnection implements IDatabase {
         $jsonSchema: schema,
       },
     })
-  }
-
-  public async createCollections(): Promise<void> {
-    const object = await fileSearch('schema.ts', './src/modules', { maxDeep: 2, regExp: true })
-    for (const property in object) {
-      const path = `../../modules/${object[property].path.replace('\\', '/')}`
-      const { createCollection } = await import(path)
-      await createCollection(this)
-    }
-  }
-
-  public async dropCollections(): Promise<void> {
-    const object = await fileSearch('schema.ts', './src/modules', { maxDeep: 2, regExp: true })
-    for (const property in object) {
-      const path = `../../modules/${object[property].path.replace('\\', '/')}`
-      const { dropCollection } = await import(path)
-      await dropCollection(this)
-    }
   }
 
   public async createCollection(name: string, options: any): Promise<void> {

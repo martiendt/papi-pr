@@ -39,7 +39,7 @@
     "@point-hub/express-error-handler": "^0.0.6",
     "@point-hub/express-factory": "^1.1.4",
     "@point-hub/express-utils": "^0.1.1",
-    "@point-hub/papi": "0.1.2",
+    "@point-hub/papi": "0.1.4",
     "compression": "^1.7.4",
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",

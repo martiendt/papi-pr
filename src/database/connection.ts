@@ -34,7 +34,7 @@ export class DatabaseConnection implements IDatabase {
     return this.adapter.listCollections()
   }
   public startSession() {
-    this.adapter.startSession()
+    return this.adapter.startSession()
   }
   public async endSession() {
     await this.adapter.endSession()
@@ -49,21 +49,13 @@ export class DatabaseConnection implements IDatabase {
     await this.adapter.abortTransaction()
   }
   public async createIndex(name: string, spec: unknown, options?: unknown) {
-    this.adapter.createIndex(name, spec, options)
+    await this.adapter.createIndex(name, spec, options)
   }
   public async createCollection(name: string, options?: unknown) {
     await this.adapter.createCollection(name, options)
   }
   public async dropCollection(name: string, options?: unknown) {
     await this.adapter.dropCollection(name, options)
-  }
-  // Create new collection if not exists and update schema validation or indexes
-  public async createCollections() {
-    await this.adapter.createCollections()
-  }
-  // Drop collections function is for testing purpose, so every test can generate fresh database
-  public async dropCollections() {
-    await this.adapter.dropCollections()
   }
   public async updateSchema(name: string, schema: unknown) {
     await this.adapter.updateSchema(name, schema)

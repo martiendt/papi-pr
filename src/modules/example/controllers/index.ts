@@ -1,5 +1,6 @@
 export { createExampleController } from './create.controller'
 export { createManyExampleController } from './create-many.controller'
+export { createTransactionExampleController } from './create-transaction.controller'
 export { deleteExampleController } from './delete.controller'
 export { deleteManyExampleController } from './delete-many.controller'
 export { retrieveExampleController } from './retrieve.controller'

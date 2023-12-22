@@ -68,20 +68,25 @@ export interface IAggregateOutput {
   }
 }
 
+export interface IClientSession {
+  startTransaction(options?: unknown): void
+  commitTransaction(): Promise<void>
+  abortTransaction(): Promise<void>
+  endSession(): Promise<void>
+}
+
 export interface IDatabase {
   open(): Promise<void>
   close(): Promise<void>
   database(name: string, options?: unknown): this
   collection(name: string, options?: unknown): this
   listCollections(): Promise<{ name: string }[]>
-  startSession(): unknown
+  startSession(): IClientSession
   endSession(): Promise<void>
   startTransaction(): void
   commitTransaction(): Promise<void>
   abortTransaction(): Promise<void>
   createIndex(name: string, spec: unknown, options?: unknown): Promise<void>
-  createCollections(): Promise<void>
-  dropCollections(): Promise<void>
   createCollection(name: string, options?: unknown): Promise<void>
   dropCollection(name: string, options?: unknown): Promise<void>
   updateSchema(name: string, schema: unknown): Promise<void>
