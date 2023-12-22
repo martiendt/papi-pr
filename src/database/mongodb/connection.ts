@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { fileSearch } from '@point-hub/express-utils'
+import { Querystring } from '@point-hub/papi'
 import type {
   AggregateOptions,
   ClientSession,
@@ -33,7 +34,6 @@ import {
 } from '@/interfaces/database.interface'
 
 import { replaceObjectIdToString, replaceStringToObjectId } from './mongodb-helper'
-import { fields, limit, page, skip, sort } from './mongodb-querystring'
 
 export class MongoDBConnection implements IDatabase {
   public client: MongoClient
@@ -196,15 +196,15 @@ export class MongoDBConnection implements IDatabase {
 
     const cursor = this._collection
       .find(replaceStringToObjectId(query.filter ?? {}), retrieveOptions)
-      .limit(limit(query.pageSize))
-      .skip(skip(page(query.page), limit(query.pageSize)))
+      .limit(Querystring.limit(query.pageSize))
+      .skip(Querystring.skip(Querystring.page(query.page), Querystring.limit(query.pageSize)))
 
-    if (query.sort && sort(query.sort)) {
-      cursor.sort(sort(query.sort))
+    if (query.sort && Querystring.sort(query.sort)) {
+      cursor.sort(Querystring.sort(query.sort))
     }
 
-    if (fields(query.fields, query.excludeFields)) {
-      cursor.project(fields(query.fields, query.excludeFields))
+    if (Querystring.fields(query.fields, query.excludeFields)) {
+      cursor.project(Querystring.fields(query.fields, query.excludeFields))
     }
     const result = await cursor.toArray()
 
@@ -213,9 +213,9 @@ export class MongoDBConnection implements IDatabase {
     return {
       data: replaceObjectIdToString(result) as unknown[] as IRetrieveOutput[],
       pagination: {
-        page: page(query.page),
-        pageCount: Math.ceil(totalDocument / limit(query.pageSize)),
-        pageSize: limit(query.pageSize),
+        page: Querystring.page(query.page),
+        pageCount: Math.ceil(totalDocument / Querystring.limit(query.pageSize)),
+        pageSize: Querystring.limit(query.pageSize),
         totalDocument,
       },
     }
@@ -331,16 +331,20 @@ export class MongoDBConnection implements IDatabase {
     const aggregateOptions = options as AggregateOptions
 
     const cursor = this._collection.aggregate(
-      [...pipeline, { $skip: (page(query.page) - 1) * limit(query.pageSize) }, { $limit: limit(query.pageSize) }],
+      [
+        ...pipeline,
+        { $skip: (Querystring.page(query.page) - 1) * Querystring.limit(query.pageSize) },
+        { $limit: Querystring.limit(query.pageSize) },
+      ],
       aggregateOptions,
     )
 
-    if (query.sort && sort(query.sort)) {
-      cursor.sort(sort(query.sort))
+    if (query.sort && Querystring.sort(query.sort)) {
+      cursor.sort(Querystring.sort(query.sort))
     }
 
-    if (fields(query.fields, query.excludeFields)) {
-      cursor.project(fields(query.fields, query.excludeFields))
+    if (Querystring.fields(query.fields, query.excludeFields)) {
+      cursor.project(Querystring.fields(query.fields, query.excludeFields))
     }
 
     const result = await cursor.toArray()
@@ -352,9 +356,9 @@ export class MongoDBConnection implements IDatabase {
     return {
       data: replaceObjectIdToString(result) as IRetrieveOutput[],
       pagination: {
-        page: page(query.page),
-        pageCount: Math.ceil(totalDocument / limit(query.pageSize)),
-        pageSize: limit(query.pageSize),
+        page: Querystring.page(query.page),
+        pageCount: Math.ceil(totalDocument / Querystring.limit(query.pageSize)),
+        pageSize: Querystring.limit(query.pageSize),
         totalDocument,
       },
     }
