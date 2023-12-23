@@ -12,10 +12,4 @@ export class ExampleEntity {
   public generateUpdatedDate() {
     this.data.updated_date = new Date()
   }
-
-  public static schema() {
-    return {
-      name: ['required'],
-    }
-  }
 }
