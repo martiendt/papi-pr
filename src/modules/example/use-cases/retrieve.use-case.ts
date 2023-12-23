@@ -5,11 +5,13 @@ import { IUseCase } from '@/interfaces/use-case.interface'
 export interface IInput {
   _id: string
 }
+export interface IDeps {}
+export interface IOptions {}
 
-export class RetrieveExampleUseCase implements IUseCase<IInput, IRetrieveOutput> {
+export class RetrieveExampleUseCase implements IUseCase<IInput, IDeps, IOptions, IRetrieveOutput> {
   constructor(public repository: IRetrieveRepository) {}
 
-  async handle(input: IInput): Promise<IRetrieveOutput> {
-    return await this.repository.handle(input._id)
+  async handle(input: IInput, deps: IDeps, options?: IOptions): Promise<IRetrieveOutput> {
+    return await this.repository.handle(input._id, options)
   }
 }

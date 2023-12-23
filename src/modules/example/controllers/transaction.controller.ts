@@ -6,27 +6,25 @@ import { schemaValidation } from '@/validation'
 import { CreateRepository } from '../repositories/create.repository'
 import { CreateExampleUseCase } from '../use-cases/create.use-case'
 
-export const createTransactionExampleController: IController = async (controllerInput: IControllerInput) => {
+export const transactionExampleController: IController = async (controllerInput: IControllerInput) => {
   let session
   try {
     session = controllerInput.dbConnection.startSession()
     session.startTransaction()
 
-    const repository = new CreateRepository(controllerInput.dbConnection)
+    const createRepository = new CreateRepository(controllerInput.dbConnection)
 
-    const response = await new CreateExampleUseCase(repository).handle(
-      {
-        deps: { cleanObject: objClean, schemaValidation },
-        data: controllerInput.httpRequest.body.data1,
-      },
+    // create data 1
+    const response = await new CreateExampleUseCase(createRepository).handle(
+      controllerInput.httpRequest.body.data1,
+      { cleanObject: objClean, schemaValidation },
       { session },
     )
 
-    await new CreateExampleUseCase(repository).handle(
-      {
-        deps: { cleanObject: objClean, schemaValidation },
-        data: controllerInput.httpRequest.body.data2,
-      },
+    // create data 2
+    await new CreateExampleUseCase(createRepository).handle(
+      controllerInput.httpRequest.body.data2,
+      { cleanObject: objClean, schemaValidation },
       { session },
     )
 

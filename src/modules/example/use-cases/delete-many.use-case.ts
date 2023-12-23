@@ -6,19 +6,22 @@ import { ISchemaValidation } from '@/validation'
 import { deleteManyValidation } from '../validations/delete-many.validation'
 
 export interface IInput {
-  deps: {
-    schemaValidation: ISchemaValidation
-  }
-  data: {
-    ids: string[]
-  }
+  ids: string[]
+}
+export interface IDeps {
+  schemaValidation: ISchemaValidation
+}
+export interface IOptions {
+  session?: unknown
 }
 
-export class DeleteManyExampleUseCase implements IUseCase<IInput, IDeleteManyOutput> {
+export class DeleteManyExampleUseCase implements IUseCase<IInput, IDeps, IOptions, IDeleteManyOutput> {
   constructor(public repository: IDeleteManyRepository) {}
 
-  async handle(input: IInput): Promise<IDeleteManyOutput> {
-    await input.deps.schemaValidation(input.data, deleteManyValidation)
-    return await this.repository.handle(input.data.ids)
+  async handle(input: IInput, deps: IDeps, options?: IOptions): Promise<IDeleteManyOutput> {
+    // 1. validate schema
+    await deps.schemaValidation(input, deleteManyValidation)
+    // 2. database operation
+    return await this.repository.handle(input.ids, options)
   }
 }

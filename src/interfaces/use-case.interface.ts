@@ -1,3 +1,3 @@
-export interface IUseCase<TInput, TOutput> {
-  handle(input: TInput): Promise<TOutput>
+export interface IUseCase<TInput, TDeps, TOptions, TOutput> {
+  handle(input: TInput, deps: TDeps, options?: TOptions): Promise<TOutput>
 }

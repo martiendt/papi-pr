@@ -7,28 +7,31 @@ import { ExampleEntity } from '../entity'
 import { createValidation } from '../validations/create.validation'
 
 export interface IInput {
-  deps: {
-    cleanObject(object: object): object
-    schemaValidation: ISchemaValidation
-  }
+  name?: string
+  phone?: string
+}
+export interface IDeps {
+  cleanObject(object: object): object
+  schemaValidation: ISchemaValidation
+}
+export interface IOptions {
   session?: unknown
-  data: {
-    name?: string
-    phone?: string
-  }
 }
 
-export class CreateExampleUseCase implements IUseCase<IInput, ICreateOutput> {
+export class CreateExampleUseCase implements IUseCase<IInput, IDeps, IOptions, ICreateOutput> {
   constructor(public repository: ICreateRepository) {}
 
-  async handle(input: IInput, options?: unknown): Promise<ICreateOutput> {
+  async handle(input: IInput, deps: IDeps, options?: IOptions): Promise<ICreateOutput> {
+    // 1. define entity
     const exampleEntity = new ExampleEntity({
-      name: input.data.name,
-      phone: input.data.phone,
+      name: input.name,
+      phone: input.phone,
     })
     exampleEntity.generateCreatedDate()
-    const cleanEntity = input.deps.cleanObject(exampleEntity.data)
-    await input.deps.schemaValidation(cleanEntity, createValidation)
+    const cleanEntity = deps.cleanObject(exampleEntity.data)
+    // 2. validate schema
+    await deps.schemaValidation(cleanEntity, createValidation)
+    // 3. database operation
     return await this.repository.handle(cleanEntity, options)
   }
 }
