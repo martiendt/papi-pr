@@ -1,12 +1,12 @@
-import { ExpressCli } from '@point-hub/express-cli'
 import { fileSearch } from '@point-hub/express-utils'
+import { BaseConsoleCli } from '@point-hub/papi'
 import { fileURLToPath, URL } from 'url'
 
 export class ConsoleKernel {
   public path = fileURLToPath(new URL('.', import.meta.url))
-  private command: ExpressCli
+  private command: BaseConsoleCli
 
-  constructor(command: ExpressCli) {
+  constructor(command: BaseConsoleCli) {
     this.command = command
   }
 

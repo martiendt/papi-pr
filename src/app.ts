@@ -1,4 +1,4 @@
-import { errorHandlerMiddleware, invalidPathMiddleware } from '@point-hub/express-error-handler'
+import { BaseErrorHandler } from '@point-hub/papi'
 import compression from 'compression'
 import cookieParser from 'cookie-parser'
 import cors from 'cors'
@@ -59,11 +59,11 @@ export const createApp = async (appInput: IAppInput) => {
    */
   app.use('/', await router(appInput))
 
-  app.use(invalidPathMiddleware)
+  app.use(BaseErrorHandler.invalidPathMiddleware)
 
   app.use(errorHandler())
 
-  app.use(errorHandlerMiddleware)
+  app.use(BaseErrorHandler.errorHandlerMiddleware)
 
   return app
 }

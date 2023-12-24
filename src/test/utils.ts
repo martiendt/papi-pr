@@ -1,5 +1,5 @@
 import { fileSearch } from '@point-hub/express-utils'
-import { MongoDBConnection, MongoDBHelper, Querystring } from '@point-hub/papi'
+import { BaseMongoDBConnection, BaseMongoDBHelper, BaseMongoDBQuerystring } from '@point-hub/papi'
 import { MongoMemoryReplSet } from 'mongodb-memory-server'
 
 import { IDatabase, IQuery } from '@/interfaces/database.interface'
@@ -8,7 +8,7 @@ const mongod = await MongoMemoryReplSet.create({ replSet: { count: 3 } })
 const uri = mongod.getUri()
 
 export class DatabaseTestUtil {
-  public static dbConnection: IDatabase = new MongoDBConnection(uri, 'api_test')
+  public static dbConnection: IDatabase = new BaseMongoDBConnection(uri, 'api_test')
 
   static async open() {
     await DatabaseTestUtil.dbConnection.open()
@@ -20,7 +20,7 @@ export class DatabaseTestUtil {
   }
 
   static async createCollections() {
-    const helper = new MongoDBHelper(DatabaseTestUtil.dbConnection)
+    const helper = new BaseMongoDBHelper(DatabaseTestUtil.dbConnection)
     const object = await fileSearch('schema.ts', './src/modules', { maxDeep: 2, regExp: true })
     for (const property in object) {
       const path = `../modules/${object[property].path.replace('\\', '/')}`
@@ -37,14 +37,17 @@ export class DatabaseTestUtil {
         for (const unique of iterator.unique) {
           if (unique.length) {
             console.info(`[schema] ${iterator.collection} - create unique attribute "name"`)
-            await helper.createUnique(iterator.collection, Querystring.convertArrayToObject(unique, -1))
+            await helper.createUnique(iterator.collection, BaseMongoDBQuerystring.convertArrayToObject(unique, -1))
           }
         }
 
         for (const unique of iterator.uniqueIfExists) {
           if (unique.length) {
             console.info(`[schema] ${iterator.collection} - create unique attribute "name"`)
-            await helper.createUniqueIfNotNull(iterator.collection, Querystring.convertArrayToObject(unique, -1))
+            await helper.createUniqueIfNotNull(
+              iterator.collection,
+              BaseMongoDBQuerystring.convertArrayToObject(unique, -1),
+            )
           }
         }
       }

@@ -1,10 +1,15 @@
-import { BaseCommand } from '@point-hub/express-cli'
 import { fileSearch } from '@point-hub/express-utils'
-import { DatabaseConnection, MongoDBConnection, MongoDBHelper, Querystring } from '@point-hub/papi'
+import {
+  BaseConsoleCommand,
+  BaseDatabaseConnection,
+  BaseMongoDBConnection,
+  BaseMongoDBHelper,
+  BaseMongoDBQuerystring,
+} from '@point-hub/papi'
 
 import mongoDBConfig from '@/config/mongodb'
 
-export default class DbInitCommand extends BaseCommand {
+export default class DbInitCommand extends BaseConsoleCommand {
   constructor() {
     super({
       name: 'db:init',
@@ -16,10 +21,10 @@ export default class DbInitCommand extends BaseCommand {
   }
 
   async handle(): Promise<void> {
-    const dbConnection = new DatabaseConnection(new MongoDBConnection(mongoDBConfig.url, mongoDBConfig.name))
+    const dbConnection = new BaseDatabaseConnection(new BaseMongoDBConnection(mongoDBConfig.url, mongoDBConfig.name))
     try {
       await dbConnection.open()
-      const helper = new MongoDBHelper(dbConnection)
+      const helper = new BaseMongoDBHelper(dbConnection)
       const object = await fileSearch('schema.ts', './src/modules', { maxDeep: 2, regExp: true })
       for (const property in object) {
         const path = `../../../modules/${object[property].path.replace('\\', '/')}`
@@ -36,14 +41,17 @@ export default class DbInitCommand extends BaseCommand {
           for (const unique of iterator.unique) {
             if (unique.length) {
               console.info(`[schema] ${iterator.collection} - create unique attribute "name"`)
-              await helper.createUnique(iterator.collection, Querystring.convertArrayToObject(unique, -1))
+              await helper.createUnique(iterator.collection, BaseMongoDBQuerystring.convertArrayToObject(unique, -1))
             }
           }
 
           for (const unique of iterator.uniqueIfExists) {
             if (unique.length) {
               console.info(`[schema] ${iterator.collection} - create unique attribute "name"`)
-              await helper.createUniqueIfNotNull(iterator.collection, Querystring.convertArrayToObject(unique, -1))
+              await helper.createUniqueIfNotNull(
+                iterator.collection,
+                BaseMongoDBQuerystring.convertArrayToObject(unique, -1),
+              )
             }
           }
         }

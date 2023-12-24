@@ -1,4 +1,4 @@
-import { ApiError } from '@point-hub/express-error-handler'
+import { BaseErrorHandler } from '@point-hub/papi'
 import Validatorjs from 'validatorjs'
 
 import { IDocument } from '@/interfaces/database.interface'
@@ -12,6 +12,6 @@ export const schemaValidation: ISchemaValidation = async (document, schema) => {
   const validation = new Validatorjs(document, schema)
 
   if (validation.fails()) {
-    throw new ApiError(422, validation.errors.errors)
+    throw new BaseErrorHandler.ApiError(422, validation.errors.errors)
   }
 }
