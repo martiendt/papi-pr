@@ -1,8 +1,7 @@
 import { BaseCommand } from '@point-hub/express-cli'
+import { DatabaseConnection, MongoDBConnection } from '@point-hub/papi'
 
 import mongoDBConfig from '@/config/mongodb'
-import { DatabaseConnection } from '@/database/connection'
-import { MongoDBConnection } from '@/database/mongodb/connection'
 
 export default class DbSeedCommand extends BaseCommand {
   dbConnection = new DatabaseConnection(new MongoDBConnection(mongoDBConfig.url, mongoDBConfig.name))

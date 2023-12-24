@@ -22,6 +22,7 @@ export const updateExampleController: IController = async (controllerInput: ICon
       },
       { cleanObject: objClean, schemaValidation },
     )
+    await session.commitTransaction()
     // 4. return response to client
     return {
       status: 200,

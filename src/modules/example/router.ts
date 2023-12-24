@@ -71,7 +71,7 @@ const makeRouter = async (routerInput: IRouterInput) => {
   router.post(
     '/transaction',
     await makeController({
-      controller: controller.createTransactionExampleController,
+      controller: controller.transactionExampleController,
       dbConnection: routerInput.dbConnection,
     }),
   )

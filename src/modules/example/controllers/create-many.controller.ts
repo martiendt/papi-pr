@@ -16,10 +16,11 @@ export const createManyExampleController: IController = async (controllerInput: 
     const repository = new CreateManyRepository(controllerInput.dbConnection)
     // 3. handle business rules
     const response = await new CreateManyExampleUseCase(repository).handle(
-      { examples: controllerInput.httpRequest.body },
+      controllerInput.httpRequest.body,
       { cleanObject: objClean, schemaValidation },
       { session },
     )
+    await session.commitTransaction()
     // 4. return response to client
     return {
       status: 201,

@@ -23,6 +23,7 @@ export const createExampleController: IController = async (controllerInput: ICon
       },
       { session },
     )
+    await session.commitTransaction()
     // 4. return response to client
     return {
       status: 201,

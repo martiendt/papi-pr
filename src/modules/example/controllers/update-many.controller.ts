@@ -7,22 +7,37 @@ import { UpdateManyRepository } from '../repositories/update-many.repository'
 import { UpdateManyExampleUseCase } from '../use-cases/update-many.use-case'
 
 export const updateManyExampleController: IController = async (controllerInput: IControllerInput) => {
-  const repository = new UpdateManyRepository(controllerInput.dbConnection)
-
-  const response = await new UpdateManyExampleUseCase(repository).handle({
-    deps: {
-      cleanObject: objClean,
-      schemaValidation,
-    },
-    filter: controllerInput.httpRequest.body.filter,
-    data: controllerInput.httpRequest.body.data,
-  })
-
-  return {
-    status: 200,
-    json: {
-      matchedCount: response.matchedCount,
-      modifiedCount: response.modifiedCount,
-    },
+  let session
+  try {
+    // 1. start session for transactional
+    session = controllerInput.dbConnection.startSession()
+    session.startTransaction()
+    // 2. define repository
+    const repository = new UpdateManyRepository(controllerInput.dbConnection)
+    // 3. handle business rules
+    const response = await new UpdateManyExampleUseCase(repository).handle(
+      {
+        filter: controllerInput.httpRequest.body.filter,
+        data: controllerInput.httpRequest.body.data,
+      },
+      {
+        cleanObject: objClean,
+        schemaValidation,
+      },
+    )
+    await session.commitTransaction()
+    // 4. return response to client
+    return {
+      status: 200,
+      json: {
+        matchedCount: response.matchedCount,
+        modifiedCount: response.modifiedCount,
+      },
+    }
+  } catch (error) {
+    await session?.abortTransaction()
+    throw error
+  } finally {
+    await session?.endSession()
   }
 }

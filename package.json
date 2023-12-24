@@ -6,7 +6,7 @@
   "scripts": {
     "start": "cross-env NODE_ENV=production bun run src/index.ts",
     "check-types": "tsc -p tsconfig.json",
-    "dev": "cross-env NODE_ENV=development bun run --watch src/index.ts",
+    "dev": "cross-env NODE_ENV=development bun run src/index.ts",
     "lint": "eslint . --ext .ts,.js,.cjs",
     "lint:fix": "npm run lint -- --fix",
     "prepare": "husky install"
@@ -39,7 +39,6 @@
     "@point-hub/express-error-handler": "^0.0.6",
     "@point-hub/express-factory": "^1.1.4",
     "@point-hub/express-utils": "^0.1.1",
-    "@point-hub/papi": "0.1.4",
     "compression": "^1.7.4",
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",

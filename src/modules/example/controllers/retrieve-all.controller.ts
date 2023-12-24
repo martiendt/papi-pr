@@ -16,6 +16,7 @@ export const retrieveAllExampleController: IController = async (controllerInput:
       { query: controllerInput.httpRequest.query },
       {},
     )
+    await session.commitTransaction()
     // 4. return response to client
     return {
       status: 200,

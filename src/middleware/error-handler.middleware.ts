@@ -1,12 +1,12 @@
+import { MongoErrorHandler } from '@point-hub/papi'
 import { NextFunction, Request, Response } from 'express'
 import { MongoServerError } from 'mongodb'
 
-import MongoErrorHandler from '@/database/mongodb/mongodb-error-handler'
-
 export default function errorHandler() {
   return (err: Error, req: Request, res: Response, next: NextFunction) => {
-    if (err instanceof MongoServerError) {
-      throw new MongoErrorHandler(err)
+    console.info(err.name)
+    if (err.name === 'MongoServerError') {
+      err = new MongoErrorHandler(err as MongoServerError)
     }
     next(err)
   }

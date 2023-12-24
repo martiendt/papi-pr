@@ -1,11 +1,8 @@
 import { BaseCommand } from '@point-hub/express-cli'
 import { fileSearch } from '@point-hub/express-utils'
-import { Querystring } from '@point-hub/papi'
+import { DatabaseConnection, MongoDBConnection, MongoDBHelper, Querystring } from '@point-hub/papi'
 
 import mongoDBConfig from '@/config/mongodb'
-import { DatabaseConnection } from '@/database/connection'
-import { MongoDBConnection } from '@/database/mongodb/connection'
-import { MongoDBHelper } from '@/database/mongodb/mongodb-helper'
 
 export default class DbInitCommand extends BaseCommand {
   constructor() {

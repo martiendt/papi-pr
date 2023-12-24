@@ -18,6 +18,7 @@ export const deleteManyExampleController: IController = async (controllerInput: 
       { schemaValidation },
       { session },
     )
+    await session.commitTransaction()
     // 4. return response to client
     return {
       status: 200,

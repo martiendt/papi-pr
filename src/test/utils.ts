@@ -1,9 +1,7 @@
 import { fileSearch } from '@point-hub/express-utils'
-import { Querystring } from '@point-hub/papi'
+import { MongoDBConnection, MongoDBHelper, Querystring } from '@point-hub/papi'
 import { MongoMemoryReplSet } from 'mongodb-memory-server'
 
-import { MongoDBConnection } from '@/database/mongodb/connection'
-import { MongoDBHelper } from '@/database/mongodb/mongodb-helper'
 import { IDatabase, IQuery } from '@/interfaces/database.interface'
 
 const mongod = await MongoMemoryReplSet.create({ replSet: { count: 3 } })
