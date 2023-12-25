@@ -23,21 +23,26 @@ PAPI-STARTER
 ├── src
 │   ├── assets
 │   ├── config
+│   ├── console
 │   ├── database
-│   ├── middleware
 │   ├── modules
 │   │   └── example
-│   │       ├── controller
-│   │       ├── model
-│   │       ├── use-case
-│   │       ├── validation
-│   │       └── router.ts
-│   ├── services
+│   │       ├── controllers
+│   │       ├── repositories
+│   │       ├── rest
+│   │       ├── use-cases
+│   │       ├── validations
+│   │       ├── entity.ts
+│   │       ├── factory.ts
+│   │       ├── interface.ts
+│   │       ├── router.ts
+│   │       ├── schema.ts
+│   │       └── seed.ts
 │   └── test
 │       ├── setup.ts
-│       ├── teardown.ts
 │       └── utils.ts
 ├── .env.example
+├── .env.test.example
 ├── .cli.ts
 └── README.md
 ```
@@ -81,12 +86,6 @@ bun cli db:seed
 ```
 
 ### Testing
-
-Setup Database Schema
-
-```bash
-bun cli db:init --db-name="starterTestDB"
-```
 
 Testing all test case
 
