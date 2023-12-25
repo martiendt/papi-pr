@@ -1,10 +1,10 @@
 import { faker } from '@faker-js/faker'
+import { DatabaseTestUtil } from '@point-hub/papi'
 import { beforeEach, describe, expect, it } from 'bun:test'
 import { isValid } from 'date-fns'
 import request from 'supertest'
 
 import { createApp } from '@/app'
-import { DatabaseTestUtil } from '@/test/utils'
 
 import ExampleFactory from '../factory'
 

@@ -6,9 +6,11 @@
  * https://www.mongodb.com/developer/products/mongodb/mongodb-schema-design-best-practices/
  */
 
+import type { ISchema } from '@point-hub/papi'
+
 import { collectionName } from './entity'
 
-export const schema = [
+export const schema: ISchema[] = [
   {
     collection: collectionName,
     required: ['name'],

@@ -4,7 +4,7 @@
 // import request from 'supertest'
 
 // import { createApp } from '@/app'
-// import { DatabaseTestUtil } from '@/test/utils'
+// import { DatabaseTestUtil } from '@point-hub/papi'
 
 // describe('create an example', async () => {
 //   const app = await createApp({ dbConnection: DatabaseTestUtil.dbConnection })

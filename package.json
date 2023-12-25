@@ -35,9 +35,8 @@
     "typescript": "^5.0.0"
   },
   "dependencies": {
-    "@point-hub/express-factory": "^1.1.4",
     "@point-hub/express-utils": "^0.1.1",
-    "@point-hub/papi": "^0.1.12",
+    "@point-hub/papi": "0.1.15",
     "compression": "^1.7.4",
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
