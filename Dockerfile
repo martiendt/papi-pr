@@ -1,4 +1,4 @@
-FROM node:20
+FROM node:lts-bullseye
 RUN npm install -g bun
 ENV NODE_ENV=test
 USER node
