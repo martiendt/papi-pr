@@ -1,12 +1,5 @@
+import { IHttpRequest, IMakeControllerInput } from '@point-hub/papi'
 import { NextFunction, Request, Response } from 'express'
-
-import { IController, IHttpRequest } from './interfaces/controller.interface'
-import { IDatabase } from './interfaces/database.interface'
-
-export interface IMakeControllerInput {
-  controller: IController
-  dbConnection: IDatabase
-}
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const makeController = async (makeControllerInput: IMakeControllerInput) => {

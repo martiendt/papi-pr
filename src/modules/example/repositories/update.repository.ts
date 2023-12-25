@@ -1,5 +1,4 @@
-import { IDatabase, IDocument, IUpdateOutput } from '@/interfaces/database.interface'
-import { IUpdateRepository } from '@/interfaces/repository/update.interface'
+import type { IDatabase, IDocument, IUpdateOutput, IUpdateRepository } from '@point-hub/papi'
 
 import { collectionName } from '../entity'
 

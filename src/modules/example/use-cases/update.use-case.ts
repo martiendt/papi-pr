@@ -1,7 +1,4 @@
-import { IUpdateOutput } from '@/interfaces/database.interface'
-import { IUpdateRepository } from '@/interfaces/repository/update.interface'
-import { IUseCase } from '@/interfaces/use-case.interface'
-import { ISchemaValidation } from '@/validation'
+import type { ISchemaValidation, IUpdateOutput, IUpdateRepository, IUseCase } from '@point-hub/papi'
 
 import { ExampleEntity } from '../entity'
 import { updateValidation } from '../validations/update.validation'

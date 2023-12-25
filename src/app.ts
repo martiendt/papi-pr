@@ -1,3 +1,4 @@
+import type { IBaseRouterInput } from '@point-hub/papi'
 import { BaseErrorHandler } from '@point-hub/papi'
 import compression from 'compression'
 import cookieParser from 'cookie-parser'
@@ -5,15 +6,10 @@ import cors from 'cors'
 import express from 'express'
 import helmet from 'helmet'
 
-import { IDatabase } from './interfaces/database.interface'
 import errorHandler from './middleware/error-handler.middleware'
 import router from './router'
 
-export interface IAppInput {
-  dbConnection: IDatabase
-}
-
-export const createApp = async (appInput: IAppInput) => {
+export const createApp = async (appInput: IBaseRouterInput) => {
   const app = express()
 
   /**

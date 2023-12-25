@@ -1,7 +1,4 @@
-import { ICreateOutput } from '@/interfaces/database.interface'
-import { ICreateRepository } from '@/interfaces/repository/create.interface'
-import { IUseCase } from '@/interfaces/use-case.interface'
-import { ISchemaValidation } from '@/validation'
+import type { ICreateOutput, ICreateRepository, ISchemaValidation, IUseCase } from '@point-hub/papi'
 
 import { ExampleEntity } from '../entity'
 import { createValidation } from '../validations/create.validation'

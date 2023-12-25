@@ -1,5 +1,4 @@
-import { IDatabase, IDeleteManyOutput } from '@/interfaces/database.interface'
-import { IDeleteManyRepository } from '@/interfaces/repository/delete-many.interface'
+import type { IDatabase, IDeleteManyOutput, IDeleteManyRepository } from '@point-hub/papi'
 
 import { collectionName } from '../entity'
 

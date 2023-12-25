@@ -1,8 +1,7 @@
 import { fileSearch } from '@point-hub/express-utils'
+import type { IDatabase, IQuery } from '@point-hub/papi'
 import { BaseMongoDBConnection, BaseMongoDBHelper, BaseMongoDBQuerystring } from '@point-hub/papi'
 import { MongoMemoryReplSet } from 'mongodb-memory-server'
-
-import { IDatabase, IQuery } from '@/interfaces/database.interface'
 
 const mongod = await MongoMemoryReplSet.create({ replSet: { count: 3 } })
 const uri = mongod.getUri()

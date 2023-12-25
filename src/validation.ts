@@ -1,7 +1,5 @@
-import { BaseErrorHandler } from '@point-hub/papi'
+import { BaseErrorHandler, type IDocument } from '@point-hub/papi'
 import Validatorjs from 'validatorjs'
-
-import { IDocument } from '@/interfaces/database.interface'
 
 export interface ISchemaValidation {
   (document: IDocument, schema: IDocument): Promise<void>

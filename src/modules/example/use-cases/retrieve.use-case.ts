@@ -1,6 +1,4 @@
-import { IRetrieveOutput } from '@/interfaces/database.interface'
-import { IRetrieveRepository } from '@/interfaces/repository/retrieve.interface'
-import { IUseCase } from '@/interfaces/use-case.interface'
+import type { IRetrieveOutput, IRetrieveRepository, IUseCase } from '@point-hub/papi'
 
 export interface IInput {
   _id: string

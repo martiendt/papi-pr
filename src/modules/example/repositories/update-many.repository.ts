@@ -1,5 +1,4 @@
-import { IDatabase, IDocument, IUpdateManyOutput } from '@/interfaces/database.interface'
-import { IUpdateManyRepository } from '@/interfaces/repository/update-many.interface'
+import type { IDatabase, IDocument, IUpdateManyOutput, IUpdateManyRepository } from '@point-hub/papi'
 
 import { collectionName } from '../entity'
 

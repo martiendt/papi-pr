@@ -1,5 +1,4 @@
-import { IDatabase, IQuery, IRetrieveAllOutput } from '@/interfaces/database.interface'
-import { IRetrieveAllRepository } from '@/interfaces/repository/retrieve-all.interface'
+import type { IDatabase, IQuery, IRetrieveAllOutput, IRetrieveAllRepository } from '@point-hub/papi'
 
 import { collectionName } from '../entity'
 

@@ -1,7 +1,5 @@
-import { BaseServer } from '@point-hub/papi'
+import { BaseServer, type IServerConfig } from '@point-hub/papi'
 import { Express } from 'express'
-
-import { IServerConfig } from './config/server'
 
 /**
  * Create server and listen for connections.

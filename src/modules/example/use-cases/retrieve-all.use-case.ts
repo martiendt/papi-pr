@@ -1,6 +1,4 @@
-import { IQuery, IRetrieveAllOutput } from '@/interfaces/database.interface'
-import { IRetrieveAllRepository } from '@/interfaces/repository/retrieve-all.interface'
-import { IUseCase } from '@/interfaces/use-case.interface'
+import type { IQuery, IRetrieveAllOutput, IRetrieveAllRepository, IUseCase } from '@point-hub/papi'
 
 export interface IInput {
   query: IQuery

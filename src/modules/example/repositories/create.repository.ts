@@ -1,5 +1,4 @@
-import { ICreateOutput, IDatabase, IDocument } from '@/interfaces/database.interface'
-import { ICreateRepository } from '@/interfaces/repository/create.interface'
+import type { ICreateOutput, ICreateRepository, IDatabase, IDocument } from '@point-hub/papi'
 
 import { collectionName } from '../entity'
 

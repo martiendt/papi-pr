@@ -1,7 +1,4 @@
-import { IDeleteOutput } from '@/interfaces/database.interface'
-import { IDeleteRepository } from '@/interfaces/repository/delete.interface'
-import { IUseCase } from '@/interfaces/use-case.interface'
-import { ISchemaValidation } from '@/validation'
+import type { IDeleteOutput, IDeleteRepository, ISchemaValidation, IUseCase } from '@point-hub/papi'
 
 import { deleteValidation } from '../validations/delete.validation'
 

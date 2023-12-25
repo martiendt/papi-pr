@@ -1,11 +1,7 @@
+import type { IBaseRouterInput } from '@point-hub/papi'
 import express, { Express } from 'express'
 
-import { IDatabase } from './interfaces/database.interface'
 import exampleRouter from './modules/example/router'
-
-export interface IBaseRouterInput {
-  dbConnection: IDatabase
-}
 
 export default async function (baseRouterInput: IBaseRouterInput) {
   const app: Express = express()

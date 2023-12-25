@@ -1,7 +1,4 @@
-import { ICreateManyOutput } from '@/interfaces/database.interface'
-import { ICreateManyRepository } from '@/interfaces/repository/create-many.interface'
-import { IUseCase } from '@/interfaces/use-case.interface'
-import { ISchemaValidation } from '@/validation'
+import type { ICreateManyOutput, ICreateManyRepository, ISchemaValidation, IUseCase } from '@point-hub/papi'
 
 import { ExampleEntity } from '../entity'
 import { createManyValidation } from '../validations/create-many.validation'

@@ -1,7 +1,6 @@
 import { faker } from '@faker-js/faker'
 import Factory from '@point-hub/express-factory'
-
-import { IDatabase } from '@/interfaces/database.interface'
+import type { IDatabase } from '@point-hub/papi'
 
 import { IExampleEntity } from './interface'
 import { CreateRepository } from './repositories/create.repository'
