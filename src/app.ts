@@ -6,7 +6,6 @@ import cors from 'cors'
 import express from 'express'
 import helmet from 'helmet'
 
-import errorHandler from './middleware/error-handler.middleware'
 import router from './router'
 
 export const createApp = async (appInput: IBaseRouterInput) => {
@@ -57,7 +56,7 @@ export const createApp = async (appInput: IBaseRouterInput) => {
 
   app.use(BaseErrorHandler.invalidPathMiddleware)
 
-  app.use(errorHandler())
+  app.use(BaseErrorHandler.mongodbErrorHandlerMiddleware())
 
   app.use(BaseErrorHandler.errorHandlerMiddleware)
 

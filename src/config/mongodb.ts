@@ -1,7 +1,4 @@
-export interface IMongoDBConfig {
-  url: string
-  name: string
-}
+import { type IMongoDBConfig } from '@point-hub/papi'
 
 export const url = `${process.env.DATABASE_URL}`
 export const name = `${process.env.DATABASE_NAME}`

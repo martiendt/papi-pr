@@ -1,4 +1,5 @@
-import { IController, IControllerInput } from '@/interfaces/controller.interface'
+import type { IController, IControllerInput } from '@point-hub/papi'
+
 import { schemaValidation } from '@/validation'
 
 import { DeleteRepository } from '../repositories/delete.repository'

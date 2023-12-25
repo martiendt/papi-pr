@@ -1,4 +1,4 @@
-import { IController, IControllerInput } from '@/interfaces/controller.interface'
+import type { IController, IControllerInput } from '@point-hub/papi'
 
 import { RetrieveRepository } from '../repositories/retrieve.repository'
 import { RetrieveExampleUseCase } from '../use-cases/retrieve.use-case'

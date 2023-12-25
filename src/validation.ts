@@ -1,12 +1,8 @@
-import { BaseErrorHandler, type IDocument } from '@point-hub/papi'
+import { BaseErrorHandler, type IDocument, type ISchemaValidation } from '@point-hub/papi'
 import Validatorjs from 'validatorjs'
 
-export interface ISchemaValidation {
-  (document: IDocument, schema: IDocument): Promise<void>
-}
-
 // https://github.com/mikeerickson/validatorjs
-export const schemaValidation: ISchemaValidation = async (document, schema) => {
+export const schemaValidation: ISchemaValidation = async (document: IDocument, schema: IDocument) => {
   const validation = new Validatorjs(document, schema)
 
   if (validation.fails()) {

@@ -1,7 +1,4 @@
-export interface IServerConfig {
-  port: number
-  host: string
-}
+import { IServerConfig } from '@point-hub/papi'
 
 export const port = Number(process.env.PORT || 3000)
 export const host = `${process.env.HOST}`
