@@ -1,103 +1,196 @@
-// import { faker } from '@faker-js/faker'
-// import { beforeEach, describe, expect, it } from 'bun:test'
-// import { isValid } from 'date-fns'
-// import request from 'supertest'
+import { DatabaseTestUtil } from '@point-hub/papi'
+import { beforeAll, beforeEach, describe, expect, it } from 'bun:test'
+import type { Express } from 'express'
+import request from 'supertest'
 
-// import { createApp } from '@/app'
-// import { DatabaseTestUtil } from '@point-hub/papi'
+import { createApp } from '@/app'
 
-// describe('create an example', async () => {
-//   const app = await createApp({ dbConnection: DatabaseTestUtil.dbConnection })
-//   beforeEach(async () => {
-//     await DatabaseTestUtil.reset()
-//   })
-//   it('data2 failed should abort transaction', async () => {
-//     const data = {
-//       data1: {
-//         name: 'John',
-//         phone: faker.phone.number(),
-//       },
-//       data2: {
-//         name: 'John',
-//         phone: faker.phone.number(),
-//       },
-//     }
+describe('create an example', async () => {
+  let app: Express
+  beforeAll(async () => {
+    app = await createApp({ dbConnection: DatabaseTestUtil.dbConnection })
+  })
+  beforeEach(async () => {
+    await DatabaseTestUtil.reset()
+  })
+  it('transaction aborted when create failed', async () => {
+    const data = {
+      new: {
+        name: 'John',
+      },
+      create: {
+        name: 'John',
+      },
+    }
 
-//     const response = await request(app).post('/v1/examples/transaction').send(data)
+    await request(app).post('/v1/examples/transaction').send(data)
 
-//     // expect http response
-//     expect(response.statusCode).toEqual(400)
+    // expect recorded data
+    const exampleRecords = await DatabaseTestUtil.retrieveAll('examples')
+    expect(exampleRecords.data.length).toStrictEqual(0)
+  })
+  it('transaction aborted when create many failed', async () => {
+    const data = {
+      new: {
+        name: 'John',
+      },
+      create: {
+        name: 'John 2',
+      },
+      createMany: {
+        examples: [
+          {
+            name: 'John 2',
+          },
+        ],
+      },
+    }
 
-//     // expect response json
-//     expect(response.body.code).toStrictEqual(400)
-//     expect(response.body.status).toStrictEqual('Bad Request')
-//     expect(response.body.message).toStrictEqual('The server cannot process the request.')
-//     expect(response.body.errors).toStrictEqual({
-//       name: ['The name is exists.'],
-//     })
+    await request(app).post('/v1/examples/transaction').send(data)
 
-//     // expect recorded data
-//     const exampleRecords = await DatabaseTestUtil.retrieveAll('examples')
-//     expect(exampleRecords.data.length).toStrictEqual(0)
-//   })
-//   it('data3 failed should abort transaction', async () => {
-//     const data = {
-//       data1: {
-//         name: 'John',
-//         phone: faker.phone.number(),
-//       },
-//       data2: {
-//         name: 'Jane',
-//         phone: faker.phone.number(),
-//       },
-//       data3: {
-//         name: 'Jane',
-//         phone: faker.phone.number(),
-//       },
-//     }
+    // expect recorded data
+    const exampleRecords = await DatabaseTestUtil.retrieveAll('examples')
+    expect(exampleRecords.data.length).toStrictEqual(2)
+  })
+  it('transaction aborted when update failed', async () => {
+    const data = {
+      new: {
+        name: 'John',
+      },
+      create: {
+        name: 'John 2',
+      },
+      createMany: {
+        examples: [
+          {
+            name: 'John 3',
+          },
+        ],
+      },
+      update: {
+        name: 'John 3',
+      },
+    }
 
-//     const response = await request(app).post('/v1/examples/transaction').send(data)
+    await request(app).post('/v1/examples/transaction').send(data)
 
-//     // expect http response
-//     expect(response.statusCode).toEqual(400)
+    // expect recorded data
+    const exampleRecords = await DatabaseTestUtil.retrieveAll('examples')
+    expect(exampleRecords.data.length).toStrictEqual(3)
+  })
+  it('transaction aborted when update many failed', async () => {
+    const data = {
+      new: {
+        name: 'John',
+      },
+      create: {
+        name: 'John 2',
+      },
+      createMany: {
+        examples: [
+          {
+            name: 'John 3',
+          },
+          {
+            name: 'John 4',
+          },
+        ],
+      },
+      update: {
+        name: 'John 5',
+      },
+      updateMany: {
+        filter: {
+          name: 'John 5',
+        },
+        data: {
+          name: 'John 2',
+        },
+      },
+    }
 
-//     // expect response json
-//     expect(response.body.code).toStrictEqual(400)
-//     expect(response.body.status).toStrictEqual('Bad Request')
-//     expect(response.body.message).toStrictEqual('The server cannot process the request.')
-//     expect(response.body.errors).toStrictEqual({
-//       name: ['The name is exists.'],
-//     })
+    await request(app).post('/v1/examples/transaction').send(data)
 
-//     // expect recorded data
-//     const exampleRecords = await DatabaseTestUtil.retrieveAll('examples')
-//     expect(exampleRecords.data.length).toStrictEqual(0)
-//   })
-//   it('create success', async () => {
-//     const data = {
-//       data1: {
-//         name: faker.person.fullName(),
-//         phone: faker.phone.number(),
-//       },
-//       data2: {
-//         name: faker.person.fullName(),
-//         phone: faker.phone.number(),
-//       },
-//     }
+    // expect recorded data
+    const exampleRecords = await DatabaseTestUtil.retrieveAll('examples')
+    expect(exampleRecords.data.length).toStrictEqual(4)
+    expect(exampleRecords.data[0].name).toStrictEqual('John 5')
+  })
+  it('transaction aborted when delete failed', async () => {
+    const data = {
+      new: {
+        name: 'John',
+      },
+      create: {
+        name: 'John 2',
+      },
+      createMany: {
+        examples: [
+          {
+            name: 'John 3',
+          },
+          {
+            name: 'John 4',
+          },
+        ],
+      },
+      update: {
+        name: 'John 5',
+      },
+      updateMany: {
+        filter: {
+          name: 'John 5',
+        },
+        data: {
+          name: 'John',
+        },
+      },
+      delete: false,
+    }
 
-//     const response = await request(app).post('/v1/examples/transaction').send(data)
+    await request(app).post('/v1/examples/transaction').send(data)
 
-//     // expect http response
-//     expect(response.statusCode).toEqual(201)
+    // expect recorded data
+    const exampleRecords = await DatabaseTestUtil.retrieveAll('examples')
+    expect(exampleRecords.data.length).toStrictEqual(4)
+  })
+  it('transaction aborted when delete many failed', async () => {
+    const data = {
+      new: {
+        name: 'John',
+      },
+      create: {
+        name: 'John 2',
+      },
+      createMany: {
+        examples: [
+          {
+            name: 'John 3',
+          },
+          {
+            name: 'John 4',
+          },
+        ],
+      },
+      update: {
+        name: 'John 5',
+      },
+      updateMany: {
+        filter: {
+          name: 'John 5',
+        },
+        data: {
+          name: 'John',
+        },
+      },
+      delete: true,
+      deleteMany: false,
+    }
 
-//     // expect response json
-//     expect(response.body.insertedId).toBeDefined()
+    await request(app).post('/v1/examples/transaction').send(data)
 
-//     // expect recorded data
-//     const exampleRecord = await DatabaseTestUtil.retrieve('examples', response.body.insertedId)
-
-//     expect(exampleRecord._id).toStrictEqual(response.body.insertedId)
-//     expect(exampleRecord.name).toStrictEqual(data.data1.name)
-//     expect(isValid(new Date(exampleRecord.created_date as string))).toBeTruthy()
-//   })
-// })
+    // expect recorded data
+    const exampleRecords = await DatabaseTestUtil.retrieveAll('examples')
+    expect(exampleRecords.data.length).toStrictEqual(3)
+  })
+})
