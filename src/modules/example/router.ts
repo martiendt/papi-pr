@@ -1,15 +1,11 @@
-import type { IDatabase } from '@point-hub/papi'
+import type { IBaseRouterInput } from '@point-hub/papi'
 import { Router } from 'express'
 
 import { makeController } from '@/express'
 
 import * as controller from './controllers/index'
 
-export interface IRouterInput {
-  dbConnection: IDatabase
-}
-
-const makeRouter = async (routerInput: IRouterInput) => {
+const makeRouter = async (routerInput: IBaseRouterInput) => {
   const router = Router()
 
   router.post(

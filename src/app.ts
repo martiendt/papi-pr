@@ -27,18 +27,13 @@ export const createApp = async (appInput: IBaseRouterInput) => {
   // Parse json request body
   app.use(express.json())
   // Parse urlencoded request body
-  app.use(express.urlencoded({ extended: false }))
+  app.use(express.urlencoded({ extended: true }))
   // Set security HTTP headers
   app.use(helmet())
   // Parse cookie
   app.use(cookieParser('secret'))
   // Cors
-  app.use(
-    cors({
-      // origin: 'http://localhost:5173',
-      // credentials: true,
-    }),
-  )
+  app.use(cors())
 
   /**
    * Static Assets
