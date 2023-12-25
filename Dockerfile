@@ -6,7 +6,7 @@ WORKDIR /home/node/app
 COPY --chown=node:node package.json bun.lockb ./
 RUN bun install --frozen-lock
 COPY --chown=node:node . .
-RUN bun run test
+RUN bun test
 
 ENV NODE_ENV=production
-CMD ["bun", "run", "src/index.ts"]
+CMD ["bun", "run", "start"]
