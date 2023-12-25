@@ -3,6 +3,7 @@ import { afterAll, beforeAll } from 'bun:test'
 import { MongoMemoryReplSet } from 'mongodb-memory-server'
 
 import { TestUtil } from './utils'
+
 const mongodbServer = await MongoMemoryReplSet.create({ replSet: { count: 3 } })
 const uri = mongodbServer.getUri()
 

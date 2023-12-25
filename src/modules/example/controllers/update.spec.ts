@@ -1,7 +1,8 @@
 import { faker } from '@faker-js/faker'
 import { DatabaseTestUtil } from '@point-hub/papi'
-import { beforeEach, describe, expect, it } from 'bun:test'
+import { beforeAll, beforeEach, describe, expect, it } from 'bun:test'
 import { isValid } from 'date-fns'
+import type { Express } from 'express'
 import request from 'supertest'
 
 import { createApp } from '@/app'
@@ -9,7 +10,10 @@ import { createApp } from '@/app'
 import ExampleFactory from '../factory'
 
 describe('update an example', async () => {
-  const app = await createApp({ dbConnection: DatabaseTestUtil.dbConnection })
+  let app: Express
+  beforeAll(async () => {
+    app = await createApp({ dbConnection: DatabaseTestUtil.dbConnection })
+  })
   beforeEach(async () => {
     await DatabaseTestUtil.reset()
   })
