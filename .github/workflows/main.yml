@@ -43,4 +43,5 @@ jobs:
       - run: bun install --frozen-lock
       - run: pwd
       - run: ls -al
+      - run: cat .env.test
       - run: bun test
