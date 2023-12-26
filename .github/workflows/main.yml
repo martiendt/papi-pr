@@ -41,7 +41,5 @@ jobs:
       
       # Install deps
       - run: bun install --frozen-lock
-      - run: pwd
-      - run: ls -al
-      - run: cat .env.test
+      # Run Test
       - run: bun test
