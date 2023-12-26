@@ -44,6 +44,9 @@ jobs:
       - name: Install Bun
         run: npm install -g bun
 
+      - name: Bun Install
+        run: bun install --frozen-lock
+
       - name: Install Bun
         run: ls -la
       
