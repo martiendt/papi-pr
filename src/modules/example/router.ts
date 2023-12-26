@@ -1,11 +1,11 @@
-import type { IBaseRouterInput } from '@point-hub/papi'
 import { Router } from 'express'
 
+import { IBaseAppInput } from '@/app'
 import { makeController } from '@/express'
 
 import * as controller from './controllers/index'
 
-const makeRouter = async (routerInput: IBaseRouterInput) => {
+const makeRouter = async (routerInput: IBaseAppInput) => {
   const router = Router()
 
   router.post(

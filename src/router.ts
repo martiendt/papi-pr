@@ -1,9 +1,9 @@
-import type { IBaseRouterInput } from '@point-hub/papi'
 import express, { Express } from 'express'
 
+import { IBaseAppInput } from './app'
 import exampleRouter from './modules/example/router'
 
-export default async function (baseRouterInput: IBaseRouterInput) {
+export default async function (baseRouterInput: IBaseAppInput) {
   const app: Express = express()
 
   /**

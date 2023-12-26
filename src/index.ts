@@ -2,6 +2,7 @@ import { createApp } from './app'
 import serverConfig from './config/server'
 import { dbConnection } from './database/database'
 import { createServer } from './server'
+import { makeWebSocketServer } from './socket'
 
 /**
  * Create database connection. It will keep the connection open by default,
@@ -10,6 +11,11 @@ import { createServer } from './server'
  */
 await dbConnection.open()
 
-const app = await createApp({ dbConnection })
+/**
+ * Create websocket connection
+ */
+const webSocketServer = await makeWebSocketServer(3001)
+
+const app = await createApp({ dbConnection, webSocketServer })
 
 createServer(app, serverConfig)

@@ -1,4 +1,4 @@
-name: build-and-deploy
+name: deployment
 
 on:
   push:
@@ -13,11 +13,11 @@ on:
       - staging
 
 jobs:
-  build:
+  test:
     runs-on: ubuntu-latest
     env: 
       DATABASE_URL: 'mongodb://localhost:27017/?replicaSet=replica-set'
-      DATABASE_NAME: 'papi_starter_test_db'
+      DATABASE_NAME: 'test_db'
     strategy:
       matrix:
         mongodb-version: ['6.0', '7.0']

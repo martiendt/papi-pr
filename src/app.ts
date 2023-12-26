@@ -1,5 +1,6 @@
 import type { IBaseRouterInput } from '@point-hub/papi'
 import { BaseErrorHandler } from '@point-hub/papi'
+import { Server } from 'bun'
 import compression from 'compression'
 import cookieParser from 'cookie-parser'
 import cors from 'cors'
@@ -8,7 +9,11 @@ import helmet from 'helmet'
 
 import router from './router'
 
-export const createApp = async (appInput: IBaseRouterInput) => {
+export interface IBaseAppInput extends IBaseRouterInput {
+  webSocketServer?: Server
+}
+
+export const createApp = async (appInput: IBaseAppInput) => {
   const app = express()
 
   /**
