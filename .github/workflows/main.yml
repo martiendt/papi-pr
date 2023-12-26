@@ -39,4 +39,7 @@ jobs:
       
       # Install deps
       - run: bun install --frozen-lock
-      - run: bun test
+      - env: 
+          DATABASE_URL: 'mongodb://localhost:27017/?replicaSet=replica-set'
+          DATABASE_NAME: 'papi_starter_test_db'
+        run: bun test
