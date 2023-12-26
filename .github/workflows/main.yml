@@ -22,13 +22,9 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v3
-        with:
-          node-version: ${{ matrix.node-version }}
+      
+      - uses: oven-sh/setup-bun@v1
   
-
       - name: Start MongoDB
         uses: supercharge/mongodb-github-action@1.10.0
         with:
@@ -41,14 +37,6 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
       
-      - name: Install Bun
-        run: npm install -g bun
-
-      - name: Bun Install
-        run: bun install --frozen-lock
-
-      - name: Install Bun
-        run: ls -la
-      
-      - name: Install dependencies
-        run: bun test
+      # Install deps
+      - run: bun install --frozen-lock
+      - run: bun test
