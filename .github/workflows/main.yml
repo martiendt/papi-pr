@@ -34,7 +34,7 @@ jobs:
         with:
           mongodb-version: ${{ matrix.mongodb-version }}
           mongodb-replica-set: replica-set
-          mongodb-port: 127.0.0.1
+          mongodb-port: 127.0.0.1,127.0.0.2,127.0.0.3
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
