@@ -17,6 +17,11 @@ const makeRouter = async (routerInput: IBaseAppInput) => {
   )
   router.get(
     '/',
+    (req, res, next) => {
+      console.log('call')
+      routerInput.webSocketServer?.publish('chat', 'Hello World')
+      next()
+    },
     await makeController({
       controller: controller.retrieveAllExampleController,
       dbConnection: routerInput.dbConnection,

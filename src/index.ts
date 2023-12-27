@@ -1,8 +1,9 @@
 import { createApp } from './app'
 import serverConfig from './config/server'
+import websocketConfig from './config/websocket'
 import { dbConnection } from './database/database'
 import { createServer } from './server'
-import { makeWebSocketServer } from './socket'
+import { makeWebSocketServer } from './websocket'
 
 /**
  * Create database connection. It will keep the connection open by default,
@@ -14,7 +15,7 @@ await dbConnection.open()
 /**
  * Create websocket connection
  */
-const webSocketServer = await makeWebSocketServer(3001)
+const webSocketServer = await makeWebSocketServer(websocketConfig.port)
 
 const app = await createApp({ dbConnection, webSocketServer })
 
