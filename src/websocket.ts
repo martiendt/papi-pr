@@ -2,17 +2,17 @@ import { Server } from 'bun'
 import { createClient } from 'redis'
 import { v4 as uuidv4 } from 'uuid'
 
+import redisConfig from './config/redis'
+
 const connections: Server[] = []
 
 const publisher = createClient({
-  url: `redis://default:cgcke5QQ7qJak089sItJAuYxhvcPd211@redis-15341.c292.ap-southeast-1-1.ec2.cloud.redislabs.com:15341`,
+  url: redisConfig.url,
 })
 publisher.on('error', (err) => console.log('Redis Client Error', err))
 await publisher.connect()
 
-const subscriber = createClient({
-  url: `redis://default:cgcke5QQ7qJak089sItJAuYxhvcPd211@redis-15341.c292.ap-southeast-1-1.ec2.cloud.redislabs.com:15341`,
-})
+const subscriber = publisher.duplicate()
 subscriber.on('error', (err) => console.log('Redis Client Error', err))
 await subscriber.connect()
 

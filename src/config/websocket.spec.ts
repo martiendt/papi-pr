@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'bun:test'
 
-import serverConfig from './server'
+import serverConfig from './websocket'
 
 describe('server config', () => {
   it('port should be typeof number', () => {
