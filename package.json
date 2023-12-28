@@ -50,7 +50,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "bun test"
+      "pre-commit": "bun lint && bun test"
     }
   }
 }
