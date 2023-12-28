@@ -1,56 +1,21 @@
-import { Server } from 'bun'
-import { createClient } from 'redis'
+import { type RedisClientType } from 'redis'
 import { v4 as uuidv4 } from 'uuid'
 
-import redisConfig from './config/redis'
-
-const connections: Server[] = []
-
-const publisher = createClient({
-  url: redisConfig.url,
-})
-publisher.on('error', (err) => console.log('Redis Client Error', err))
-await publisher.connect()
-
-const subscriber = publisher.duplicate()
-subscriber.on('error', (err) => console.log('Redis Client Error', err))
-await subscriber.connect()
-
-const listener = (message: string, channel: string) => {
-  connections.forEach(async (connection) => {
-    connection.publish('chat', 's')
-  })
-}
-await subscriber.subscribe('channel', listener)
-
-await publisher.publish('channel', 'message')
-
-// await client.set('key', 'adsa')
-// await client.hSet('user-session:123', {
-//   name: 'John',
-//   surname: 'Smith',
-//   company: 'Redis',
-//   age: 29,
-// })
-// console.log(await client.get('key'))
-
-// const userSession = await client.hGetAll('user-session:123')
-// console.log(JSON.stringify(userSession, null, 2))
-// const value = await client.get('key')
-// console.log(value)
-
 /* eslint-disable @typescript-eslint/no-unused-vars */
-export const makeWebSocketServer = async (port: number) => {
+export const makeWebSocketServer = async (port: number, publisher: RedisClientType, subscriber: RedisClientType) => {
+  await subscriber.subscribe('cluster', (message: string, channel: string) => {
+    webSocketServer.publish('topic', message)
+  })
+
   const webSocketServer = Bun.serve({
     port: port,
     fetch(req, server) {
-      console.log(req)
       const sessionId = uuidv4()
       const url = new URL(req.url)
       if (
         server.upgrade(req, {
           headers: {
-            'Set-Cookie': `SessionId=${sessionId}`,
+            'Set-Cookie': `WS_SID=${sessionId};SameSite=None;Secure`,
           },
         })
       ) {
@@ -60,29 +25,26 @@ export const makeWebSocketServer = async (port: number) => {
     },
     websocket: {
       // a message is received
-      async message(ws, message) {
-        console.log(message, ws.data)
-        // const a = await fetch('http://localhost:3000/v1/examples', {
-        //   headers: {
-        //     'Content-Type': 'application/json',
-        //   },
-        // })
-        // console.log(await a.json())
+      message(ws, message) {
+        console.log('a message is received', message)
+        // publish to redis, so it can distributed to other server in the cluster
+        publisher.publish('cluster', message)
       },
       // a socket is opened
       open(ws) {
-        console.log('open', ws.data)
-        ws.subscribe('chat')
+        console.info('socket is open')
+        // subscribe
+        ws.subscribe('topic')
       },
       // a socket is closed
       close(ws, code, message) {
-        console.log('close', code, message)
+        console.info('socket is close')
       },
       // the socket is ready to receive more data
       drain(ws) {},
     },
   })
   console.info(`Pointhub Websocket Listening on ws://${webSocketServer.hostname}:${webSocketServer.port}`)
-  connections.push(webSocketServer)
+
   return webSocketServer
 }
