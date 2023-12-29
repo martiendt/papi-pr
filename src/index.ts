@@ -29,5 +29,5 @@ const webSocketServer = await makeWebSocketServer(websocketConfig.port, redisPub
 /**
  * Create HTTP Server for API
  */
-const app = await createApp({ dbConnection, webSocketServer })
+const app = await createApp({ dbConnection, webSocketServer, publisher: redisPublisher.client })
 createServer(app, serverConfig)

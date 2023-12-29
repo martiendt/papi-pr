@@ -6,11 +6,13 @@ import cookieParser from 'cookie-parser'
 import cors from 'cors'
 import express from 'express'
 import helmet from 'helmet'
+import { RedisClientType } from 'redis'
 
 import router from './router'
 
 export interface IBaseAppInput extends IBaseRouterInput {
   webSocketServer?: Server
+  publisher?: RedisClientType
 }
 
 export const createApp = async (appInput: IBaseAppInput) => {

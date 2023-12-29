@@ -8,9 +8,9 @@ export class RedisClient {
   ) {
     this.client = createClient({ url: url })
     this.client.on('connect', () =>
-      console.log(`Pointhub Redis ${this.name} is connected to ${this.hidePassword(url)}`),
+      console.info(`Pointhub Redis ${this.name} is connected to ${this.hidePassword(url)}`),
     )
-    this.client.on('error', (err: unknown) => console.log(`Pointhub Redis ${this.name} Error`, err))
+    this.client.on('error', (err: unknown) => console.error(`Pointhub Redis ${this.name} Error`, err))
   }
 
   private hidePassword(url: string) {
