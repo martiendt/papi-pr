@@ -1,8 +1,11 @@
 import { createApp } from './app'
+import redisConfig from './config/redis'
 import serverConfig from './config/server'
+import websocketConfig from './config/websocket'
 import { dbConnection } from './database/database'
+import { RedisClient } from './redis'
 import { createServer } from './server'
-import { makeWebSocketServer } from './socket'
+import { makeWebSocketServer } from './websocket'
 
 /**
  * Create database connection. It will keep the connection open by default,
@@ -12,10 +15,19 @@ import { makeWebSocketServer } from './socket'
 await dbConnection.open()
 
 /**
+ * Create redis connection for pub/sub
+ */
+const redisPublisher = new RedisClient(redisConfig.url, 'publisher')
+await redisPublisher.connect()
+const redisSubscriber = new RedisClient(redisConfig.url, 'subscriber')
+await redisSubscriber.connect()
+
+/**
  * Create websocket connection
  */
-const webSocketServer = await makeWebSocketServer(3001)
-
-const app = await createApp({ dbConnection, webSocketServer })
-
+const webSocketServer = await makeWebSocketServer(websocketConfig.port, redisPublisher.client, redisSubscriber.client)
+/**
+ * Create HTTP Server for API
+ */
+const app = await createApp({ dbConnection, webSocketServer, publisher: redisPublisher.client })
 createServer(app, serverConfig)
